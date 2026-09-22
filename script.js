@@ -5,8 +5,71 @@ document.addEventListener('DOMContentLoaded', () => {
   const navMenu = document.getElementById('navMenu');
 
   // ==========================================================================
-  // 1. CONTROLE DO MENU MOBILE
+  // 1. CONTROLE DO MENU MOBILE & ROLAGEM FLUIDA PARA SEÇÕES
   // ==========================================================================
+  // Função para rolagem fluida e cinematográfica
+  const smoothScrollTo = (targetY, duration = 1400) => {
+    const startY = window.pageYOffset || document.documentElement.scrollTop;
+    const diff = targetY - startY;
+    if (Math.abs(diff) < 5) return;
+
+    let startTime = null;
+
+    // Função de atenuação suave (easeInOutCubic)
+    const easeInOutCubic = (t) => {
+      return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+    };
+
+    const step = (currentTime) => {
+      if (!startTime) startTime = currentTime;
+      const progress = Math.min((currentTime - startTime) / duration, 1);
+      const easedProgress = easeInOutCubic(progress);
+
+      window.scrollTo(0, startY + diff * easedProgress);
+
+      if (progress < 1) {
+        requestAnimationFrame(step);
+      }
+    };
+
+    requestAnimationFrame(step);
+  };
+
+  // Interceptar cliques em links de navegação para rolagem fluida
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', (e) => {
+      const targetId = anchor.getAttribute('href');
+      if (targetId === '#') return;
+
+      const targetElement = document.querySelector(targetId);
+      if (targetElement) {
+        e.preventDefault();
+
+        // Calcular a posição de rolagem ideal
+        let targetPosition = 0;
+        if (targetId === '#hero') {
+          targetPosition = 0;
+        } else if (targetId === '#empresas') {
+          // Rolar até o momento exato do datacenter / rack de servidores
+          const rect = targetElement.getBoundingClientRect();
+          const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+          targetPosition = rect.top + scrollTop - 80;
+        } else {
+          const rect = targetElement.getBoundingClientRect();
+          const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+          targetPosition = rect.top + scrollTop - 80;
+        }
+
+        smoothScrollTo(targetPosition, 1500);
+
+        if (navMenu && navMenu.classList.contains('is-active')) {
+          navMenu.classList.remove('is-active');
+          if (mobileMenuToggle) mobileMenuToggle.setAttribute('aria-expanded', 'false');
+        }
+      }
+    });
+  });
+
   if (mobileMenuToggle && navMenu) {
     mobileMenuToggle.addEventListener('click', () => {
       const isExpanded = mobileMenuToggle.getAttribute('aria-expanded') === 'true';
@@ -19,14 +82,6 @@ document.addEventListener('DOMContentLoaded', () => {
         navMenu.classList.remove('is-active');
         mobileMenuToggle.setAttribute('aria-expanded', 'false');
       }
-    });
-
-    const navLinks = navMenu.querySelectorAll('.nav-link');
-    navLinks.forEach(link => {
-      link.addEventListener('click', () => {
-        navMenu.classList.remove('is-active');
-        mobileMenuToggle.setAttribute('aria-expanded', 'false');
-      });
     });
   }
 
