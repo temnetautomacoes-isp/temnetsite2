@@ -458,9 +458,9 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 120px 16px 80px 16px;
-  margin-top: 25vh;
-  margin-bottom: 25vh;
+  padding: 80px 16px 60px 16px;
+  margin-top: 5vh;
+  margin-bottom: 20vh;
 }
 
 .plans-container {
@@ -470,7 +470,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 48px;
+  gap: 36px;
 }
 
 .plans-header {
@@ -479,30 +479,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
-}
-
-.plans-subtitle-badge {
-  display: inline-flex;
-  align-items: center;
   gap: 8px;
-  background: rgba(220, 38, 38, 0.12);
-  border: 1px solid rgba(220, 38, 38, 0.35);
-  color: #f87171;
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  padding: 5px 14px;
-  border-radius: 9999px;
-  text-transform: uppercase;
-}
-
-.badge-pulse {
-  width: 6px;
-  height: 6px;
-  background: #ef4444;
-  border-radius: 50%;
-  box-shadow: 0 0 8px #ef4444;
 }
 
 .plans-main-title {
@@ -553,13 +530,27 @@ body {
 
 /* Destaque para o plano Gaming (lado esquerdo) */
 .plan-gaming {
-  border-color: rgba(220, 38, 38, 0.4);
-  background: linear-gradient(180deg, rgba(220, 38, 38, 0.12) 0%, rgba(15, 18, 26, 0.8) 100%);
+  border-color: rgba(220, 38, 38, 0.35);
+  background: linear-gradient(180deg, rgba(220, 38, 38, 0.1) 0%, rgba(15, 18, 26, 0.8) 100%);
 }
 
 .plan-gaming:hover {
-  border-color: rgba(239, 68, 68, 0.7);
-  box-shadow: 0 24px 50px rgba(0, 0, 0, 0.6), 0 0 35px rgba(239, 68, 68, 0.25);
+  border-color: rgba(239, 68, 68, 0.6);
+  box-shadow: 0 24px 50px rgba(0, 0, 0, 0.6), 0 0 30px rgba(239, 68, 68, 0.2);
+}
+
+/* Destaque para o plano Família (Mais Escolhido) */
+.plan-family.plan-featured {
+  border-color: rgba(59, 130, 246, 0.6);
+  background: linear-gradient(180deg, rgba(59, 130, 246, 0.16) 0%, rgba(15, 18, 26, 0.85) 100%);
+  transform: scale(1.02);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 32px rgba(59, 130, 246, 0.25);
+}
+
+.plan-family.plan-featured:hover {
+  transform: translateY(-6px) scale(1.03);
+  border-color: rgba(96, 165, 250, 0.85);
+  box-shadow: 0 28px 60px rgba(0, 0, 0, 0.7), 0 0 40px rgba(59, 130, 246, 0.35);
 }
 
 /* CABEÇALHO DO CARD */
@@ -568,6 +559,13 @@ body {
   flex-direction: column;
   align-items: flex-start;
   gap: 16px;
+}
+
+.plan-badge-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
 .plan-badge {
@@ -595,6 +593,12 @@ body {
   background: rgba(59, 130, 246, 0.18);
   color: #60a5fa;
   border: 1px solid rgba(59, 130, 246, 0.35);
+}
+
+.badge-featured {
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.45);
 }
 
 /* NÚMERO DA VELOCIDADE */
