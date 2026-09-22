@@ -28,14 +28,9 @@
     <div class="bottom-glass" aria-hidden="true"></div>
   </div>
 
-  <!-- CABEÇALHO E NAVEGAÇÃO FIXA/STICKY -->
+  <!-- CABEÇALHO E NAVEGAÇÃO FIXA/STICKY CENTRALIZADA -->
   <header class="section-nav hero-nav-header">
     <div class="nav-container">
-      <!-- MARCA -->
-      <a href="#" class="section-brand" aria-label="TemNet Início">
-        <span class="brand-text">TemNet</span>
-      </a>
-
       <!-- LINKS DE NAVEGAÇÃO -->
       <nav class="nav-menu" id="navMenu" aria-label="Navegação principal">
         <ul class="nav-list">
@@ -48,30 +43,14 @@
         </ul>
       </nav>
 
-      <!-- AÇÕES COM EFEITO DE VIDRO (BUSCA E PERFIL) -->
-      <div class="nav-actions">
-        <button type="button" class="glass-btn icon-btn" aria-label="Buscar conteúdo" title="Buscar">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="11" cy="11" r="8"></circle>
-            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-          </svg>
-        </button>
-        <button type="button" class="glass-btn icon-btn" aria-label="Área do Cliente" title="Área do Cliente">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-            <circle cx="12" cy="7" r="4"></circle>
-          </svg>
-        </button>
-        
-        <!-- Botão de menu mobile -->
-        <button type="button" class="glass-btn icon-btn mobile-menu-toggle" id="mobileMenuToggle" aria-label="Abrir menu" aria-expanded="false">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hamburger-icon">
-            <line x1="3" y1="12" x2="21" y2="12"></line>
-            <line x1="3" y1="6" x2="21" y2="6"></line>
-            <line x1="3" y1="18" x2="21" y2="18"></line>
-          </svg>
-        </button>
-      </div>
+      <!-- Botão de menu mobile -->
+      <button type="button" class="glass-btn icon-btn mobile-menu-toggle" id="mobileMenuToggle" aria-label="Abrir menu" aria-expanded="false">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hamburger-icon">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
     </div>
   </header>
 
@@ -82,8 +61,14 @@
         
         <!-- INFORMAÇÕES PRINCIPAIS (ESQUERDA) -->
         <div class="hero-info-group">
+          
+          <!-- LOGO TEMNET DA EMPRESA -->
+          <div class="hero-brand-wrap animate-item" style="--stagger: 1;">
+            <img src="public/logo scc 2.png" alt="TemNet" class="hero-brand-logo">
+          </div>
+
           <!-- METADADOS -->
-          <div class="hero-meta-badge animate-item" style="--stagger: 1;">
+          <div class="hero-meta-badge animate-item" style="--stagger: 2;">
             <span class="imdb-pill">TEMNET FIBRA</span>
             <span class="meta-dot">·</span>
             <span>Ultra Velocidade</span>
@@ -92,12 +77,12 @@
           </div>
 
           <!-- TÍTULO / SLOGAN -->
-          <h1 class="section-title hero-title animate-item" style="--stagger: 2;">
+          <h1 class="section-title hero-title animate-item" style="--stagger: 3;">
             A sua conexão<br>completa.
           </h1>
 
           <!-- SINOPSE -->
-          <p class="section-copy hero-synopsis animate-item" style="--stagger: 3;">
+          <p class="section-copy hero-synopsis animate-item" style="--stagger: 4;">
             Conectividade inteligente de alto desempenho para transformar a sua rotina, o seu trabalho e a sua experiência digital com máxima estabilidade e suporte especializado.
           </p>
         </div>
