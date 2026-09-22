@@ -47,20 +47,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Calcular a posição de rolagem ideal
         let targetPosition = 0;
+        const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+
         if (targetId === '#hero') {
           targetPosition = 0;
         } else if (targetId === '#empresas') {
-          // Rolar até o momento exato do datacenter / rack de servidores
-          const rect = targetElement.getBoundingClientRect();
-          const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-          targetPosition = rect.top + scrollTop - 80;
+          // Rolar exatamente até o frame final do Rack de Servidores / Datacenter (100% da animação)
+          targetPosition = maxScroll;
         } else {
           const rect = targetElement.getBoundingClientRect();
           const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-          targetPosition = rect.top + scrollTop - 80;
+          targetPosition = Math.min(rect.top + scrollTop - 80, maxScroll);
         }
 
-        smoothScrollTo(targetPosition, 1500);
+        smoothScrollTo(targetPosition, 1600);
 
         if (navMenu && navMenu.classList.contains('is-active')) {
           navMenu.classList.remove('is-active');
