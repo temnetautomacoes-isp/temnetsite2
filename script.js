@@ -5,67 +5,42 @@ document.addEventListener('DOMContentLoaded', () => {
   const navMenu = document.getElementById('navMenu');
 
   // ==========================================================================
-  // 1. CONTROLE DO MENU MOBILE & ROLAGEM FLUIDA PARA SEÇÕES
+  // 1. CONTROLE DO MENU MOBILE & NAVEGAÇÃO INSTANTÂNEA (ZERO DELAY)
   // ==========================================================================
-  // Função para rolagem fluida e cinematográfica
-  const smoothScrollTo = (targetY, duration = 1400) => {
-    const startY = window.pageYOffset || document.documentElement.scrollTop;
-    const diff = targetY - startY;
-    if (Math.abs(diff) < 5) return;
-
-    let startTime = null;
-
-    // Função de atenuação suave (easeInOutCubic)
-    const easeInOutCubic = (t) => {
-      return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-    };
-
-    const step = (currentTime) => {
-      if (!startTime) startTime = currentTime;
-      const progress = Math.min((currentTime - startTime) / duration, 1);
-      const easedProgress = easeInOutCubic(progress);
-
-      window.scrollTo(0, startY + diff * easedProgress);
-
-      if (progress < 1) {
-        requestAnimationFrame(step);
-      }
-    };
-
-    requestAnimationFrame(step);
-  };
-
-  // Interceptar cliques em links de navegação para rolagem fluida
+  // Interceptar cliques em links de navegação para resposta imediata
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', (e) => {
       const targetId = anchor.getAttribute('href');
-      if (targetId === '#') return;
+      if (targetId === '#' || !targetId) return;
 
-      const targetElement = document.querySelector(targetId);
-      if (targetElement) {
-        e.preventDefault();
+      e.preventDefault();
 
-        // Calcular a posição de rolagem ideal
-        let targetPosition = 0;
-        const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+      let targetPosition = 0;
 
-        if (targetId === '#hero') {
-          targetPosition = 0;
-        } else if (targetId === '#empresas') {
-          // Rolar exatamente até o frame final do Rack de Servidores / Datacenter (100% da animação)
-          targetPosition = maxScroll;
-        } else {
+      if (targetId === '#hero' || targetId === '#inicio') {
+        targetPosition = 0;
+      } else if (targetId === '#empresas') {
+        // Vai instantaneamente e diretamente ao frame do Datacenter / Rack
+        targetPosition = maxScroll;
+      } else {
+        const targetElement = document.querySelector(targetId);
+        if (targetElement) {
           const rect = targetElement.getBoundingClientRect();
           const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-          targetPosition = Math.min(rect.top + scrollTop - 80, maxScroll);
+          targetPosition = Math.min(rect.top + scrollTop - 70, maxScroll);
         }
+      }
 
-        smoothScrollTo(targetPosition, 1600);
+      // Execução imediata sem atraso
+      window.scrollTo({
+        top: targetPosition,
+        behavior: 'smooth'
+      });
 
-        if (navMenu && navMenu.classList.contains('is-active')) {
-          navMenu.classList.remove('is-active');
-          if (mobileMenuToggle) mobileMenuToggle.setAttribute('aria-expanded', 'false');
-        }
+      if (navMenu && navMenu.classList.contains('is-active')) {
+        navMenu.classList.remove('is-active');
+        if (mobileMenuToggle) mobileMenuToggle.setAttribute('aria-expanded', 'false');
       }
     });
   });
@@ -179,8 +154,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const animateFrames = () => {
       const diff = targetFrameIndex - currentFrameIndex;
 
-      // Interpolação suave (LERP) para transição a 60-120fps
-      currentFrameIndex += diff * 0.22;
+      // Interpolação de alta resposta e fluidez instantânea
+      currentFrameIndex += diff * 0.55;
 
       if (Math.abs(diff) < 0.01) {
         currentFrameIndex = targetFrameIndex;
