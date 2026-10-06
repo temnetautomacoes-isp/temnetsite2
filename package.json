@@ -4,8 +4,7 @@
   "description": "Website institucional TemNet",
   "scripts": {
     "dev": "live-server --port=3000",
-    "start": "live-server --port=3000",
-    "build": "echo 'Static build ready'"
+    "start": "live-server --port=3000"
   },
   "keywords": [],
   "author": "TemNet",
