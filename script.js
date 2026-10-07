@@ -222,6 +222,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const coverageForm = document.getElementById('coverageForm');
   const coverageResult = document.getElementById('coverageResult');
   const resultWhatsAppBtn = document.getElementById('resultWhatsAppBtn');
+  const resultTitle = document.getElementById('resultTitle');
+  const resultDesc = document.getElementById('resultDesc');
   const cepInput = document.getElementById('cepInput');
   const citySelect = document.getElementById('citySelect');
 
@@ -229,11 +231,25 @@ document.addEventListener('DOMContentLoaded', () => {
     coverageForm.addEventListener('submit', (e) => {
       e.preventDefault();
       const cepVal = cepInput ? cepInput.value.trim() : '';
-      const cityVal = citySelect ? citySelect.value : 'sua região';
+      const cityVal = citySelect ? citySelect.value : '';
 
-      if (!cepVal) return;
+      if (!cityVal) return;
 
-      const message = `Olá! Consultei viabilidade no site da TemNet para o endereço/CEP: "${cepVal}" (${cityVal}) e gostaria de contratar um plano de fibra óptica!`;
+      let message = '';
+      if (cityVal === 'Outra localidade') {
+        message = 'Ola, sou de uma cidade fora da cobertura descrita no site, porém gostaria de mais informações';
+        if (resultTitle) resultTitle.textContent = 'Consulta de Cobertura';
+        if (resultDesc) resultDesc.textContent = 'Fale com nossa equipe para verificarmos a viabilidade técnica de atendimento na sua localidade.';
+      } else {
+        message = `Olá, eu gostaria de saber mais informações sobre os planos de ${cityVal}.`;
+        if (resultTitle) resultTitle.textContent = `Cobertura em ${cityVal}!`;
+        if (resultDesc) resultDesc.textContent = `Temos planos de fibra óptica disponíveis para ${cityVal}. Clique abaixo para falar direto com nossa equipe.`;
+      }
+
+      if (cepVal) {
+        message += ` (Endereço/CEP: ${cepVal})`;
+      }
+
       const waUrl = `https://wa.me/557531980000?text=${encodeURIComponent(message)}`;
 
       if (resultWhatsAppBtn) {
