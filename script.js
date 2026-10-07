@@ -234,7 +234,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!cepVal) return;
 
       const message = `Olá! Consultei viabilidade no site da TemNet para o endereço/CEP: "${cepVal}" (${cityVal}) e gostaria de contratar um plano de fibra óptica!`;
-      const waUrl = `https://wa.me/5575931980000?text=${encodeURIComponent(message)}`;
+      const waUrl = `https://wa.me/557531980000?text=${encodeURIComponent(message)}`;
 
       if (resultWhatsAppBtn) {
         resultWhatsAppBtn.setAttribute('href', waUrl);
