@@ -3,40 +3,33 @@ document.addEventListener('DOMContentLoaded', () => {
   const heroBgImage = document.getElementById('heroBgImage');
   const mobileMenuToggle = document.getElementById('mobileMenuToggle');
   const navMenu = document.getElementById('navMenu');
+  const currentYearSpan = document.getElementById('currentYear');
+
+  if (currentYearSpan) {
+    currentYearSpan.textContent = new Date().getFullYear();
+  }
 
   // ==========================================================================
-  // 1. CONTROLE DO MENU MOBILE & NAVEGAÇÃO INSTANTÂNEA (ZERO DELAY)
+  // 1. CONTROLE DO MENU MOBILE & NAVEGAÇÃO SUAVE
   // ==========================================================================
-  // Interceptar cliques em links de navegação para resposta imediata
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', (e) => {
       const targetId = anchor.getAttribute('href');
       if (targetId === '#' || !targetId) return;
 
       e.preventDefault();
+      const targetElement = document.querySelector(targetId);
 
-      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-      let targetPosition = 0;
+      if (targetElement) {
+        const headerOffset = 80;
+        const elementPosition = targetElement.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
 
-      if (targetId === '#hero' || targetId === '#inicio') {
-        targetPosition = 0;
-      } else if (targetId === '#empresas') {
-        // Vai instantaneamente e diretamente ao frame do Datacenter / Rack
-        targetPosition = maxScroll;
-      } else {
-        const targetElement = document.querySelector(targetId);
-        if (targetElement) {
-          const rect = targetElement.getBoundingClientRect();
-          const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-          targetPosition = Math.min(rect.top + scrollTop - 70, maxScroll);
-        }
+        window.scrollTo({
+          top: targetId === '#hero' ? 0 : offsetPosition,
+          behavior: 'smooth'
+        });
       }
-
-      // Execução imediata sem atraso
-      window.scrollTo({
-        top: targetPosition,
-        behavior: 'smooth'
-      });
 
       if (navMenu && navMenu.classList.contains('is-active')) {
         navMenu.classList.remove('is-active');
@@ -65,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // ==========================================================================
   if (canvas) {
     const context = canvas.getContext('2d', { alpha: false });
-    const frameCount = 192; // Total de 192 frames extraídos do animacao rot raque.mp4
+    const frameCount = 192; // 192 frames extraídos
     const images = new Array(frameCount);
     const loadedStatus = new Array(frameCount).fill(false);
 
@@ -74,7 +67,6 @@ document.addEventListener('DOMContentLoaded', () => {
       return `public/frames/frame_${paddedIndex}.jpg`;
     };
 
-    // Ajusta dimensões do canvas para a resolução da tela (High-DPI / Retina)
     const resizeCanvas = () => {
       const dpr = window.devicePixelRatio || 1;
       const width = window.innerWidth;
@@ -89,7 +81,6 @@ document.addEventListener('DOMContentLoaded', () => {
       renderCurrentFrame();
     };
 
-    // Desenha o frame atual com efeito "object-fit: cover" centralizado
     const drawImageProp = (img) => {
       if (!img || !img.complete || img.naturalWidth === 0) return;
 
@@ -134,7 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (images[safeIndex] && loadedStatus[safeIndex]) {
         drawImageProp(images[safeIndex]);
       } else {
-        // Encontra o frame carregado mais próximo para evitar tela preta
+        // Encontra o frame carregado mais próximo
         for (let offset = 1; offset < frameCount; offset++) {
           const prev = safeIndex - offset;
           const next = safeIndex + offset;
@@ -150,12 +141,9 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     };
 
-    // Animação contínua e suave de interpolação entre frames
     const animateFrames = () => {
       const diff = targetFrameIndex - currentFrameIndex;
-
-      // Interpolação de alta resposta e fluidez instantânea
-      currentFrameIndex += diff * 0.55;
+      currentFrameIndex += diff * 0.45;
 
       if (Math.abs(diff) < 0.01) {
         currentFrameIndex = targetFrameIndex;
@@ -185,9 +173,8 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     };
 
-    // Pré-carregamento inteligente das imagens
     const preloadFrames = () => {
-      // 1. Carrega o primeiro frame imediatamente para renderização instantânea
+      // 1. Carrega o primeiro frame imediatamente
       const firstImg = new Image();
       firstImg.src = getFrameUrl(0);
       firstImg.onload = () => {
@@ -196,8 +183,8 @@ document.addEventListener('DOMContentLoaded', () => {
         renderCurrentFrame();
       };
 
-      // 2. Carrega os demais frames em segundo plano
-      for (let i = 1; i < frameCount; i++) {
+      // 2. Carrega frames intermediários em alta prioridade (passo de 10)
+      for (let i = 10; i < frameCount; i += 10) {
         const img = new Image();
         img.src = getFrameUrl(i);
         img.onload = () => {
@@ -205,16 +192,79 @@ document.addEventListener('DOMContentLoaded', () => {
           loadedStatus[i] = true;
         };
       }
+
+      // 3. Carrega o restante progressivamente
+      setTimeout(() => {
+        for (let i = 1; i < frameCount; i++) {
+          if (!images[i]) {
+            const img = new Image();
+            img.src = getFrameUrl(i);
+            img.onload = () => {
+              images[i] = img;
+              loadedStatus[i] = true;
+            };
+          }
+        }
+      }, 500);
     };
 
-    // Inicialização
     preloadFrames();
     resizeCanvas();
 
     window.addEventListener('resize', resizeCanvas, { passive: true });
     window.addEventListener('scroll', onScroll, { passive: true });
-
-    // Força primeira leitura do scroll
     onScroll();
   }
+
+  // ==========================================================================
+  // 3. FORMULÁRIO INTERATIVO DE CONSULTA DE COBERTURA
+  // ==========================================================================
+  const coverageForm = document.getElementById('coverageForm');
+  const coverageResult = document.getElementById('coverageResult');
+  const resultWhatsAppBtn = document.getElementById('resultWhatsAppBtn');
+  const cepInput = document.getElementById('cepInput');
+  const citySelect = document.getElementById('citySelect');
+
+  if (coverageForm && coverageResult) {
+    coverageForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const cepVal = cepInput ? cepInput.value.trim() : '';
+      const cityVal = citySelect ? citySelect.value : 'sua região';
+
+      if (!cepVal) return;
+
+      const message = `Olá! Consultei viabilidade no site da TemNet para o endereço/CEP: "${cepVal}" (${cityVal}) e gostaria de contratar um plano de fibra óptica!`;
+      const waUrl = `https://wa.me/5575931980000?text=${encodeURIComponent(message)}`;
+
+      if (resultWhatsAppBtn) {
+        resultWhatsAppBtn.setAttribute('href', waUrl);
+      }
+
+      coverageResult.style.display = 'flex';
+      coverageResult.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    });
+  }
+
+  // ==========================================================================
+  // 4. FAQ ACCORDION INTERATIVO
+  // ==========================================================================
+  const faqQuestions = document.querySelectorAll('.faq-question');
+  faqQuestions.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.closest('.faq-item');
+      const isAlreadyOpen = item.classList.contains('is-open');
+
+      // Fecha todos os outros
+      document.querySelectorAll('.faq-item').forEach(otherItem => {
+        otherItem.classList.remove('is-open');
+        const otherBtn = otherItem.querySelector('.faq-question');
+        if (otherBtn) otherBtn.setAttribute('aria-expanded', 'false');
+      });
+
+      if (!isAlreadyOpen) {
+        item.classList.add('is-open');
+        btn.setAttribute('aria-expanded', 'true');
+      }
+    });
+  });
 });

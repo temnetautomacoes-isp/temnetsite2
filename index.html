@@ -3,15 +3,56 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TemNet — A sua conexão completa.</title>
-  <meta name="description" content="TemNet — A sua conexão completa. Banda Larga, Link Dedicado e soluções digitais de alta performance.">
-  
-  <!-- FONTES: Inter (400, 500, 600) -->
+  <title>TemNet — A sua conexão completa | Internet 100% Fibra Óptica</title>
+  <meta name="description" content="TemNet Fibra: Internet de ultra velocidade 100% fibra óptica com Wi-Fi 6 incluso, link dedicado para empresas e atendimento 24 horas. Garanta a melhor conexão!">
+  <meta name="keywords" content="TemNet, internet fibra óptica, banda larga, link dedicado, internet empresarial, provedor de internet, fibra óptica, wifi 6">
+  <meta name="author" content="TemNet Telecomunicações">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#08090c">
+
+  <!-- Open Graph / Facebook / WhatsApp -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://temnetsite2.vercel.app/">
+  <meta property="og:title" content="TemNet — A sua conexão completa">
+  <meta property="og:description" content="Internet fibra óptica de alta estabilidade, planos residenciais e corporativos com suporte 24/7.">
+  <meta property="og:image" content="public/logo scc 2.png">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="TemNet — A sua conexão completa">
+  <meta name="twitter:description" content="Conexão 100% fibra óptica com máxima estabilidade e suporte 24h.">
+  <meta name="twitter:image" content="public/logo scc 2.png">
+
+  <link rel="icon" type="image/png" href="public/logo scc 2.png">
+
+  <!-- FONTES: Inter (400, 500, 600, 700, 800, 900) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600&amp;display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap">
   
   <link rel="stylesheet" href="style.css">
+
+  <!-- Schema.org JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "InternetServiceProvider",
+    "name": "TemNet Telecomunicações",
+    "description": "Provedor de internet banda larga 100% fibra óptica e soluções corporativas.",
+    "url": "https://temnetsite2.vercel.app/",
+    "logo": "https://temnetsite2.vercel.app/public/logo%20scc%202.png",
+    "telephone": "+55 75 93198-0000",
+    "priceRange": "R$ 79,90 - R$ 99,90",
+    "openingHoursSpecification": {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": [
+        "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"
+      ],
+      "opens": "00:00",
+      "closes": "23:59"
+    }
+  }
+  </script>
 </head>
 <body>
 
@@ -31,6 +72,10 @@
   <!-- CABEÇALHO E NAVEGAÇÃO FIXA/STICKY CENTRALIZADA -->
   <header class="section-nav hero-nav-header">
     <div class="nav-container">
+      <a href="#hero" class="nav-brand-link" aria-label="Ir para o início">
+        <img src="public/logo scc 2.png" alt="TemNet Logo" class="nav-mini-logo">
+      </a>
+
       <!-- LINKS DE NAVEGAÇÃO -->
       <nav class="nav-menu" id="navMenu" aria-label="Navegação principal">
         <ul class="nav-list">
@@ -43,14 +88,17 @@
         </ul>
       </nav>
 
-      <!-- Botão de menu mobile -->
-      <button type="button" class="glass-btn icon-btn mobile-menu-toggle" id="mobileMenuToggle" aria-label="Abrir menu" aria-expanded="false">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hamburger-icon">
-          <line x1="3" y1="12" x2="21" y2="12"></line>
-          <line x1="3" y1="6" x2="21" y2="6"></line>
-          <line x1="3" y1="18" x2="21" y2="18"></line>
-        </svg>
-      </button>
+      <div class="nav-actions">
+        <a href="#planos" class="nav-cta-btn">Assinar Já</a>
+        <!-- Botão de menu mobile -->
+        <button type="button" class="glass-btn icon-btn mobile-menu-toggle" id="mobileMenuToggle" aria-label="Abrir menu" aria-expanded="false">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hamburger-icon">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+      </div>
     </div>
   </header>
 
@@ -85,31 +133,43 @@
           <p class="section-copy hero-synopsis animate-item" style="--stagger: 4;">
             Conectividade inteligente de alto desempenho para transformar a sua rotina, o seu trabalho e a sua experiência digital com máxima estabilidade e suporte especializado.
           </p>
+
+          <div class="hero-buttons animate-item" style="--stagger: 5;">
+            <a href="#planos" class="btn-primary-action">
+              <span>Conhecer Planos</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </a>
+            <a href="https://wa.me/5575931980000?text=Ol%C3%A1!%20Gostaria%20de%20tirar%20d%C3%BAvidas%20sobre%20a%20internet%20TemNet." target="_blank" rel="noopener noreferrer" class="btn-secondary-action">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+              <span>Falar no WhatsApp</span>
+            </a>
+          </div>
         </div>
 
       </div>
     </div>
   </section>
 
-  <!-- ÁREA DE ROLAGEM / ESPAÇO DA ANIMAÇÃO -->
+  <!-- ÁREA DE ROLAGEM / CONTEÚDO PRINCIPAL -->
   <main class="site-content-flow">
     
     <!-- SEÇÃO: PLANOS BANDA LARGA FIBRA -->
-    <section id="planos" class="plans-section">
-      <div class="plans-container">
+    <section id="planos" class="plans-section content-section">
+      <div class="section-container">
         
         <!-- CABEÇALHO DA SEÇÃO -->
-        <div class="plans-header">
-          <h2 class="section-title plans-main-title">Planos Banda Larga Fibra</h2>
-          <p class="section-copy plans-main-description">
-            Planos sob medida com 100% fibra óptica, roteador incluso em comodato e atendimento 24 horas.
+        <div class="section-header">
+          <span class="section-tag">RESIDENCIAL</span>
+          <h2 class="section-title">Planos Banda Larga Fibra</h2>
+          <p class="section-copy">
+            Planos sob medida com 100% fibra óptica ponta a ponta, roteador incluso em comodato e atendimento 24 horas.
           </p>
         </div>
 
         <!-- GRID DOS 3 PLANOS (ESQUERDA: 300M Gaming | MEIO: 100M Básico | DIREITA: 200M Família) -->
         <div class="plans-grid">
           
-          <!-- PLANO 1 (ESQUERDA): 300 MEGA - PLANO GAMING -->
+          <!-- PLANO 1: 300 MEGA - PLANO GAMING -->
           <div class="plan-card plan-gaming">
             <div class="plan-card-header">
               <span class="plan-badge badge-gaming">PLANO GAMING</span>
@@ -129,7 +189,7 @@
                 <svg class="feature-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                   <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
                 </svg>
-                <span><strong>100% Fibra Óptica</strong></span>
+                <span><strong>100% Fibra Óptica</strong> (Alta velocidade)</span>
               </li>
               <li class="plan-feature-item">
                 <svg class="feature-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
@@ -138,13 +198,20 @@
                   <path d="M8.53 16.11a6 6 0 0 1 6.95 0"></path>
                   <line x1="12" y1="20" x2="12.01" y2="20"></line>
                 </svg>
-                <span>Roteador <strong>Wi-Fi 6</strong> incluso em comodato</span>
+                <span>Roteador <strong>Wi-Fi 6</strong> alta performance</span>
+              </li>
+              <li class="plan-feature-item">
+                <svg class="feature-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <polyline points="12 6 12 12 14 14"></polyline>
+                </svg>
+                <span>Latência ultra baixa para jogos online</span>
               </li>
               <li class="plan-feature-item">
                 <svg class="feature-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
                 </svg>
-                <span>Atendimento 24/7</span>
+                <span>Suporte técnico prioritário 24/7</span>
               </li>
             </ul>
 
@@ -165,7 +232,7 @@
             </a>
           </div>
 
-          <!-- PLANO 2 (MEIO): 100 MEGA - PLANO BÁSICO -->
+          <!-- PLANO 2: 100 MEGA - PLANO BÁSICO -->
           <div class="plan-card plan-basic">
             <div class="plan-card-header">
               <span class="plan-badge badge-basic">PLANO BÁSICO</span>
@@ -198,9 +265,16 @@
               </li>
               <li class="plan-feature-item">
                 <svg class="feature-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path>
+                  <line x1="4" y1="22" x2="4" y2="15"></line>
+                </svg>
+                <span>Ideal para redes sociais e navegação</span>
+              </li>
+              <li class="plan-feature-item">
+                <svg class="feature-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
                 </svg>
-                <span>Atendimento 24/7</span>
+                <span>Atendimento e suporte 24/7</span>
               </li>
             </ul>
 
@@ -221,7 +295,7 @@
             </a>
           </div>
 
-          <!-- PLANO 3 (DIREITA): 200 MEGA - PLANO FAMÍLIA (DESTAQUE / MAIS ESCOLHIDO) -->
+          <!-- PLANO 3: 200 MEGA - PLANO FAMÍLIA (DESTAQUE / MAIS ESCOLHIDO) -->
           <div class="plan-card plan-family plan-featured">
             <div class="plan-card-header">
               <div class="plan-badge-group">
@@ -244,7 +318,16 @@
                 <svg class="feature-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                   <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
                 </svg>
-                <span><strong>100% Fibra Óptica</strong></span>
+                <span><strong>100% Fibra Óptica</strong> simétrica</span>
+              </li>
+              <li class="plan-feature-item">
+                <svg class="feature-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
+                  <rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect>
+                  <line x1="6" y1="6" x2="6.01" y2="6"></line>
+                  <line x1="6" y1="18" x2="6.01" y2="18"></line>
+                </svg>
+                <span>Streaming 4K em múltiplos dispositivos</span>
               </li>
               <li class="plan-feature-item">
                 <svg class="feature-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
@@ -253,13 +336,13 @@
                   <path d="M8.53 16.11a6 6 0 0 1 6.95 0"></path>
                   <line x1="12" y1="20" x2="12.01" y2="20"></line>
                 </svg>
-                <span>Roteador incluso em comodato</span>
+                <span>Roteador Dual-Band incluso em comodato</span>
               </li>
               <li class="plan-feature-item">
                 <svg class="feature-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
                 </svg>
-                <span>Atendimento 24/7</span>
+                <span>Atendimento e suporte prioritário 24/7</span>
               </li>
             </ul>
 
@@ -284,19 +367,326 @@
       </div>
     </section>
 
-    <!-- Ponto de destino da seção Para Empresas (Frame do Rack de Servidores / Datacenter) -->
-    <div id="empresas" class="scroll-target-point"></div>
+    <!-- SEÇÃO 2: SOLUÇÕES CORPORATIVAS / PARA EMPRESAS -->
+    <section id="empresas" class="enterprise-section content-section">
+      <div class="section-container">
+        
+        <div class="section-header">
+          <span class="section-tag section-tag-b2b">CORPORATIVO & B2B</span>
+          <h2 class="section-title">Conectividade de Alta Performance para Empresas</h2>
+          <p class="section-copy">
+            Infraestrutura de ponta a ponta com link dedicado exclusivo, SLA garantido em contrato e proteção de rede para o seu negócio nunca parar.
+          </p>
+        </div>
 
-    <!-- Indicador de progresso de rolagem -->
-    <div class="scroll-track-spacer" id="scrollSpacer">
-      <div class="scroll-indicator-wrap">
-        <span class="scroll-mouse-icon">
-          <span class="scroll-wheel"></span>
-        </span>
-        <span class="scroll-hint-text">Role para explorar a experiência</span>
+        <div class="enterprise-grid">
+          
+          <div class="enterprise-card">
+            <div class="enterprise-card-icon">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"></path><path d="M12 12v9"></path><path d="m8 17 4 4 4-4"></path></svg>
+            </div>
+            <h3>Link Dedicado 1:1</h3>
+            <p>100% da banda contratada garantida com taxas idênticas de download e upload (full duplex) e IP público fixo.</p>
+          </div>
+
+          <div class="enterprise-card">
+            <div class="enterprise-card-icon">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><path d="m9 12 2 2 4-4"></path></svg>
+            </div>
+            <h3>SLA de 99.9% Garantido</h3>
+            <p>Compromisso de disponibilidade ininterrupta com monitoramento NOC 24/7 e atendimento presencial de emergência.</p>
+          </div>
+
+          <div class="enterprise-card">
+            <div class="enterprise-card-icon">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg>
+            </div>
+            <h3>Datacenter & Peering IX.br</h3>
+            <p>Conexão direta aos principais pontos de troca de tráfego do Brasil para mínima latência com nuvens AWS, Google, Azure e CDN.</p>
+          </div>
+
+          <div class="enterprise-card">
+            <div class="enterprise-card-icon">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+            </div>
+            <h3>Gerente de Conta Exclusivo</h3>
+            <p>Atendimento consultivo e técnico direto, com soluções customizadas de ponto a ponto, VPN e redundância para a sua empresa.</p>
+          </div>
+
+        </div>
+
+        <div class="enterprise-cta-box">
+          <div class="enterprise-cta-text">
+            <h3>Precisa de um projeto corporativo personalizado?</h3>
+            <p>Fale agora com nosso setor de engenharia e receba uma proposta técnica sob medida para seu negócio.</p>
+          </div>
+          <a href="https://wa.me/5575931980000?text=Ol%C3%A1!%20Gostaria%20de%20uma%20proposta%20de%20Link%20Dedicado%20Empresarial%20com%20a%20TemNet." target="_blank" rel="noopener noreferrer" class="btn-enterprise-action">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+            <span>Consultar Soluções B2B</span>
+          </a>
+        </div>
+
       </div>
-    </div>
+    </section>
+
+    <!-- SEÇÃO 3: COBERTURA E VIABILIDADE -->
+    <section id="cobertura" class="coverage-section content-section">
+      <div class="section-container">
+        
+        <div class="section-header">
+          <span class="section-tag">EXPANSÃO & REDE</span>
+          <h2 class="section-title">Consulte a Cobertura na sua Região</h2>
+          <p class="section-copy">
+            Nossa malha de fibra óptica cresce todos os dias. Digite seu CEP ou selecione sua cidade para verificar a disponibilidade imediata.
+          </p>
+        </div>
+
+        <div class="coverage-box">
+          <form class="coverage-form" id="coverageForm">
+            <div class="input-group">
+              <label for="cepInput">Informe seu CEP ou Endereço:</label>
+              <div class="input-field-wrap">
+                <svg class="input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                <input type="text" id="cepInput" placeholder="Ex: 44000-000 ou nome da sua rua" required>
+              </div>
+            </div>
+
+            <div class="input-group">
+              <label for="citySelect">Cidade / Região:</label>
+              <div class="input-field-wrap">
+                <select id="citySelect">
+                  <option value="Sua Região">Selecione sua cidade</option>
+                  <option value="Feira de Santana e Região">Feira de Santana e Região</option>
+                  <option value="Salvador e RMS">Salvador e RMS</option>
+                  <option value="Interior da Bahia">Interior da Bahia</option>
+                  <option value="Outra Localidade">Outra Localidade</option>
+                </select>
+              </div>
+            </div>
+
+            <button type="submit" class="btn-check-coverage">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+              <span>Consultar Viabilidade</span>
+            </button>
+          </form>
+
+          <div class="coverage-result" id="coverageResult" style="display: none;">
+            <div class="result-icon-box">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+            </div>
+            <div class="result-text-box">
+              <h4 id="resultTitle">Viabilidade Encontrada!</h4>
+              <p id="resultDesc">Temos cobertura de fibra óptica na sua localidade. Clique abaixo para finalizar seu pedido com instalação grátis.</p>
+            </div>
+            <a href="#" id="resultWhatsAppBtn" target="_blank" rel="noopener noreferrer" class="btn-result-action">
+              <span>Agendar Instalação no WhatsApp</span>
+            </a>
+          </div>
+
+          <div class="coverage-badges-list">
+            <span class="cov-badge">⚡ Instalação Rápida</span>
+            <span class="cov-badge">🛡️ 100% Fibra Óptica</span>
+            <span class="cov-badge">📡 Roteador Wi-Fi 6 em Comodato</span>
+            <span class="cov-badge">📞 Atendimento 24h</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SEÇÃO 4: SOBRE NÓS E NOSSOS DIFERENCIAIS -->
+    <section id="sobre" class="about-section content-section">
+      <div class="section-container">
+        
+        <div class="about-layout">
+          <div class="about-content">
+            <span class="section-tag">NOSSA HISTÓRIA</span>
+            <h2 class="section-title">Conectando Pessoas e Negócios ao Futuro</h2>
+            <p class="section-copy">
+              A <strong>TemNet</strong> nasceu com a missão de entregar uma internet verdadeiramente rápida, estável e sem pegadinhas. Investimos continuamente em infraestrutura com tecnologia óptica de última geração, roteadores inteligentes e equipe técnica própria.
+            </p>
+            <p class="section-copy">
+              Mais do que apenas velocidade, entregamos a melhor experiência em jogos sem lag, transmissões em 4K/8K, reuniões de trabalho sem quedas e suporte humanizado sempre ao seu alcance.
+            </p>
+
+            <div class="about-stats-grid">
+              <div class="stat-card">
+                <span class="stat-number">+10</span>
+                <span class="stat-label">Anos de experiência em telecom</span>
+              </div>
+              <div class="stat-card">
+                <span class="stat-number">99.8%</span>
+                <span class="stat-label">Disponibilidade de rede (Uptime)</span>
+              </div>
+              <div class="stat-card">
+                <span class="stat-number">100%</span>
+                <span class="stat-label">Rede própria em Fibra Óptica</span>
+              </div>
+              <div class="stat-card">
+                <span class="stat-number">24/7</span>
+                <span class="stat-label">Suporte técnico ativo</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SEÇÃO 5: CENTRAL DE ATENDIMENTO & SUPORTE -->
+    <section id="suporte" class="support-section content-section">
+      <div class="section-container">
+        
+        <div class="section-header">
+          <span class="section-tag">ATENDIMENTO RÁPIDO</span>
+          <h2 class="section-title">Central de Autoatendimento e Suporte</h2>
+          <p class="section-copy">
+            Precisa de suporte, 2ª via de fatura ou quer testar a velocidade da sua conexão? Escolha um canal abaixo:
+          </p>
+        </div>
+
+        <div class="support-cards-grid">
+          
+          <a href="https://wa.me/5575931980000?text=Ol%C3%A1!%20Preciso%20da%202%C2%AA%20via%20da%20minha%20fatura%20TemNet." target="_blank" rel="noopener noreferrer" class="support-card">
+            <div class="support-card-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+            </div>
+            <h3>2ª Via de Fatura</h3>
+            <p>Emita rapidamente o código Pix ou código de barras da sua mensalidade.</p>
+            <span class="support-card-link">Acessar Fatura &rarr;</span>
+          </a>
+
+          <a href="https://www.speedtest.net/pt" target="_blank" rel="noopener noreferrer" class="support-card">
+            <div class="support-card-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4"></path><path d="m4.93 4.93 2.83 2.83"></path><path d="M2 12h4"></path><path d="m4.93 19.07 2.83-2.83"></path><path d="M12 18v4"></path><path d="m19.07 19.07-2.83-2.83"></path><path d="M22 12h-4"></path><path d="m19.07 4.93-2.83 2.83"></path></svg>
+            </div>
+            <h3>Teste de Velocidade</h3>
+            <p>Meça a velocidade de download, upload e ping da sua conexão em tempo real.</p>
+            <span class="support-card-link">Iniciar Teste &rarr;</span>
+          </a>
+
+          <a href="https://wa.me/5575931980000?text=Ol%C3%A1!%20Preciso%20de%20suporte%20t%C3%A9cnico%20para%20minha%20internet%20TemNet." target="_blank" rel="noopener noreferrer" class="support-card">
+            <div class="support-card-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+            </div>
+            <h3>Suporte Técnico 24h</h3>
+            <p>Atendimento humanizado para tirar dúvidas e resolver questões técnicas no WhatsApp.</p>
+            <span class="support-card-link">Chamar no WhatsApp &rarr;</span>
+          </a>
+
+        </div>
+
+        <!-- FAQ INTERATIVO -->
+        <div class="faq-container">
+          <h3 class="faq-main-title">Perguntas Frequentes (FAQ)</h3>
+          
+          <div class="faq-accordion">
+            
+            <div class="faq-item">
+              <button type="button" class="faq-question" aria-expanded="false">
+                <span>Como funciona a contratação e o prazo de instalação?</span>
+                <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </button>
+              <div class="faq-answer">
+                <p>A contratação é 100% digital e rápida via WhatsApp. Após a confirmação cadastral, nosso time agenda a visita técnica e a instalação padrão ocorre em até 24 a 48 horas úteis.</p>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button type="button" class="faq-question" aria-expanded="false">
+                <span>O roteador Wi-Fi já está incluso no plano?</span>
+                <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </button>
+              <div class="faq-answer">
+                <p>Sim! Todos os nossos planos incluem roteador de alta tecnologia (Dual Band / Wi-Fi 6) em regime de comodato sem custo adicional de aquisição do aparelho.</p>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button type="button" class="faq-question" aria-expanded="false">
+                <span>A internet tem franquia ou limite de download?</span>
+                <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </button>
+              <div class="faq-answer">
+                <p>Não! A conexão TemNet é 100% ilimitada. Você pode jogar, assistir filmes em 4K, fazer downloads e transmissões ao vivo o mês inteiro sem redução de velocidade.</p>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button type="button" class="faq-question" aria-expanded="false">
+                <span>Quais são as formas de pagamento disponíveis?</span>
+                <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </button>
+              <div class="faq-answer">
+                <p>Você pode pagar sua mensalidade via Pix instantâneo, boleto bancário ou débito automático. A fatura digital é enviada mensalmente no seu WhatsApp e e-mail.</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
   </main>
+
+  <!-- RODAPÉ COMPLETO INSTITUCIONAL -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      
+      <div class="footer-grid">
+        <div class="footer-brand-col">
+          <img src="public/logo scc 2.png" alt="TemNet Fibra" class="footer-logo">
+          <p class="footer-about-text">
+            TemNet Telecomunicações — Levando ultra velocidade, tecnologia de fibra óptica e estabilidade para lares e empresas.
+          </p>
+          <div class="footer-anatel-badge">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+            <span>Prestadora Autorizada Anatel</span>
+          </div>
+        </div>
+
+        <div class="footer-links-col">
+          <h4 class="footer-col-title">Navegação</h4>
+          <ul class="footer-links-list">
+            <li><a href="#hero">Início</a></li>
+            <li><a href="#planos">Planos Residenciais</a></li>
+            <li><a href="#empresas">Soluções Corporativas</a></li>
+            <li><a href="#cobertura">Consultar Cobertura</a></li>
+            <li><a href="#sobre">Sobre Nós</a></li>
+            <li><a href="#suporte">Central de Suporte</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-links-col">
+          <h4 class="footer-col-title">Atendimento</h4>
+          <ul class="footer-links-list">
+            <li><span>WhatsApp: (75) 93198-0000</span></li>
+            <li><span>Suporte: 24 horas / 7 dias</span></li>
+            <li><span>Comercial: Seg a Sex 08h às 18h</span></li>
+            <li><a href="#suporte">Segunda via de fatura</a></li>
+            <li><a href="https://www.speedtest.net/pt" target="_blank" rel="noopener noreferrer">Teste de Velocidade</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom-bar">
+        <p>&copy; <span id="currentYear">2026</span> TemNet Telecomunicações. Todos os direitos reservados.</p>
+        <p class="footer-credits">Conexão 100% Fibra Óptica.</p>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- BOTÃO FLUTUANTE WHATSAPP -->
+  <aside class="floating-whatsapp-wrap" aria-label="Atendimento via WhatsApp">
+    <a href="https://wa.me/5575931980000?text=Ol%C3%A1!%20Gostaria%20de%20falar%20com%20o%20atendimento%20da%20TemNet." target="_blank" rel="noopener noreferrer" class="floating-whatsapp-btn" id="floatingWhatsapp" title="Fale com a TemNet no WhatsApp">
+      <span class="whatsapp-pulse"></span>
+      <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+      </svg>
+    </a>
+  </aside>
 
   <script src="script.js"></script>
 </body>
