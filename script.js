@@ -12,23 +12,28 @@ document.addEventListener('DOMContentLoaded', () => {
   // ==========================================================================
   // 1. CONTROLE DO MENU MOBILE & NAVEGAÇÃO SUAVE
   // ==========================================================================
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', (e) => {
+      if (anchor.id === 'resultWhatsAppBtn') return;
+
       const targetId = anchor.getAttribute('href');
-      if (targetId === '#' || !targetId) return;
+      if (!targetId || !targetId.startsWith('#') || targetId === '#' || targetId.length <= 1) return;
 
-      e.preventDefault();
-      const targetElement = document.querySelector(targetId);
+      try {
+        const targetElement = document.querySelector(targetId);
+        if (targetElement) {
+          e.preventDefault();
+          const headerOffset = 80;
+          const elementPosition = targetElement.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
 
-      if (targetElement) {
-        const headerOffset = 80;
-        const elementPosition = targetElement.getBoundingClientRect().top;
-        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-
-        window.scrollTo({
-          top: targetId === '#hero' ? 0 : offsetPosition,
-          behavior: 'smooth'
-        });
+          window.scrollTo({
+            top: targetId === '#hero' ? 0 : offsetPosition,
+            behavior: 'smooth'
+          });
+        }
+      } catch (err) {
+        return;
       }
 
       if (navMenu && navMenu.classList.contains('is-active')) {
