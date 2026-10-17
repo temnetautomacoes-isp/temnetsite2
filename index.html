@@ -69,35 +69,39 @@
     <div class="bottom-glass" aria-hidden="true"></div>
   </div>
 
-  <!-- CABEÇALHO E NAVEGAÇÃO FIXA/STICKY CENTRALIZADA -->
+  <!-- CABEÇALHO E NAVEGAÇÃO SUPERIOR -->
   <header class="section-nav hero-nav-header">
-    <div class="nav-container">
+    <div class="nav-header-bar">
+      <!-- LOGO FORA DO CONTORNO / NO CANTO SUPERIOR (AUMENTADA 3X) -->
       <a href="#hero" class="nav-brand-link" aria-label="Ir para o início">
-        <img src="public/logo scc 2.png" alt="TemNet Logo" class="nav-mini-logo">
+        <img src="public/logo fundo preto.png" alt="TemNet Logo" class="nav-main-logo">
       </a>
 
-      <!-- LINKS DE NAVEGAÇÃO -->
-      <nav class="nav-menu" id="navMenu" aria-label="Navegação principal">
-        <ul class="nav-list">
-          <li><a href="#hero" class="nav-link">Início</a></li>
-          <li><a href="#planos" class="nav-link">Planos</a></li>
-          <li><a href="#empresas" class="nav-link">Para Empresas</a></li>
-          <li><a href="#cobertura" class="nav-link">Cobertura</a></li>
-          <li><a href="#sobre" class="nav-link">Sobre Nós</a></li>
-          <li><a href="#suporte" class="nav-link">Suporte</a></li>
-        </ul>
-      </nav>
+      <!-- CONTORNO / CÁPSULA APENAS AO REDOR DOS ITENS (NAV + AÇÕES) -->
+      <div class="nav-pill-wrapper">
+        <!-- LINKS DE NAVEGAÇÃO -->
+        <nav class="nav-menu" id="navMenu" aria-label="Navegação principal">
+          <ul class="nav-list">
+            <li><a href="#hero" class="nav-link">Início</a></li>
+            <li><a href="#planos" class="nav-link">Planos</a></li>
+            <li><a href="#empresas" class="nav-link">Para Empresas</a></li>
+            <li><a href="#cobertura" class="nav-link">Cobertura</a></li>
+            <li><a href="#sobre" class="nav-link">Sobre Nós</a></li>
+            <li><a href="#suporte" class="nav-link">Suporte</a></li>
+          </ul>
+        </nav>
 
-      <div class="nav-actions">
-        <a href="#planos" class="nav-cta-btn">Assinar Já</a>
-        <!-- Botão de menu mobile -->
-        <button type="button" class="glass-btn icon-btn mobile-menu-toggle" id="mobileMenuToggle" aria-label="Abrir menu" aria-expanded="false">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hamburger-icon">
-            <line x1="3" y1="12" x2="21" y2="12"></line>
-            <line x1="3" y1="6" x2="21" y2="6"></line>
-            <line x1="3" y1="18" x2="21" y2="18"></line>
-          </svg>
-        </button>
+        <div class="nav-actions">
+          <a href="#planos" class="nav-cta-btn">Assinar Já</a>
+          <!-- Botão de menu mobile -->
+          <button type="button" class="glass-btn icon-btn mobile-menu-toggle" id="mobileMenuToggle" aria-label="Abrir menu" aria-expanded="false">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hamburger-icon">
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </button>
+        </div>
       </div>
     </div>
   </header>
@@ -110,31 +114,17 @@
         <!-- INFORMAÇÕES PRINCIPAIS (ESQUERDA) -->
         <div class="hero-info-group">
           
-          <!-- LOGO TEMNET DA EMPRESA -->
-          <div class="hero-brand-wrap animate-item" style="--stagger: 1;">
-            <img src="public/logo scc 2.png" alt="TemNet" class="hero-brand-logo">
-          </div>
-
-          <!-- METADADOS -->
-          <div class="hero-meta-badge animate-item" style="--stagger: 2;">
-            <span class="imdb-pill">TEMNET FIBRA</span>
-            <span class="meta-dot">·</span>
-            <span>Ultra Velocidade</span>
-            <span class="meta-dot">·</span>
-            <span>100% Fibra Óptica</span>
-          </div>
-
           <!-- TÍTULO / SLOGAN -->
-          <h1 class="section-title hero-title animate-item" style="--stagger: 3;">
+          <h1 class="section-title hero-title animate-item" style="--stagger: 1;">
             A sua conexão<br>completa.
           </h1>
 
           <!-- SINOPSE -->
-          <p class="section-copy hero-synopsis animate-item" style="--stagger: 4;">
+          <p class="section-copy hero-synopsis animate-item" style="--stagger: 2;">
             Conectividade inteligente de alto desempenho para transformar a sua rotina, o seu trabalho e a sua experiência digital com máxima estabilidade e suporte especializado.
           </p>
 
-          <div class="hero-buttons animate-item" style="--stagger: 5;">
+          <div class="hero-buttons animate-item" style="--stagger: 3;">
             <a href="#planos" class="btn-primary-action">
               <span>Conhecer Planos</span>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
@@ -648,7 +638,7 @@
       
       <div class="footer-grid">
         <div class="footer-brand-col">
-          <img src="public/logo scc 2.png" alt="TemNet Fibra" class="footer-logo">
+          <img src="public/logo fundo preto.png" alt="TemNet Fibra" class="footer-logo">
           <p class="footer-about-text">
             TemNet Telecomunicações — Levando ultra velocidade, tecnologia de fibra óptica e estabilidade para lares e empresas.
           </p>
