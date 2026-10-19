@@ -593,6 +593,16 @@ body {
   box-shadow: 0 24px 50px rgba(0, 0, 0, 0.7), 0 0 30px rgba(253, 94, 2, 0.25);
 }
 
+.plan-family {
+  border-color: rgba(59, 130, 246, 0.4);
+  background: linear-gradient(180deg, rgba(59, 130, 246, 0.12) 0%, rgba(15, 18, 26, 0.9) 100%);
+}
+
+.plan-family:hover {
+  border-color: rgba(96, 165, 250, 0.7);
+  box-shadow: 0 24px 50px rgba(0, 0, 0, 0.7), 0 0 30px rgba(59, 130, 246, 0.25);
+}
+
 .plan-family.plan-featured {
   border-color: rgba(59, 130, 246, 0.6);
   background: linear-gradient(180deg, rgba(59, 130, 246, 0.18) 0%, rgba(15, 18, 26, 0.92) 100%);
@@ -604,6 +614,49 @@ body {
   transform: translateY(-8px) scale(1.04);
   border-color: rgba(96, 165, 250, 0.9);
   box-shadow: 0 28px 60px rgba(0, 0, 0, 0.8), 0 0 45px rgba(59, 130, 246, 0.4);
+}
+
+/* ==========================================================================
+   TEMA DOURADO / GOLD (PLANO FAMÍLIA DO MEIO - MAIS ESCOLHIDO)
+   ========================================================================== */
+.plan-gold {
+  border-color: rgba(234, 179, 8, 0.65) !important;
+  background: linear-gradient(180deg, rgba(234, 179, 8, 0.2) 0%, rgba(217, 119, 6, 0.08) 45%, rgba(15, 18, 26, 0.94) 100%) !important;
+  transform: scale(1.03);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 40px rgba(234, 179, 8, 0.35) !important;
+}
+
+.plan-gold:hover {
+  transform: translateY(-8px) scale(1.04) !important;
+  border-color: rgba(250, 204, 21, 0.95) !important;
+  box-shadow: 0 28px 60px rgba(0, 0, 0, 0.8), 0 0 50px rgba(234, 179, 8, 0.5) !important;
+}
+
+.plan-gold .badge-family {
+  background: rgba(234, 179, 8, 0.22);
+  color: #facc15;
+  border: 1px solid rgba(234, 179, 8, 0.55);
+}
+
+.plan-gold .badge-featured {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(245, 158, 11, 0.5);
+  font-weight: 800;
+}
+
+.plan-gold .unit-mega {
+  color: #facc15 !important;
+  text-shadow: 0 0 18px rgba(250, 204, 21, 0.45);
+}
+
+.plan-gold .plan-combo-plus {
+  color: #facc15 !important;
+  text-shadow: 0 0 14px rgba(250, 204, 21, 0.6);
+}
+
+.plan-gold .feature-icon {
+  color: #facc15 !important;
 }
 
 .plan-torcedor {
@@ -658,7 +711,8 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
-.badge-family {
+.badge-family,
+.badge-advanced {
   background: rgba(59, 130, 246, 0.18);
   color: #60a5fa;
   border: 1px solid rgba(59, 130, 246, 0.35);
