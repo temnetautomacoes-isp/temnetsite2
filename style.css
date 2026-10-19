@@ -707,69 +707,42 @@ body {
 }
 
 /* ==========================================================================
-   COMBO GLOBOPLAY NO PLANO 200 MEGA
+   COMBO GLOBOPLAY NO PLANO 200 MEGA (SOLTO, 2X MAIOR E ALINHADO À ESQUERDA)
    ========================================================================== */
-.plan-combo-divider {
+.plan-combo-loose {
   display: flex;
   align-items: center;
-  justify-content: center;
-  position: relative;
+  justify-content: flex-start;
+  gap: 10px;
   width: 100%;
-  margin: 6px 0 4px 0;
+  margin-top: 4px;
+  margin-bottom: 2px;
 }
 
-.plan-combo-divider::before,
-.plan-combo-divider::after {
-  content: '';
-  flex: 1;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(96, 165, 250, 0.4), transparent);
-}
-
-.combo-plus-symbol {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  background: rgba(37, 99, 235, 0.3);
-  border: 1px solid rgba(96, 165, 250, 0.55);
-  color: #60a5fa;
+.plan-combo-plus {
+  font-size: 1.75rem;
   font-weight: 800;
-  font-size: 0.95rem;
+  color: #60a5fa;
   line-height: 1;
-  box-shadow: 0 0 14px rgba(59, 130, 246, 0.45);
-  margin: 0 10px;
-}
-
-.plan-combo-box {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 4px 10px;
-  background: rgba(14, 20, 32, 0.7);
-  border: 1px solid rgba(96, 165, 250, 0.35);
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: inset 0 0 16px rgba(37, 99, 235, 0.12), 0 4px 12px rgba(0, 0, 0, 0.35);
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.plan-card:hover .plan-combo-box {
-  border-color: rgba(96, 165, 250, 0.6);
-  box-shadow: inset 0 0 20px rgba(37, 99, 235, 0.2), 0 6px 16px rgba(0, 0, 0, 0.45);
+  flex-shrink: 0;
+  text-shadow: 0 0 14px rgba(96, 165, 250, 0.55);
 }
 
 .plan-globoplay-img {
-  height: 52px;
+  height: 96px;
   width: auto;
-  max-width: 100%;
+  max-width: min(100%, 250px);
   object-fit: contain;
-  margin: -11px 0;
+  object-position: left center;
+  margin: -24px 0 -24px -10px;
   display: block;
-  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.7));
+  filter: drop-shadow(0 3px 12px rgba(0, 0, 0, 0.7));
+  transition: transform 0.25s ease, filter 0.25s ease;
+}
+
+.plan-card:hover .plan-globoplay-img {
+  transform: scale(1.03);
+  filter: drop-shadow(0 4px 16px rgba(0, 0, 0, 0.85));
 }
 
 .plan-features-list {
