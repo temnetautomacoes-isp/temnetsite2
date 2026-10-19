@@ -816,6 +816,161 @@ body {
   color: #a1a1aa;
 }
 
+/* ==========================================================================
+   DESCONTO DE PONTUALIDADE EXPANSÍVEL (PLANO 200 MEGA)
+   ========================================================================== */
+.plan-discount-trigger-wrap {
+  width: 100%;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.plan-discount-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 8px 12px;
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.16) 0%, rgba(6, 182, 212, 0.12) 100%);
+  border: 1px solid rgba(52, 211, 153, 0.45);
+  border-radius: 12px;
+  color: #34d399;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.28s ease;
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.15);
+  position: relative;
+}
+
+.plan-discount-badge:hover {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.26) 0%, rgba(6, 182, 212, 0.22) 100%);
+  border-color: rgba(52, 211, 153, 0.75);
+  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.25);
+  transform: translateY(-1px);
+}
+
+.discount-badge-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: #10b981;
+  filter: drop-shadow(0 0 6px rgba(16, 185, 129, 0.6));
+}
+
+.discount-badge-text {
+  flex: 1;
+  color: #f0fdf4;
+  line-height: 1.35;
+}
+
+.discount-badge-text strong {
+  color: #34d399;
+  font-weight: 700;
+}
+
+.discount-badge-chevron {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: #34d399;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.plan-discount-badge.is-open .discount-badge-chevron {
+  transform: rotate(180deg);
+}
+
+/* Gaveta expansível com animação de altura */
+.plan-discount-drawer {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.35s cubic-bezier(0.16, 1, 0.3, 1), margin-top 0.35s ease;
+  width: 100%;
+}
+
+.plan-discount-drawer.is-open {
+  grid-template-rows: 1fr;
+  margin-top: 8px;
+}
+
+.discount-drawer-inner {
+  overflow: hidden;
+  background: rgba(8, 14, 22, 0.9);
+  border: 1px solid rgba(52, 211, 153, 0.35);
+  border-radius: 12px;
+  padding: 0 14px;
+  transition: padding 0.35s ease;
+}
+
+.plan-discount-drawer.is-open .discount-drawer-inner {
+  padding: 12px 14px;
+}
+
+.discount-price-highlight {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 8px;
+  padding-bottom: 8px;
+  border-bottom: 1px dashed rgba(52, 211, 153, 0.25);
+}
+
+.highlight-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #a7f3d0;
+}
+
+.highlight-val-row {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.val-old {
+  font-size: 0.875rem;
+  color: #94a3b8;
+  text-decoration: line-through;
+}
+
+.val-arrow {
+  font-size: 0.85rem;
+  color: #34d399;
+}
+
+.val-new {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #34d399;
+  letter-spacing: -0.02em;
+  text-shadow: 0 0 12px rgba(52, 211, 153, 0.45);
+}
+
+.val-new small {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: #a7f3d0;
+}
+
+.discount-explainer-text {
+  font-size: 0.8rem;
+  color: #cbd5e1;
+  line-height: 1.45;
+  margin: 0;
+}
+
+.discount-explainer-text strong {
+  color: #ffffff;
+}
+
 .btn-plan-whatsapp {
   display: flex;
   align-items: center;

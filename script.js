@@ -124,6 +124,22 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ==========================================================================
+  // 1.2 EXTENSÃO DE DESCONTO DE PONTUALIDADE (PLANO 200 MEGA)
+  // ==========================================================================
+  const discountBtn = document.getElementById('btnDiscountInfo');
+  const discountDrawer = document.getElementById('discountInfoBox');
+  if (discountBtn && discountDrawer) {
+    discountBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const isExpanded = discountBtn.getAttribute('aria-expanded') === 'true';
+      discountBtn.setAttribute('aria-expanded', !isExpanded);
+      discountBtn.classList.toggle('is-open', !isExpanded);
+      discountDrawer.classList.toggle('is-open', !isExpanded);
+      discountDrawer.setAttribute('aria-hidden', isExpanded);
+    });
+  }
+
+  // ==========================================================================
   // 2. SEQUÊNCIA DE IMAGENS EM ALTA PERFORMANCE NO CANVAS (SCROLL DRIVEN)
   // ==========================================================================
   if (canvas) {
