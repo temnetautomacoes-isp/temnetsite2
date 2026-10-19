@@ -110,6 +110,56 @@ body {
   width: 100%;
   padding-top: 18px;
   pointer-events: none;
+  will-change: transform, opacity;
+  transform: translateY(0);
+}
+
+/* Efeito popup para baixo e desaparece para cima ao rolar para baixo */
+.hero-nav-header.nav-popup-hide {
+  animation: navHeaderPopupHide 0.52s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+  pointer-events: none !important;
+}
+
+.hero-nav-header.nav-popup-hide * {
+  pointer-events: none !important;
+}
+
+/* Reaparece descendo do topo ao rolar para cima */
+.hero-nav-header.nav-popup-show {
+  animation: navHeaderPopupShow 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes navHeaderPopupHide {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  25% {
+    /* Efeito físico de popup: desce levemente (~14px) antes de disparar para cima */
+    transform: translateY(14px);
+    opacity: 1;
+  }
+  100% {
+    /* Some suavemente para cima */
+    transform: translateY(-140%);
+    opacity: 0;
+  }
+}
+
+@keyframes navHeaderPopupShow {
+  0% {
+    transform: translateY(-140%);
+    opacity: 0;
+  }
+  68% {
+    /* Amortecimento com leve ultrapassagem para sensação fluida */
+    transform: translateY(8px);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 .nav-header-bar {

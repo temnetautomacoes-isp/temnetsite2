@@ -59,6 +59,71 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ==========================================================================
+  // 1.1 TRANSIÇÃO DO CABEÇALHO AO ROLAR SCROLL (POPUP LEVE PARA BAIXO E SOME PARA CIMA)
+  // ==========================================================================
+  const heroNavHeader = document.querySelector('.hero-nav-header');
+  if (heroNavHeader) {
+    let lastScrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+    let isHeaderHidden = false;
+    let scrollTicking = false;
+    const hideThreshold = 80; // Só ativa após rolar 80px do topo
+    const scrollDelta = 6;    // Mínimo de rolagem para considerar intenção do usuário
+
+    const updateHeaderOnScroll = () => {
+      const currentScrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+
+      // Se o menu mobile estiver aberto, mantém o cabeçalho visível
+      if (navMenu && navMenu.classList.contains('is-active')) {
+        lastScrollY = currentScrollY;
+        scrollTicking = false;
+        return;
+      }
+
+      // Se estiver no topo ou próximo a ele, garante que o cabeçalho fique visível
+      if (currentScrollY <= hideThreshold) {
+        if (isHeaderHidden) {
+          heroNavHeader.classList.remove('nav-popup-hide');
+          heroNavHeader.classList.add('nav-popup-show');
+          isHeaderHidden = false;
+        }
+        lastScrollY = currentScrollY;
+        scrollTicking = false;
+        return;
+      }
+
+      const diff = currentScrollY - lastScrollY;
+
+      // Ignora micro-movimentos para evitar flickering
+      if (Math.abs(diff) < scrollDelta) {
+        scrollTicking = false;
+        return;
+      }
+
+      if (diff > 0 && !isHeaderHidden) {
+        // Rolou para BAIXO: aciona efeito popup descendo levemente e depois sumindo para cima
+        heroNavHeader.classList.remove('nav-popup-show');
+        heroNavHeader.classList.add('nav-popup-hide');
+        isHeaderHidden = true;
+      } else if (diff < 0 && isHeaderHidden) {
+        // Rolou para CIMA: reaparece descendo suavemente do topo
+        heroNavHeader.classList.remove('nav-popup-hide');
+        heroNavHeader.classList.add('nav-popup-show');
+        isHeaderHidden = false;
+      }
+
+      lastScrollY = currentScrollY;
+      scrollTicking = false;
+    };
+
+    window.addEventListener('scroll', () => {
+      if (!scrollTicking) {
+        window.requestAnimationFrame(updateHeaderOnScroll);
+        scrollTicking = true;
+      }
+    }, { passive: true });
+  }
+
+  // ==========================================================================
   // 2. SEQUÊNCIA DE IMAGENS EM ALTA PERFORMANCE NO CANVAS (SCROLL DRIVEN)
   // ==========================================================================
   if (canvas) {
