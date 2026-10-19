@@ -549,10 +549,14 @@ body {
 /* ==========================================================================
    SEÇÃO: PLANOS RESIDENCIAIS
    ========================================================================== */
+.plans-section {
+  padding-bottom: clamp(140px, 16vh, 240px);
+}
+
 .plans-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
+  gap: 36px 24px;
   width: 100%;
   align-items: stretch;
 }
