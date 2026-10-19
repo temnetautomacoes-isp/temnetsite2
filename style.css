@@ -633,9 +633,11 @@ body {
 }
 
 .plan-gold .badge-family {
-  background: rgba(234, 179, 8, 0.22);
-  color: #facc15;
-  border: 1px solid rgba(234, 179, 8, 0.55);
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(245, 158, 11, 0.5);
+  font-weight: 800;
+  border: none;
 }
 
 .plan-gold .badge-featured {
@@ -643,6 +645,7 @@ body {
   color: #ffffff;
   box-shadow: 0 4px 14px rgba(245, 158, 11, 0.5);
   font-weight: 800;
+  border: none;
 }
 
 .plan-gold .unit-mega {
@@ -712,16 +715,21 @@ body {
 }
 
 .badge-family,
+.badge-novela,
 .badge-advanced {
-  background: rgba(59, 130, 246, 0.18);
-  color: #60a5fa;
-  border: 1px solid rgba(59, 130, 246, 0.35);
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.45);
+  font-weight: 800;
+  border: none;
 }
 
 .badge-featured {
   background: linear-gradient(135deg, #2563eb, #1d4ed8);
   color: #ffffff;
   box-shadow: 0 4px 14px rgba(37, 99, 235, 0.45);
+  font-weight: 800;
+  border: none;
 }
 
 .plan-speed-wrap {
