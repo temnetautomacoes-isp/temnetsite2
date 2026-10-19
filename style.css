@@ -728,6 +728,11 @@ body {
   text-shadow: 0 0 14px rgba(96, 165, 250, 0.55);
 }
 
+.plan-gaming .plan-combo-plus {
+  color: #ff7315;
+  text-shadow: 0 0 14px rgba(253, 94, 2, 0.55);
+}
+
 .plan-globoplay-img {
   height: 96px;
   width: auto;
