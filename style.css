@@ -745,9 +745,34 @@ body {
   transition: transform 0.25s ease, filter 0.25s ease;
 }
 
-.plan-card:hover .plan-globoplay-img {
+.plan-combos-loose {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+  margin-top: 4px;
+  margin-bottom: 2px;
+}
+
+.plan-combos-loose .plan-combo-loose {
+  margin: 0;
+}
+
+.plan-telecine-img {
+  height: 23px;
+  width: auto;
+  max-width: min(100%, 160px);
+  object-fit: contain;
+  object-position: left center;
+  display: block;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.7));
+  transition: transform 0.25s ease, filter 0.25s ease;
+}
+
+.plan-card:hover .plan-globoplay-img,
+.plan-card:hover .plan-telecine-img {
   transform: scale(1.03);
-  filter: drop-shadow(0 4px 16px rgba(0, 0, 0, 0.85));
+  filter: drop-shadow(0 4px 14px rgba(0, 0, 0, 0.85));
 }
 
 .plan-features-list {
