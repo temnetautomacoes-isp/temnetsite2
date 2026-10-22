@@ -553,7 +553,7 @@ body {
 }
 
 /* ==========================================================================
-   DISPLAY DO MONITOR: ENTRADA ESTILO PORTAL 2 COM A MARCA TEMNET
+   DISPLAY DO MONITOR: LOGO TEMNET CENTRALIZADA COM ILUMINAÇÃO AZUL E LARANJA
    ========================================================================== */
 .monitor-portal-screen {
   position: absolute;
@@ -564,8 +564,8 @@ body {
   border-radius: 4px;
   overflow: hidden;
   z-index: 5;
-  background: radial-gradient(ellipse at 68% 50%, #0c2244 0%, #171a21 72%);
-  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.85);
+  background: radial-gradient(ellipse 70% 65% at 50% 50%, #0c2b54 0%, #07152b 50%, #030710 100%);
+  box-shadow: inset 0 0 25px rgba(0, 0, 0, 0.9);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -573,31 +573,14 @@ body {
   pointer-events: none;
 }
 
-.hero-setup-foreground-cup {
-  position: absolute;
-  inset: 0;
-  z-index: 10;
-  pointer-events: none;
-  /* Recorta estritamente a caneca e o vapor animado de fumaça contornando suas formas reais */
-  clip-path: polygon(
-    0% 65%,
-    26% 65%,
-    30.5% 72%,
-    26% 80%,
-    31.5% 84%,
-    31.5% 95%,
-    26% 100%,
-    0% 100%
-  );
-}
-
-.hero-setup-video-mug {
+.hero-setup-cup-canvas {
   position: absolute;
   top: -49%;
   left: -15%;
   width: 115%;
   height: auto;
-  display: block;
+  pointer-events: none;
+  z-index: 10;
 }
 
 .screen-scanlines {
@@ -614,13 +597,35 @@ body {
   z-index: 10;
 }
 
+.portal-screen-glow {
+  position: absolute;
+  inset: 0;
+  background: 
+    radial-gradient(circle at 40% 50%, rgba(0, 229, 255, 0.42) 0%, transparent 55%),
+    radial-gradient(circle at 60% 50%, rgba(253, 94, 2, 0.38) 0%, transparent 55%);
+  pointer-events: none;
+  z-index: 2;
+  animation: portalAmbientPulse 4s ease-in-out infinite alternate;
+}
+
+@keyframes portalAmbientPulse {
+  0% {
+    opacity: 0.7;
+    transform: scale(0.96);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1.04);
+  }
+}
+
 .screen-portal-flash {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 75% 50%, rgba(0, 229, 255, 0.9) 0%, rgba(253, 94, 2, 0.4) 35%, transparent 65%);
+  background: radial-gradient(circle at 50% 50%, rgba(0, 229, 255, 0.7) 0%, rgba(253, 94, 2, 0.4) 45%, transparent 70%);
   opacity: 0;
   pointer-events: none;
-  z-index: 6;
+  z-index: 3;
   animation: portalScreenFlash 5.5s ease-out infinite;
 }
 
@@ -629,10 +634,10 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: clamp(8px, 3.2cqw, 20px);
-  padding: 0 clamp(8px, 2.5cqw, 20px);
-  z-index: 2;
+  z-index: 4;
   width: 100%;
+  height: 100%;
+  padding: 0;
 }
 
 .portal-brand-block {
@@ -643,28 +648,12 @@ body {
 }
 
 .portal-brand-logo {
-  height: clamp(52px, 32cqw, 100px);
+  height: clamp(56px, 35cqw, 108px);
   width: auto;
-  max-width: clamp(140px, 58cqw, 245px);
+  max-width: clamp(160px, 72cqw, 290px);
   object-fit: contain;
   display: block;
-  filter: drop-shadow(0 0 16px rgba(0, 229, 255, 0.5)) drop-shadow(0 0 28px rgba(253, 94, 2, 0.45));
-}
-
-.portal-door-container {
-  position: relative;
-  width: clamp(28px, 16cqw, 65px);
-  height: clamp(52px, 30cqw, 118px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  animation: portalDoorSurge 5.5s cubic-bezier(0.16, 1, 0.3, 1) infinite;
-}
-
-.portal-door-svg {
-  width: 100%;
-  height: 100%;
-  overflow: visible;
+  filter: drop-shadow(0 0 18px rgba(0, 229, 255, 0.65)) drop-shadow(0 0 32px rgba(253, 94, 2, 0.55));
 }
 
 @keyframes portalScreenFlash {
@@ -677,48 +666,23 @@ body {
 @keyframes portalBrandEnter {
   0% {
     opacity: 0;
-    transform: translateX(-35px) scale(0.92);
-    filter: blur(10px);
+    transform: scale(0.9) translateY(12px);
+    filter: blur(8px);
   }
   12% {
     opacity: 1;
-    transform: translateX(0) scale(1);
+    transform: scale(1) translateY(0);
     filter: blur(0);
   }
   85% {
     opacity: 1;
-    transform: translateX(0) scale(1);
+    transform: scale(1) translateY(0);
     filter: blur(0);
   }
   94% {
     opacity: 0;
-    transform: translateX(15px) scale(0.96);
+    transform: scale(0.95) translateY(-8px);
     filter: blur(6px);
-  }
-  100% {
-    opacity: 0;
-  }
-}
-
-@keyframes portalDoorSurge {
-  0% {
-    opacity: 0;
-    transform: scale(0.65) translateX(30px);
-    filter: brightness(2.2) drop-shadow(0 0 30px #00e5ff);
-  }
-  10% {
-    opacity: 1;
-    transform: scale(1.08) translateX(-4px);
-    filter: brightness(1.25) drop-shadow(0 0 20px #00e5ff);
-  }
-  20%, 85% {
-    opacity: 1;
-    transform: scale(1) translateX(0);
-    filter: brightness(1) drop-shadow(0 0 15px #00e5ff);
-  }
-  93% {
-    opacity: 0;
-    transform: scale(0.8) translateX(20px);
   }
   100% {
     opacity: 0;
