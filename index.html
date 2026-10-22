@@ -1432,36 +1432,41 @@
                   <!-- Gerado dinamicamente no script para precisão milimétrica -->
                 </g>
 
-                <!-- Ponteiro / Needle dinâmico -->
+                <!-- Ponteiro dinâmico com ponta em formato de seta (posicionado atrás do hub central) -->
                 <g class="st-gauge-needle-group" id="stNeedleGroup">
-                  <line class="st-gauge-needle" x1="170" y1="170" x2="170" y2="44" />
-                  <circle class="st-gauge-pin" cx="170" cy="170" r="12" />
-                  <circle class="st-gauge-pin-center" cx="170" cy="170" r="5" />
+                  <line class="st-gauge-needle" x1="170" y1="170" x2="170" y2="46" />
+                  <polygon class="st-gauge-arrowhead" points="170,36 165,50 175,50" />
+                  <circle class="st-gauge-pin" cx="170" cy="170" r="14" />
+                  <circle class="st-gauge-pin-center" cx="170" cy="170" r="6" />
                 </g>
               </svg>
 
-              <!-- CENTRO DO GAUGE: BOTÃO INICIAR ("GO") OU DIGITAL SPEED READOUT -->
+              <!-- CENTRO DO GAUGE: HUB CENTRAL COM FUNDO SÓLIDO (FICA SEMPRE POR CIMA DO PONTEIRO) -->
               <div class="st-gauge-center">
                 
-                <!-- ESTADO 1: BOTÃO GO (INICIAR) COM PULSOS DE RADAR -->
-                <div class="st-go-wrap" id="stGoWrap">
-                  <div class="st-radar-circle wave-1"></div>
-                  <div class="st-radar-circle wave-2"></div>
-                  <button type="button" class="st-go-btn" id="stStartBtn" title="Iniciar Teste de Velocidade">
-                    <span class="st-go-label">INICIAR</span>
-                    <span class="st-go-sub">SPEEDTEST</span>
-                  </button>
-                </div>
+                <div class="st-central-hub" id="stCentralHub">
+                  <!-- PULSOS DE RADAR DO BOTÃO INICIAR -->
+                  <div class="st-radar-circle wave-1" id="stRadar1"></div>
+                  <div class="st-radar-circle wave-2" id="stRadar2"></div>
 
-                <!-- ESTADO 2: LEITURA DIGITAL DE VELOCIDADE EM TEMPO REAL -->
-                <div class="st-live-wrap" id="stLiveWrap" style="display: none;">
-                  <span class="st-live-phase" id="stLivePhase">PREPARANDO TESTE</span>
-                  <div class="st-live-speed-row">
-                    <span class="st-live-number" id="stLiveSpeed">0.0</span>
-                    <span class="st-live-unit">Mbps</span>
+                  <!-- ESTADO 1: BOTÃO GO (INICIAR) -->
+                  <div class="st-go-wrap" id="stGoWrap">
+                    <button type="button" class="st-go-btn" id="stStartBtn" title="Iniciar Teste de Velocidade">
+                      <span class="st-go-label">INICIAR</span>
+                      <span class="st-go-sub">SPEEDTEST</span>
+                    </button>
                   </div>
-                  <div class="st-live-ping-mini" id="stLivePingMini">
-                    <span>Ping: </span><strong id="stLivePingVal">-- ms</strong>
+
+                  <!-- ESTADO 2: LEITURA DIGITAL (EXPANDE FLUIDAMENTE DE DENTRO DO BOTÃO) -->
+                  <div class="st-live-wrap" id="stLiveWrap">
+                    <span class="st-live-phase" id="stLivePhase">PREPARANDO TESTE</span>
+                    <div class="st-live-speed-row">
+                      <span class="st-live-number" id="stLiveSpeed">0.0</span>
+                      <span class="st-live-unit">Mbps</span>
+                    </div>
+                    <div class="st-live-ping-mini" id="stLivePingMini">
+                      <span>Ping: </span><strong id="stLivePingVal">-- ms</strong>
+                    </div>
                   </div>
                 </div>
 

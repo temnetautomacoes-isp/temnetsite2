@@ -375,6 +375,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // ==========================================================================
   // 5. TEMNET SPEEDTEST (MOTOR REAL DE TESTE DE VELOCIDADE EM TEMPO REAL)
   // ==========================================================================
+  const speedtestCard = document.getElementById('speedtestCard');
+  const stCentralHub = document.getElementById('stCentralHub');
   const stStartBtn = document.getElementById('stStartBtn');
   const stRestartBtn = document.getElementById('stRestartBtn');
   const stGoWrap = document.getElementById('stGoWrap');
@@ -1040,9 +1042,20 @@ document.addEventListener('DOMContentLoaded', () => {
     if (isTestRunning) return;
     isTestRunning = true;
 
-    // Configuração de estado inicial na UI
-    if (stGoWrap) stGoWrap.style.display = 'none';
-    if (stLiveWrap) stLiveWrap.style.display = 'flex';
+    // Remove eventuais estilos inline para deixar o CSS animar fluidamente
+    if (stGoWrap) stGoWrap.style.display = '';
+    if (stLiveWrap) stLiveWrap.style.display = '';
+
+    // Ativa a animação de florescer/expandir do número de dentro do botão
+    if (stCentralHub) {
+      stCentralHub.classList.remove('is-upload-phase');
+      stCentralHub.classList.add('is-testing');
+    }
+    if (speedtestCard) {
+      speedtestCard.classList.remove('is-upload-phase');
+      speedtestCard.classList.add('is-testing');
+    }
+
     if (stRestartBtn) stRestartBtn.style.display = 'none';
     if (stResultVerdict) stResultVerdict.style.display = 'none';
 
@@ -1108,6 +1121,9 @@ document.addEventListener('DOMContentLoaded', () => {
       stLivePhase.textContent = `TESTANDO UPLOAD (${connectionMode === 'multi' ? 'MÚLTIPLO' : 'ÚNICO'})`;
       stLivePhase.style.color = '#a855f7';
     }
+    if (stCentralHub) stCentralHub.classList.add('is-upload-phase');
+    if (speedtestCard) speedtestCard.classList.add('is-upload-phase');
+
     if (stGaugeProgress) {
       stGaugeProgress.style.stroke = 'url(#stGradUpload)';
     }
@@ -1140,14 +1156,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     isTestRunning = false;
 
-    if (stLiveWrap) stLiveWrap.style.display = 'none';
-    if (stGoWrap) stGoWrap.style.display = 'flex';
     if (stRestartBtn) stRestartBtn.style.display = 'inline-flex';
 
     if (stLivePhase) {
       stLivePhase.textContent = 'TESTE CONCLUÍDO';
       stLivePhase.style.color = '#00f2fe';
     }
+
+    if (stCentralHub) stCentralHub.classList.remove('is-upload-phase');
+    if (speedtestCard) speedtestCard.classList.remove('is-upload-phase');
 
     // Exibe veredito de conexão
     if (stResultVerdict && stVerdictTitle && stVerdictDesc) {
@@ -1203,6 +1220,13 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   if (stRestartBtn) {
     stRestartBtn.addEventListener('click', runSpeedTest);
+  }
+  if (stCentralHub) {
+    stCentralHub.addEventListener('click', () => {
+      if (!isTestRunning && stCentralHub.classList.contains('is-testing')) {
+        runSpeedTest();
+      }
+    });
   }
 });
 

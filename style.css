@@ -1715,6 +1715,21 @@ body {
   filter: drop-shadow(0 0 6px rgba(0, 242, 254, 0.9));
 }
 
+.st-gauge-arrowhead {
+  fill: #ffffff;
+  stroke: #00f2fe;
+  stroke-width: 1.5;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 0 8px rgba(0, 242, 254, 0.95));
+  transition: stroke 0.4s ease, filter 0.4s ease;
+}
+
+.speedtest-card.is-upload-phase .st-gauge-arrowhead,
+.st-central-hub.is-upload-phase ~ svg .st-gauge-arrowhead {
+  stroke: #a855f7;
+  filter: drop-shadow(0 0 8px rgba(168, 85, 247, 0.95));
+}
+
 .st-gauge-pin {
   fill: #111622;
   stroke: #00f2fe;
@@ -1726,7 +1741,7 @@ body {
   fill: #00f2fe;
 }
 
-/* CENTRO DO VELOCÍMETRO */
+/* CENTRO DO VELOCÍMETRO (CAMADA SUPERIOR AOS PONTEIROS SVG) */
 .st-gauge-center {
   position: absolute;
   inset: 0;
@@ -1734,29 +1749,72 @@ body {
   align-items: center;
   justify-content: center;
   pointer-events: none;
+  z-index: 10; /* Fica sempre na frente do ponteiro SVG */
 }
 
-/* BOTÃO INICIAR COM PULSOS DE RADAR */
-.st-go-wrap {
+/* HUB CENTRAL CIRCULAR COM FUNDO ESCURO SÓLIDO (PROTEGE O NÚMERO DO PONTEIRO) */
+.st-central-hub {
   position: relative;
+  width: 154px;
+  height: 154px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 45% 35%, #161f2e 0%, #0a0d14 100%);
+  border: 2px solid #00f2fe;
+  box-shadow: 0 0 32px rgba(0, 242, 254, 0.35), inset 0 0 20px rgba(0, 242, 254, 0.15);
   display: flex;
   align-items: center;
   justify-content: center;
   pointer-events: auto;
+  transition: border-color 0.5s ease, box-shadow 0.5s ease;
+  overflow: visible;
+  z-index: 10;
+}
+
+/* Quando estiver no teste de upload, o hub central brilha em roxo neon */
+.st-central-hub.is-upload-phase {
+  border-color: #a855f7;
+  box-shadow: 0 0 32px rgba(168, 85, 247, 0.35), inset 0 0 20px rgba(168, 85, 247, 0.15);
+}
+
+/* ESTADO 1: BOTÃO INICIAR COM PULSOS DE RADAR */
+.st-go-wrap {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 1;
+  transform: scale(1);
+  pointer-events: auto;
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 2;
+}
+
+/* Quando o teste inicia, o botão recolhe suavemente para o centro */
+.st-central-hub.is-testing .st-go-wrap {
+  opacity: 0;
+  transform: scale(0.65);
+  pointer-events: none;
 }
 
 .st-radar-circle {
   position: absolute;
   border: 2px solid rgba(0, 242, 254, 0.45);
   border-radius: 50%;
-  width: 136px;
-  height: 136px;
+  width: 154px;
+  height: 154px;
   pointer-events: none;
   animation: stRadarPulse 2.8s cubic-bezier(0.2, 0.8, 0.2, 1) infinite;
+  transition: opacity 0.3s ease;
 }
 
 .st-radar-circle.wave-2 {
   animation-delay: 1.4s;
+}
+
+.st-central-hub.is-testing .st-radar-circle {
+  opacity: 0;
+  animation-play-state: paused;
 }
 
 @keyframes stRadarPulse {
@@ -1771,11 +1829,11 @@ body {
 }
 
 .st-go-btn {
-  width: 136px;
-  height: 136px;
+  width: 100%;
+  height: 100%;
   border-radius: 50%;
-  background: radial-gradient(circle at 40% 30%, #1e293b 0%, #0c1017 100%);
-  border: 2px solid #00f2fe;
+  background: transparent;
+  border: none;
   color: #ffffff;
   cursor: pointer;
   display: flex;
@@ -1783,20 +1841,15 @@ body {
   align-items: center;
   justify-content: center;
   gap: 3px;
-  box-shadow: 0 0 32px rgba(0, 242, 254, 0.35), inset 0 0 20px rgba(0, 242, 254, 0.2);
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  position: relative;
-  z-index: 2;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .st-go-btn:hover {
-  transform: scale(1.07);
-  border-color: #38bdf8;
-  box-shadow: 0 0 48px rgba(0, 242, 254, 0.65), inset 0 0 26px rgba(0, 242, 254, 0.35);
+  transform: scale(1.05);
 }
 
 .st-go-btn:active {
-  transform: scale(0.97);
+  transform: scale(0.96);
 }
 
 .st-go-label {
@@ -1815,34 +1868,52 @@ body {
   text-transform: uppercase;
 }
 
-/* LEITURA DIGITAL DE VELOCIDADE EM TEMPO REAL */
+/* ESTADO 2: LEITURA DIGITAL DE VELOCIDADE (EXPANDE DE DENTRO DO BOTÃO) */
 .st-live-wrap {
+  position: absolute;
+  inset: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
+  justify-content: center;
+  padding: 8px 12px;
   text-align: center;
   pointer-events: none;
+  opacity: 0;
+  transform: scale(0.35);
+  transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.55s cubic-bezier(0.175, 0.885, 0.32, 1.25);
+  z-index: 3;
+}
+
+/* Quando o teste inicia, a leitura digital floresce suavemente para fora do centro */
+.st-central-hub.is-testing .st-live-wrap {
+  opacity: 1;
+  transform: scale(1);
+  pointer-events: auto;
 }
 
 .st-live-phase {
-  font-size: 0.75rem;
+  font-size: 0.64rem;
   font-weight: 800;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: #00f2fe;
   text-shadow: 0 0 10px rgba(0, 242, 254, 0.6);
   transition: color 0.3s ease;
+  line-height: 1.15;
+  max-width: 132px;
 }
 
 .st-live-speed-row {
   display: flex;
   align-items: baseline;
-  gap: 6px;
+  justify-content: center;
+  gap: 4px;
+  margin: 1px 0;
 }
 
 .st-live-number {
-  font-size: 3.6rem;
+  font-size: 2.85rem;
   font-weight: 900;
   line-height: 1;
   letter-spacing: -0.04em;
@@ -1851,15 +1922,16 @@ body {
 }
 
 .st-live-unit {
-  font-size: 1.05rem;
+  font-size: 0.8rem;
   font-weight: 800;
-  color: #71717a;
+  color: #94a3b8;
   text-transform: uppercase;
 }
 
 .st-live-ping-mini {
-  font-size: 0.8125rem;
-  color: #a1a1aa;
+  font-size: 0.75rem;
+  color: #94a3b8;
+  line-height: 1;
 }
 
 .st-live-ping-mini strong {
