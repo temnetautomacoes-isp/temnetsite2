@@ -554,20 +554,38 @@ body {
    ========================================================================== */
 .monitor-portal-screen {
   position: absolute;
-  left: 30.5%;
-  top: 15.6%;
-  width: 62.4%;
-  height: 76.6%;
+  left: 26.4%;
+  top: 16.3%;
+  width: 66.4%;
+  height: 69.2%;
   border-radius: 4px;
   overflow: hidden;
   z-index: 5;
-  background: radial-gradient(ellipse at 65% 50%, rgba(0, 100, 200, 0.35) 0%, rgba(6, 10, 18, 0.98) 75%);
-  box-shadow: inset 0 0 25px rgba(0, 0, 0, 0.92);
+  background: radial-gradient(ellipse at 68% 50%, #0c2244 0%, #05080f 75%);
+  box-shadow: inset 0 0 25px rgba(0, 0, 0, 0.95);
   display: flex;
   align-items: center;
   justify-content: center;
   container-type: inline-size;
   pointer-events: none;
+}
+
+.hero-setup-foreground-cup {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  pointer-events: none;
+  /* Recorta estritamente a caneca e o vapor animado de fumaça (x: 0 a 32%, y: 55% a 100%), eliminando qualquer arte residual acima */
+  clip-path: polygon(0% 55%, 32% 55%, 32% 100%, 0% 100%);
+}
+
+.hero-setup-video-mug {
+  position: absolute;
+  top: -49%;
+  left: -15%;
+  width: 115%;
+  height: auto;
+  display: block;
 }
 
 .screen-scanlines {
@@ -643,15 +661,6 @@ body {
   gap: clamp(4px, 1.5cqw, 8px);
 }
 
-.portal-sub-heading::after {
-  content: '';
-  display: inline-block;
-  width: clamp(12px, 6cqw, 28px);
-  height: 2px;
-  background: #00e5ff;
-  box-shadow: 0 0 8px #00e5ff;
-}
-
 .portal-door-container {
   position: relative;
   width: clamp(28px, 16cqw, 65px);
@@ -666,39 +675,6 @@ body {
   width: 100%;
   height: 100%;
   overflow: visible;
-}
-
-.screen-hud-bar {
-  position: absolute;
-  bottom: clamp(6px, 2.5cqw, 12px);
-  left: clamp(10px, 3.5cqw, 20px);
-  right: clamp(10px, 3.5cqw, 20px);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: clamp(0.35rem, 2cqw, 0.55rem);
-  color: rgba(255, 255, 255, 0.55);
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  letter-spacing: 0.1em;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  padding-top: clamp(2px, 1cqw, 5px);
-  z-index: 3;
-}
-
-.hud-ping {
-  color: #00e676;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  font-weight: 700;
-}
-
-.hud-ping-dot {
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: #00e676;
-  box-shadow: 0 0 8px #00e676;
 }
 
 @keyframes portalScreenFlash {

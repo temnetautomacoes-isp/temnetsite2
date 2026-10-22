@@ -1228,5 +1228,26 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
+  // ==========================================================================
+  // SINCRONIZAÇÃO DO VÍDEO DO MONITOR COM A CANECA EM PRIMEIRO PLANO
+  // ==========================================================================
+  const heroSetupVideo = document.getElementById('heroSetupVideo') || document.querySelector('.hero-setup-video');
+  const heroSetupVideoMug = document.getElementById('heroSetupVideoMug');
+  if (heroSetupVideo && heroSetupVideoMug) {
+    const syncMugVideo = () => {
+      if (Math.abs(heroSetupVideo.currentTime - heroSetupVideoMug.currentTime) > 0.08) {
+        heroSetupVideoMug.currentTime = heroSetupVideo.currentTime;
+      }
+    };
+    heroSetupVideo.addEventListener('play', () => {
+      heroSetupVideoMug.currentTime = heroSetupVideo.currentTime;
+      heroSetupVideoMug.play().catch(() => {});
+    });
+    heroSetupVideo.addEventListener('pause', () => {
+      heroSetupVideoMug.pause();
+    });
+    heroSetupVideo.addEventListener('seeking', syncMugVideo);
+    heroSetupVideo.addEventListener('timeupdate', syncMugVideo);
+  }
 });
 

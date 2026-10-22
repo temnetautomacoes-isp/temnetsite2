@@ -145,7 +145,7 @@
 
             <!-- Camada de mídia: monitor, PC gamer e xícara de café com vapor animado -->
             <div class="hero-setup-media-wrapper">
-              <video class="hero-setup-video" autoplay muted loop playsinline preload="auto" poster="public/steam-setup/setup_loop.png">
+              <video class="hero-setup-video" id="heroSetupVideo" autoplay muted loop playsinline preload="auto" poster="public/steam-setup/setup_loop.png">
                 <source src="public/steam-setup/setup_loop.webm" type="video/webm">
                 <source src="public/steam-setup/setup_loop.mp4" type="video/mp4">
               </video>
@@ -195,12 +195,14 @@
                     </svg>
                   </div>
                 </div>
+              </div>
 
-                <!-- HUD inferior do monitor -->
-                <div class="screen-hud-bar">
-                  <span>TEMNET // ULTRA FIBER</span>
-                  <span class="hud-ping"><span class="hud-ping-dot"></span> 1 MS PING</span>
-                </div>
+              <!-- Camada de primeiro plano: caneca de café com fumaça/vapor na frente da tela -->
+              <div class="hero-setup-foreground-cup" aria-hidden="true">
+                <video class="hero-setup-video-mug" id="heroSetupVideoMug" autoplay muted loop playsinline preload="auto" poster="public/steam-setup/setup_loop.png">
+                  <source src="public/steam-setup/setup_loop.webm" type="video/webm">
+                  <source src="public/steam-setup/setup_loop.mp4" type="video/mp4">
+                </video>
               </div>
             </div>
           </div>
