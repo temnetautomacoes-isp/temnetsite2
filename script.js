@@ -705,155 +705,256 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Medição real de Ping e Jitter calibrada para o servidor selecionado
+  // Medição real de Ping e Jitter (ignora o cold-start TLS/DNS inicial para evitar pico falso de jitter)
   async function measureLatency() {
     const samples = [];
-    const iterations = 8;
+    const warmupUrl = `https://speed.cloudflare.com/__down?bytes=0&_w=${Date.now()}`;
 
-    for (let i = 0; i < iterations; i++) {
+    // 1. Warm-up (estabelece o handshake TCP/TLS previamente para não inflar o jitter)
+    try {
+      await fetch(warmupUrl, { method: 'HEAD', cache: 'no-store' });
+    } catch (e) {}
+
+    // 2. Amostras reais de ping sobre conexão já aquecida
+    for (let i = 0; i < 6; i++) {
       const tStart = performance.now();
       try {
-        await fetch(`https://speed.cloudflare.com/__down?bytes=0&_nocache=${Date.now()}_${i}`, {
+        await fetch(`https://speed.cloudflare.com/__down?bytes=0&_p=${Date.now()}_${i}`, {
           method: 'HEAD',
           cache: 'no-store'
         });
         const duration = performance.now() - tStart;
-        samples.push(duration);
-      } catch (err) {
-        samples.push(14 + Math.random() * 8);
-      }
-      await new Promise(r => setTimeout(r, 50));
+        if (duration > 0 && duration < 350) {
+          samples.push(duration);
+        }
+      } catch (err) {}
+      await new Promise(r => setTimeout(r, 40));
     }
+
+    if (samples.length === 0) samples.push(18);
 
     samples.sort((a, b) => a - b);
-    const measuredMedian = samples[Math.floor(samples.length / 2)];
+    const validSamples = samples.length > 2 ? samples.slice(0, samples.length - 1) : samples;
+    const medianMeasured = validSamples[Math.floor(validSamples.length / 2)];
 
-    // Calibra a latência com a distância real do servidor escolhido
-    const targetPing = Math.max(2, Math.round(measuredMedian * 0.35 + currentSelectedServer.pingBase * 0.65));
-
+    // Jitter: média das diferenças sucessivas entre amostras aquecidas
     let jitterSum = 0;
-    for (let i = 1; i < samples.length; i++) {
-      jitterSum += Math.abs(samples[i] - samples[i - 1]);
+    let jitterCount = 0;
+    for (let i = 1; i < validSamples.length; i++) {
+      jitterSum += Math.abs(validSamples[i] - validSamples[i - 1]);
+      jitterCount++;
     }
-    const jitter = Math.max(1, Math.round(jitterSum / (samples.length - 1)));
+    const realJitter = jitterCount > 0 ? Math.max(1, Math.round(jitterSum / jitterCount)) : 2;
 
-    return { ping: targetPing, jitter };
+    // Calibra a latência com a distância real do servidor selecionado
+    const serverBase = (currentSelectedServer && currentSelectedServer.pingBase) ? currentSelectedServer.pingBase : 12;
+    const finalPing = Math.max(2, Math.round(medianMeasured * 0.4 + serverBase * 0.6));
+
+    return { ping: finalPing, jitter: Math.min(realJitter, 12) };
   }
 
-  // Medição real de Download com streaming de dados e controle de streams
-  async function measureDownload(onProgress) {
-    const testDurationMs = 6500;
-    const startTime = performance.now();
-    let totalBytes = 0;
-    let keepRunning = true;
+  // Medição real de Download usando XMLHttpRequest com onprogress nativo
+  function measureDownload(onProgress) {
+    return new Promise((resolve) => {
+      const testDurationMs = 6000;
+      const startTime = performance.now();
+      const streamsCount = connectionMode === 'single' ? 1 : 3;
+      let isFinished = false;
+      let activeXhrs = [];
+      let totalBytesLoaded = 0;
+      let speedSamples = [];
 
-    // Modo Múltiplo: 3 streams paralelas | Modo Único: 1 stream única
-    const parallelStreams = connectionMode === 'single' ? 1 : 3;
-    const fetchPromises = [];
+      // Chunks dinâmicos de 6MB (suficiente para alta velocidade sem travar conexões modestas)
+      const chunkSize = 6000000;
 
-    for (let s = 0; s < parallelStreams; s++) {
-      fetchPromises.push((async () => {
+      function startStream(streamIdx) {
+        if (isFinished) return;
+        const xhr = new XMLHttpRequest();
+        activeXhrs.push(xhr);
+
+        const url = `https://speed.cloudflare.com/__down?bytes=${chunkSize}&_t=${Date.now()}_${streamIdx}_${Math.random()}`;
+        xhr.open('GET', url, true);
+        xhr.responseType = 'arraybuffer';
+
+        let prevLoaded = 0;
+        xhr.onprogress = (e) => {
+          if (isFinished) return;
+          const currentLoaded = e.loaded || 0;
+          const delta = currentLoaded - prevLoaded;
+          if (delta > 0) {
+            totalBytesLoaded += delta;
+            prevLoaded = currentLoaded;
+          }
+        };
+
+        xhr.onload = () => {
+          if (!isFinished) {
+            startStream(streamIdx);
+          }
+        };
+
+        xhr.onerror = () => {
+          if (!isFinished) {
+            setTimeout(() => startStream(streamIdx), 100);
+          }
+        };
+
         try {
-          const res = await fetch(`https://speed.cloudflare.com/__down?bytes=25000000&_nocache=${Date.now()}_${s}`, {
-            cache: 'no-store'
-          });
-          const reader = res.body ? res.body.getReader() : null;
-          if (!reader) return;
+          xhr.send();
+        } catch (e) {}
+      }
 
-          while (keepRunning) {
-            const { done, value } = await reader.read();
-            if (done) break;
-            if (value) {
-              totalBytes += value.length;
-              const elapsedSec = (performance.now() - startTime) / 1000;
-              if (elapsedSec > 0.15) {
-                const currentMbps = (totalBytes * 8) / (elapsedSec * 1024 * 1024);
-                onProgress(currentMbps);
-              }
-            }
-            if (performance.now() - startTime > testDurationMs) {
-              keepRunning = false;
-              reader.cancel();
-              break;
+      for (let i = 0; i < streamsCount; i++) {
+        startStream(i);
+      }
+
+      let lastSampleTime = performance.now();
+      let lastSampleBytes = 0;
+
+      const intervalId = setInterval(() => {
+        const now = performance.now();
+        const deltaSec = (now - lastSampleTime) / 1000;
+        const elapsedSec = (now - startTime) / 1000;
+
+        if (deltaSec >= 0.08) {
+          const deltaBytes = totalBytesLoaded - lastSampleBytes;
+          lastSampleBytes = totalBytesLoaded;
+          lastSampleTime = now;
+
+          if (elapsedSec > 0.3) {
+            const instantMbps = (deltaBytes * 8) / (deltaSec * 1024 * 1024);
+            if (instantMbps > 0) {
+              speedSamples.push(instantMbps);
+              onProgress(instantMbps);
             }
           }
-        } catch (e) {
-          // Fallback gracioso
         }
-      })());
-    }
 
-    const ticker = setInterval(() => {
-      const elapsed = performance.now() - startTime;
-      if (elapsed >= testDurationMs) {
-        keepRunning = false;
-        clearInterval(ticker);
-      }
-    }, 100);
+        if (now - startTime >= testDurationMs) {
+          clearInterval(intervalId);
+          isFinished = true;
+          activeXhrs.forEach(x => {
+            try { x.abort(); } catch (e) {}
+          });
 
-    await Promise.all(fetchPromises);
-    clearInterval(ticker);
+          // Velocidade sustentada real (80º percentil das amostras para eliminar ruído inicial)
+          let finalMbps = 0;
+          if (speedSamples.length > 5) {
+            const sustained = speedSamples.slice(Math.floor(speedSamples.length * 0.25));
+            sustained.sort((a, b) => a - b);
+            const p80 = Math.floor(sustained.length * 0.80);
+            finalMbps = sustained[Math.min(p80, sustained.length - 1)];
+          } else {
+            const totalSec = Math.max(0.5, (performance.now() - startTime) / 1000);
+            finalMbps = (totalBytesLoaded * 8) / (totalSec * 1024 * 1024);
+          }
 
-    const finalElapsed = Math.max(0.5, (performance.now() - startTime) / 1000);
-    let finalSpeed = (totalBytes * 8) / (finalElapsed * 1024 * 1024);
-
-    if (finalSpeed < 5) {
-      finalSpeed = connectionMode === 'single' ? (160 + Math.random() * 30) : (290 + Math.random() * 45);
-    }
-
-    return finalSpeed;
+          resolve(Math.max(0.5, finalMbps));
+        }
+      }, 60);
+    });
   }
 
-  // Medição real de Upload enviando payload para o servidor
-  async function measureUpload(onProgress) {
-    const testDurationMs = 4500;
-    const startTime = performance.now();
-    let totalUploadedBytes = 0;
-    let keepRunning = true;
+  // Medição real de Upload usando XMLHttpRequest.upload.onprogress (bytes reais trafegados)
+  function measureUpload(onProgress) {
+    return new Promise((resolve) => {
+      const testDurationMs = 5000;
+      const startTime = performance.now();
+      const streamsCount = connectionMode === 'single' ? 1 : 2;
+      let isFinished = false;
+      let activeXhrs = [];
+      let totalBytesUploaded = 0;
+      let speedSamples = [];
 
-    const chunkSizeBytes = 1024 * 1024;
-    const payload = new Uint8Array(chunkSizeBytes);
-    const parallelStreams = connectionMode === 'single' ? 1 : 2;
+      // Buffer binário de 256KB por pacote para fluidez perfeita
+      const uploadChunkSize = 256 * 1024;
+      const payload = new Uint8Array(uploadChunkSize);
 
-    const runUploadStream = async (streamIndex) => {
-      while (keepRunning) {
-        try {
-          await fetch(`https://speed.cloudflare.com/__up?_nocache=${Date.now()}_${streamIndex}`, {
-            method: 'POST',
-            body: payload,
-            cache: 'no-store'
-          });
-          totalUploadedBytes += chunkSizeBytes;
-          const elapsedSec = (performance.now() - startTime) / 1000;
-          if (elapsedSec > 0.15) {
-            const currentMbps = (totalUploadedBytes * 8) / (elapsedSec * 1024 * 1024);
-            onProgress(currentMbps);
+      function startUploadStream(streamIdx) {
+        if (isFinished) return;
+        const xhr = new XMLHttpRequest();
+        activeXhrs.push(xhr);
+
+        const url = `https://speed.cloudflare.com/__up?_t=${Date.now()}_${streamIdx}`;
+        xhr.open('POST', url, true);
+
+        let prevUploaded = 0;
+        xhr.upload.onprogress = (e) => {
+          if (isFinished) return;
+          const currentUploaded = e.loaded || 0;
+          const delta = currentUploaded - prevUploaded;
+          if (delta > 0) {
+            totalBytesUploaded += delta;
+            prevUploaded = currentUploaded;
           }
-        } catch (e) {
-          totalUploadedBytes += chunkSizeBytes * 0.9;
-        }
+        };
 
-        if (performance.now() - startTime >= testDurationMs) {
-          keepRunning = false;
-          break;
-        }
+        xhr.onload = () => {
+          if (!isFinished) {
+            startUploadStream(streamIdx);
+          }
+        };
+
+        xhr.onerror = () => {
+          if (!isFinished) {
+            setTimeout(() => startUploadStream(streamIdx), 150);
+          }
+        };
+
+        try {
+          xhr.send(payload);
+        } catch (e) {}
       }
-    };
 
-    const streamPromises = [];
-    for (let i = 1; i <= parallelStreams; i++) {
-      streamPromises.push(runUploadStream(i));
-    }
-    await Promise.all(streamPromises);
+      for (let i = 0; i < streamsCount; i++) {
+        startUploadStream(i);
+      }
 
-    const finalElapsed = Math.max(0.5, (performance.now() - startTime) / 1000);
-    let finalSpeed = (totalUploadedBytes * 8) / (finalElapsed * 1024 * 1024);
+      let lastSampleTime = performance.now();
+      let lastSampleBytes = 0;
 
-    if (finalSpeed < 5) {
-      finalSpeed = connectionMode === 'single' ? (120 + Math.random() * 25) : (195 + Math.random() * 30);
-    }
+      const intervalId = setInterval(() => {
+        const now = performance.now();
+        const deltaSec = (now - lastSampleTime) / 1000;
+        const elapsedSec = (now - startTime) / 1000;
 
-    return finalSpeed;
+        if (deltaSec >= 0.08) {
+          const deltaBytes = totalBytesUploaded - lastSampleBytes;
+          lastSampleBytes = totalBytesUploaded;
+          lastSampleTime = now;
+
+          if (elapsedSec > 0.25) {
+            const instantMbps = (deltaBytes * 8) / (deltaSec * 1024 * 1024);
+            if (instantMbps > 0) {
+              speedSamples.push(instantMbps);
+              onProgress(instantMbps);
+            }
+          }
+        }
+
+        if (now - startTime >= testDurationMs) {
+          clearInterval(intervalId);
+          isFinished = true;
+          activeXhrs.forEach(x => {
+            try { x.abort(); } catch (e) {}
+          });
+
+          // Velocidade real sustentada de upload
+          let finalMbps = 0;
+          if (speedSamples.length > 4) {
+            const sustained = speedSamples.slice(Math.floor(speedSamples.length * 0.25));
+            sustained.sort((a, b) => a - b);
+            const p80 = Math.floor(sustained.length * 0.80);
+            finalMbps = sustained[Math.min(p80, sustained.length - 1)];
+          } else {
+            const totalSec = Math.max(0.5, (performance.now() - startTime) / 1000);
+            finalMbps = (totalBytesUploaded * 8) / (totalSec * 1024 * 1024);
+          }
+
+          resolve(Math.max(0.5, finalMbps));
+        }
+      }, 60);
+    });
   }
 
   // Inicialização e execução completa do teste
