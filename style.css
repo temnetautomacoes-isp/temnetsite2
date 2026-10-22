@@ -1507,6 +1507,551 @@ body {
 }
 
 /* ==========================================================================
+   SEÇÃO 4.5: TEMNET SPEEDTEST (ESTILO SPEEDTEST.NET)
+   ========================================================================== */
+.speedtest-section {
+  position: relative;
+  width: 100%;
+}
+
+.section-tag-cyan {
+  color: #00f2fe !important;
+  background: rgba(0, 242, 254, 0.12) !important;
+  border-color: rgba(0, 242, 254, 0.35) !important;
+}
+
+.speedtest-card {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  background: rgba(12, 16, 23, 0.85);
+  backdrop-filter: blur(32px);
+  -webkit-backdrop-filter: blur(32px);
+  border: 1px solid rgba(0, 242, 254, 0.22);
+  border-radius: 28px;
+  padding: 38px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.75), 0 0 55px rgba(0, 242, 254, 0.12);
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+.speedtest-card::before {
+  content: '';
+  position: absolute;
+  top: -100px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 450px;
+  height: 200px;
+  background: radial-gradient(ellipse at center, rgba(0, 242, 254, 0.15) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* MÉTRICAS (LATÊNCIA, DOWNLOAD, UPLOAD) */
+.st-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  width: 100%;
+  position: relative;
+  z-index: 1;
+}
+
+.st-metric-item {
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  padding: 20px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.st-metric-item.is-active-download {
+  border-color: rgba(0, 242, 254, 0.55);
+  background: rgba(0, 242, 254, 0.08);
+  box-shadow: 0 0 24px rgba(0, 242, 254, 0.25);
+  transform: translateY(-2px);
+}
+
+.st-metric-item.is-active-upload {
+  border-color: rgba(168, 85, 247, 0.55);
+  background: rgba(168, 85, 247, 0.08);
+  box-shadow: 0 0 24px rgba(168, 85, 247, 0.25);
+  transform: translateY(-2px);
+}
+
+.st-metric-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.st-metric-name {
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  color: #a1a1aa;
+  text-transform: uppercase;
+}
+
+.st-metric-icon.icon-ping {
+  color: #38bdf8;
+}
+
+.st-metric-icon.icon-download {
+  color: #00f2fe;
+}
+
+.st-metric-icon.icon-upload {
+  color: #a855f7;
+}
+
+.st-metric-val-wrap {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.st-metric-val {
+  font-size: 2.35rem;
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  color: #ffffff;
+  line-height: 1;
+}
+
+.st-metric-unit {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #71717a;
+}
+
+.st-metric-sub {
+  font-size: 0.8125rem;
+  color: #a1a1aa;
+}
+
+.st-metric-sub strong {
+  color: #ffffff;
+}
+
+/* CENTRO: GAUGE VELOCÍMETRO */
+.st-gauge-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  position: relative;
+  z-index: 1;
+}
+
+.st-gauge-wrapper {
+  position: relative;
+  width: 340px;
+  height: 340px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.st-gauge-svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.st-gauge-track {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.08);
+  stroke-width: 14;
+  stroke-linecap: round;
+  stroke-dasharray: 565.5 848.23;
+  transform: rotate(150deg);
+  transform-origin: 170px 170px;
+}
+
+.st-gauge-progress {
+  fill: none;
+  stroke: url(#stGradDownload);
+  stroke-width: 14;
+  stroke-linecap: round;
+  stroke-dasharray: 565.5 848.23;
+  stroke-dashoffset: 565.5;
+  transform: rotate(150deg);
+  transform-origin: 170px 170px;
+  filter: url(#stGlow);
+  transition: stroke-dashoffset 0.08s ease;
+}
+
+.st-gauge-scale text {
+  fill: #858b98;
+  font-size: 11px;
+  font-weight: 800;
+  text-anchor: middle;
+  dominant-baseline: middle;
+  font-family: 'Inter', sans-serif;
+  letter-spacing: 0.02em;
+}
+
+.st-gauge-needle-group {
+  transform-origin: 170px 170px;
+  transform: rotate(-120deg);
+  transition: transform 0.08s ease;
+  will-change: transform;
+}
+
+.st-gauge-needle {
+  stroke: #ffffff;
+  stroke-width: 3.5;
+  stroke-linecap: round;
+  filter: drop-shadow(0 0 6px rgba(0, 242, 254, 0.9));
+}
+
+.st-gauge-pin {
+  fill: #111622;
+  stroke: #00f2fe;
+  stroke-width: 2.5;
+  filter: drop-shadow(0 0 8px rgba(0, 242, 254, 0.7));
+}
+
+.st-gauge-pin-center {
+  fill: #00f2fe;
+}
+
+/* CENTRO DO VELOCÍMETRO */
+.st-gauge-center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+/* BOTÃO INICIAR COM PULSOS DE RADAR */
+.st-go-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto;
+}
+
+.st-radar-circle {
+  position: absolute;
+  border: 2px solid rgba(0, 242, 254, 0.45);
+  border-radius: 50%;
+  width: 136px;
+  height: 136px;
+  pointer-events: none;
+  animation: stRadarPulse 2.8s cubic-bezier(0.2, 0.8, 0.2, 1) infinite;
+}
+
+.st-radar-circle.wave-2 {
+  animation-delay: 1.4s;
+}
+
+@keyframes stRadarPulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.85;
+  }
+  100% {
+    transform: scale(1.68);
+    opacity: 0;
+  }
+}
+
+.st-go-btn {
+  width: 136px;
+  height: 136px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 30%, #1e293b 0%, #0c1017 100%);
+  border: 2px solid #00f2fe;
+  color: #ffffff;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  box-shadow: 0 0 32px rgba(0, 242, 254, 0.35), inset 0 0 20px rgba(0, 242, 254, 0.2);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  z-index: 2;
+}
+
+.st-go-btn:hover {
+  transform: scale(1.07);
+  border-color: #38bdf8;
+  box-shadow: 0 0 48px rgba(0, 242, 254, 0.65), inset 0 0 26px rgba(0, 242, 254, 0.35);
+}
+
+.st-go-btn:active {
+  transform: scale(0.97);
+}
+
+.st-go-label {
+  font-size: 1.35rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  color: #ffffff;
+  text-shadow: 0 0 14px rgba(255, 255, 255, 0.6);
+}
+
+.st-go-sub {
+  font-size: 0.625rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  color: #00f2fe;
+  text-transform: uppercase;
+}
+
+/* LEITURA DIGITAL DE VELOCIDADE EM TEMPO REAL */
+.st-live-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  text-align: center;
+  pointer-events: none;
+}
+
+.st-live-phase {
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #00f2fe;
+  text-shadow: 0 0 10px rgba(0, 242, 254, 0.6);
+  transition: color 0.3s ease;
+}
+
+.st-live-speed-row {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.st-live-number {
+  font-size: 3.6rem;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: #ffffff;
+  text-shadow: 0 0 24px rgba(0, 242, 254, 0.45);
+}
+
+.st-live-unit {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #71717a;
+  text-transform: uppercase;
+}
+
+.st-live-ping-mini {
+  font-size: 0.8125rem;
+  color: #a1a1aa;
+}
+
+.st-live-ping-mini strong {
+  color: #38bdf8;
+}
+
+/* GRÁFICO DINÂMICO DE ONDAS EM TEMPO REAL */
+.st-chart-container {
+  width: 100%;
+  max-width: 520px;
+  background: rgba(0, 0, 0, 0.32);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 12px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.st-chart-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: #71717a;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.st-chart-peak {
+  color: #00f2fe;
+}
+
+#stWaveformCanvas {
+  width: 100%;
+  height: 80px;
+  display: block;
+}
+
+/* RODAPÉ DO PAINEL */
+.st-footer-bar {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 18px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 24px;
+  position: relative;
+  z-index: 1;
+}
+
+.st-footer-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.st-footer-icon {
+  color: #38bdf8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: rgba(56, 189, 248, 0.1);
+  border: 1px solid rgba(56, 189, 248, 0.2);
+}
+
+.st-footer-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.st-info-label {
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: #71717a;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.st-info-val {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #e4e4e7;
+}
+
+.st-btn-restart {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #00f2fe, #4facfe);
+  color: #08090c;
+  border: none;
+  padding: 11px 24px;
+  border-radius: 9999px;
+  font-weight: 800;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 18px rgba(0, 242, 254, 0.4);
+}
+
+.st-btn-restart:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 8px 24px rgba(0, 242, 254, 0.6);
+}
+
+/* CARD DE DIAGNÓSTICO / RESULTADO */
+.st-result-verdict {
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.35);
+  border-radius: 18px;
+  padding: 20px 24px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+  z-index: 1;
+  animation: fadeIn 0.4s ease;
+}
+
+.st-verdict-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 800;
+  font-size: 1.15rem;
+  color: #4ade80;
+}
+
+#stVerdictDesc {
+  font-size: 0.9rem;
+  color: #d1d5db;
+  max-width: 680px;
+  line-height: 1.45;
+}
+
+/* RESPONSIVIDADE DO SPEEDTEST */
+@media (max-width: 768px) {
+  .speedtest-card {
+    padding: 24px 18px;
+    gap: 24px;
+  }
+
+  .st-metrics-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .st-metric-item {
+    padding: 16px 18px;
+  }
+
+  .st-gauge-wrapper {
+    width: 290px;
+    height: 290px;
+  }
+
+  .st-go-btn {
+    width: 116px;
+    height: 116px;
+  }
+
+  .st-radar-circle {
+    width: 116px;
+    height: 116px;
+  }
+
+  .st-live-number {
+    font-size: 2.8rem;
+  }
+
+  .st-footer-bar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .st-btn-restart {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* ==========================================================================
    SEÇÃO 5: CENTRAL DE ATENDIMENTO & FAQ
    ========================================================================== */
 .support-cards-grid {
