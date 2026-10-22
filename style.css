@@ -480,11 +480,11 @@ body {
 }
 
 /* ==========================================================================
-   ANIMAÇÃO HERO SETUP (MONITOR, GABINETE & CAFÉ COM VAPOR - ESTILO STEAM)
+   ANIMAÇÃO HERO SETUP (MONITOR, GABINETE & CANECA DE CAFÉ - ESTILO STEAM)
    ========================================================================== */
 .hero-setup-col {
-  flex: 1 1 480px;
-  max-width: 580px;
+  flex: 1 1 580px;
+  max-width: 680px;
   position: relative;
   display: flex;
   justify-content: center;
@@ -496,216 +496,57 @@ body {
   position: relative;
   width: 100%;
   display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  background: rgba(18, 22, 32, 0.78);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 24px;
-  padding: 12px 14px 14px 14px;
-  box-shadow: 
-    0 24px 60px rgba(0, 0, 0, 0.7),
-    0 0 40px rgba(0, 111, 255, 0.15),
-    inset 0 1px 0 rgba(255, 255, 255, 0.15);
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
-  overflow: hidden;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .hero-setup-stage:hover {
-  transform: translateY(-4px) scale(1.01);
-  box-shadow: 
-    0 30px 70px rgba(0, 0, 0, 0.8),
-    0 0 50px rgba(0, 216, 246, 0.25),
-    inset 0 1px 0 rgba(255, 255, 255, 0.25);
-  border-color: rgba(0, 216, 246, 0.3);
+  transform: translateY(-4px) scale(1.015);
 }
 
 .hero-setup-ambient-glow {
   position: absolute;
-  top: 45%;
-  left: 50%;
+  top: 50%;
+  left: 55%;
   transform: translate(-50%, -50%);
-  width: 140%;
-  height: 130%;
+  width: 120%;
+  height: 120%;
   background: radial-gradient(
     ellipse at center,
-    rgba(0, 150, 255, 0.28) 0%,
-    rgba(253, 94, 2, 0.12) 45%,
-    transparent 72%
+    rgba(0, 150, 255, 0.22) 0%,
+    rgba(253, 94, 2, 0.1) 40%,
+    transparent 70%
   );
-  filter: blur(55px);
+  filter: blur(50px);
   pointer-events: none;
   z-index: 1;
-}
-
-.hero-setup-topbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 4px 6px 10px 6px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  margin-bottom: 8px;
-  position: relative;
-  z-index: 5;
-}
-
-.setup-topbar-left {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.setup-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  display: inline-block;
-}
-
-.dot-red { background: #ff5f56; }
-.dot-yellow { background: #ffbd2e; }
-.dot-green { background: #27c93f; }
-
-.setup-topbar-title {
-  font-size: 0.6875rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  color: rgba(255, 255, 255, 0.7);
-  margin-left: 6px;
-}
-
-.setup-topbar-right {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.setup-live-indicator {
-  font-size: 0.625rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  color: #ff334b;
-  background: rgba(255, 51, 75, 0.12);
-  border: 1px solid rgba(255, 51, 75, 0.3);
-  padding: 2px 7px;
-  border-radius: 4px;
-  text-transform: uppercase;
-}
-
-.setup-ping-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 0.6875rem;
-  font-weight: 700;
-  color: #00e676;
-  background: rgba(0, 230, 118, 0.1);
-  border: 1px solid rgba(0, 230, 118, 0.25);
-  padding: 2px 8px;
-  border-radius: 9999px;
 }
 
 .hero-setup-media-wrapper {
   position: relative;
   width: 100%;
-  aspect-ratio: 888 / 794;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 16px;
+  aspect-ratio: 772 / 412;
   overflow: hidden;
-  background: #171a21;
   z-index: 2;
+  /* Garante opacidade 100% no computador, gabinete e caneca, suavizando apenas o contorno externo */
+  -webkit-mask-image: radial-gradient(ellipse 94% 90% at 50% 50%, black 75%, transparent 100%);
+  mask-image: radial-gradient(ellipse 94% 90% at 50% 50%, black 75%, transparent 100%);
 }
 
 .hero-setup-video {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
+  position: absolute;
+  top: -49%;
+  left: -15%;
+  width: 115%;
+  height: auto;
   display: block;
-  position: relative;
   z-index: 2;
-  filter: drop-shadow(0 15px 35px rgba(0, 0, 0, 0.7));
-}
-
-.hero-setup-video-gradient {
-  position: absolute;
-  inset: 0;
-  background-image: radial-gradient(ellipse farthest-side at 60% 50%, rgba(0, 111, 255, 0.16), transparent 80%);
-  pointer-events: none;
-  z-index: 3;
-}
-
-.hero-setup-floating-badge {
-  position: absolute;
-  bottom: 12px;
-  right: 14px;
-  z-index: 10;
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-  padding: 10px 18px;
-  background: rgba(14, 18, 27, 0.82);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  border-radius: 9999px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0, 216, 246, 0.15);
-  animation: badgeFloat 4.5s ease-in-out infinite alternate;
-  pointer-events: auto;
-  user-select: none;
-}
-
-.badge-status-dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: #00e676;
-  box-shadow: 0 0 12px #00e676;
-  animation: dotPulse 2s ease-in-out infinite;
-  flex-shrink: 0;
-}
-
-.badge-content {
-  display: flex;
-  flex-direction: column;
-  line-height: 1.25;
-}
-
-.badge-title {
-  color: #ffffff;
-  font-size: 0.8125rem;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-}
-
-.badge-sub {
-  color: rgba(255, 255, 255, 0.65);
-  font-size: 0.71875rem;
-  font-weight: 500;
-}
-
-@keyframes badgeFloat {
-  0% {
-    transform: translateY(0px);
-  }
-  100% {
-    transform: translateY(-8px);
-  }
-}
-
-@keyframes dotPulse {
-  0%, 100% {
-    opacity: 1;
-    transform: scale(1);
-    box-shadow: 0 0 8px #00e676;
-  }
-  50% {
-    opacity: 0.55;
-    transform: scale(0.85);
-    box-shadow: 0 0 3px #00e676;
-  }
+  filter: drop-shadow(0 15px 35px rgba(0, 0, 0, 0.8));
 }
 
 /* ==========================================================================
@@ -3181,12 +3022,6 @@ body {
     width: 100%;
     max-width: 440px;
     margin: 10px auto 0 auto;
-  }
-
-  .hero-setup-floating-badge {
-    bottom: 8px;
-    right: 8px;
-    padding: 8px 14px;
   }
 
   .coverage-form {
