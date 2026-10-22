@@ -550,6 +550,216 @@ body {
 }
 
 /* ==========================================================================
+   DISPLAY DO MONITOR: ENTRADA ESTILO PORTAL 2 COM A MARCA TEMNET
+   ========================================================================== */
+.monitor-portal-screen {
+  position: absolute;
+  left: 30.5%;
+  top: 15.6%;
+  width: 62.4%;
+  height: 76.6%;
+  border-radius: 4px;
+  overflow: hidden;
+  z-index: 5;
+  background: radial-gradient(ellipse at 65% 50%, rgba(0, 100, 200, 0.35) 0%, rgba(6, 10, 18, 0.98) 75%);
+  box-shadow: inset 0 0 25px rgba(0, 0, 0, 0.92);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  container-type: inline-size;
+  pointer-events: none;
+}
+
+.screen-scanlines {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.14) 0px,
+    rgba(0, 0, 0, 0.14) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+  pointer-events: none;
+  z-index: 10;
+}
+
+.screen-portal-flash {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 75% 50%, rgba(0, 229, 255, 0.9) 0%, rgba(253, 94, 2, 0.4) 35%, transparent 65%);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 6;
+  animation: portalScreenFlash 5.5s ease-out infinite;
+}
+
+.portal-scene {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(6px, 2.5cqw, 14px);
+  padding: 0 clamp(6px, 2cqw, 16px);
+  z-index: 2;
+  width: 100%;
+}
+
+.portal-brand-block {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  animation: portalBrandEnter 5.5s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+
+.portal-main-heading {
+  font-size: clamp(1.1rem, 11cqw, 2.7rem);
+  font-weight: 900;
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+  color: #ffffff;
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.45), 0 0 40px rgba(0, 160, 255, 0.4);
+  text-transform: uppercase;
+  display: flex;
+  align-items: baseline;
+}
+
+.portal-main-heading .net-accent {
+  color: #fd5e02;
+  text-shadow: 0 0 25px rgba(253, 94, 2, 0.85), 0 0 45px rgba(253, 94, 2, 0.45);
+}
+
+.portal-sub-heading {
+  font-size: clamp(0.35rem, 2.6cqw, 0.65rem);
+  font-weight: 800;
+  letter-spacing: 0.55em;
+  color: #00e5ff;
+  text-shadow: 0 0 10px #00e5ff;
+  margin-top: clamp(2px, 1cqw, 5px);
+  margin-left: 2px;
+  display: flex;
+  align-items: center;
+  gap: clamp(4px, 1.5cqw, 8px);
+}
+
+.portal-sub-heading::after {
+  content: '';
+  display: inline-block;
+  width: clamp(12px, 6cqw, 28px);
+  height: 2px;
+  background: #00e5ff;
+  box-shadow: 0 0 8px #00e5ff;
+}
+
+.portal-door-container {
+  position: relative;
+  width: clamp(28px, 16cqw, 65px);
+  height: clamp(52px, 30cqw, 118px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: portalDoorSurge 5.5s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+
+.portal-door-svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.screen-hud-bar {
+  position: absolute;
+  bottom: clamp(6px, 2.5cqw, 12px);
+  left: clamp(10px, 3.5cqw, 20px);
+  right: clamp(10px, 3.5cqw, 20px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: clamp(0.35rem, 2cqw, 0.55rem);
+  color: rgba(255, 255, 255, 0.55);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  letter-spacing: 0.1em;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: clamp(2px, 1cqw, 5px);
+  z-index: 3;
+}
+
+.hud-ping {
+  color: #00e676;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 700;
+}
+
+.hud-ping-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #00e676;
+  box-shadow: 0 0 8px #00e676;
+}
+
+@keyframes portalScreenFlash {
+  0% { opacity: 0; }
+  4% { opacity: 0.95; }
+  14% { opacity: 0; }
+  100% { opacity: 0; }
+}
+
+@keyframes portalBrandEnter {
+  0% {
+    opacity: 0;
+    transform: translateX(-35px) scale(0.92);
+    filter: blur(10px);
+  }
+  12% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+    filter: blur(0);
+  }
+  85% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+    filter: blur(0);
+  }
+  94% {
+    opacity: 0;
+    transform: translateX(15px) scale(0.96);
+    filter: blur(6px);
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes portalDoorSurge {
+  0% {
+    opacity: 0;
+    transform: scale(0.65) translateX(30px);
+    filter: brightness(2.2) drop-shadow(0 0 30px #00e5ff);
+  }
+  10% {
+    opacity: 1;
+    transform: scale(1.08) translateX(-4px);
+    filter: brightness(1.25) drop-shadow(0 0 20px #00e5ff);
+  }
+  20%, 85% {
+    opacity: 1;
+    transform: scale(1) translateX(0);
+    filter: brightness(1) drop-shadow(0 0 15px #00e5ff);
+  }
+  93% {
+    opacity: 0;
+    transform: scale(0.8) translateX(20px);
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* ==========================================================================
    ESTRUTURA GERAL DAS SEÇÕES DE CONTEÚDO
    ========================================================================== */
 .site-content-flow {
