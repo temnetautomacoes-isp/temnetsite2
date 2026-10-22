@@ -512,17 +512,20 @@ body {
 .hero-setup-ambient-glow {
   position: absolute;
   top: 50%;
-  left: 55%;
+  left: 50%;
   transform: translate(-50%, -50%);
-  width: 120%;
-  height: 120%;
+  width: 145%;
+  height: 145%;
   background: radial-gradient(
     ellipse at center,
-    rgba(0, 150, 255, 0.22) 0%,
-    rgba(253, 94, 2, 0.1) 40%,
-    transparent 70%
+    #020408 0%,
+    #030712 35%,
+    #050e20 58%,
+    #081b3c 75%,
+    rgba(8, 27, 60, 0.4) 88%,
+    transparent 100%
   );
-  filter: blur(50px);
+  filter: blur(40px);
   pointer-events: none;
   z-index: 1;
 }
@@ -533,9 +536,9 @@ body {
   aspect-ratio: 772 / 412;
   overflow: hidden;
   z-index: 2;
-  /* Garante opacidade 100% no computador, gabinete e caneca, suavizando apenas o contorno externo */
-  -webkit-mask-image: radial-gradient(ellipse 94% 90% at 50% 50%, black 75%, transparent 100%);
-  mask-image: radial-gradient(ellipse 94% 90% at 50% 50%, black 75%, transparent 100%);
+  /* Suavização contínua das bordas da caixa cinza em degradê, dissolvendo suavemente no preto */
+  -webkit-mask-image: radial-gradient(ellipse at center, black 40%, rgba(0, 0, 0, 0.85) 65%, rgba(0, 0, 0, 0.3) 82%, transparent 94%);
+  mask-image: radial-gradient(ellipse at center, black 40%, rgba(0, 0, 0, 0.85) 65%, rgba(0, 0, 0, 0.3) 82%, transparent 94%);
 }
 
 .hero-setup-video {
@@ -626,48 +629,26 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: clamp(6px, 2.5cqw, 14px);
-  padding: 0 clamp(6px, 2cqw, 16px);
+  gap: clamp(8px, 3.2cqw, 20px);
+  padding: 0 clamp(8px, 2.5cqw, 20px);
   z-index: 2;
   width: 100%;
 }
 
 .portal-brand-block {
   display: flex;
-  flex-direction: column;
+  align-items: center;
   justify-content: center;
-  align-items: flex-start;
   animation: portalBrandEnter 5.5s cubic-bezier(0.16, 1, 0.3, 1) infinite;
 }
 
-.portal-main-heading {
-  font-size: clamp(1.1rem, 11cqw, 2.7rem);
-  font-weight: 900;
-  line-height: 0.95;
-  letter-spacing: -0.04em;
-  color: #ffffff;
-  text-shadow: 0 0 20px rgba(255, 255, 255, 0.45), 0 0 40px rgba(0, 160, 255, 0.4);
-  text-transform: uppercase;
-  display: flex;
-  align-items: baseline;
-}
-
-.portal-main-heading .net-accent {
-  color: #fd5e02;
-  text-shadow: 0 0 25px rgba(253, 94, 2, 0.85), 0 0 45px rgba(253, 94, 2, 0.45);
-}
-
-.portal-sub-heading {
-  font-size: clamp(0.35rem, 2.6cqw, 0.65rem);
-  font-weight: 800;
-  letter-spacing: 0.55em;
-  color: #00e5ff;
-  text-shadow: 0 0 10px #00e5ff;
-  margin-top: clamp(2px, 1cqw, 5px);
-  margin-left: 2px;
-  display: flex;
-  align-items: center;
-  gap: clamp(4px, 1.5cqw, 8px);
+.portal-brand-logo {
+  height: clamp(52px, 32cqw, 100px);
+  width: auto;
+  max-width: clamp(140px, 58cqw, 245px);
+  object-fit: contain;
+  display: block;
+  filter: drop-shadow(0 0 16px rgba(0, 229, 255, 0.5)) drop-shadow(0 0 28px rgba(253, 94, 2, 0.45));
 }
 
 .portal-door-container {
