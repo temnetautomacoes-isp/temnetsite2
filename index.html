@@ -1479,34 +1479,56 @@
 
           </div>
 
-          <!-- RODAPÉ DO PAINEL: INFORMAÇÕES DE REDE & SERVIDOR -->
-          <div class="st-footer-bar">
+          <!-- BARRA DE CONEXÃO & SERVIDOR (ESTILO EXATO SPEEDTEST.NET) -->
+          <div class="st-connection-panel">
             
-            <div class="st-footer-item">
-              <div class="st-footer-icon">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <!-- PROVEDOR DE INTERNET & IP REAL -->
+            <div class="st-conn-box st-conn-isp">
+              <div class="st-conn-icon-circle">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+              </div>
+              <div class="st-conn-details">
+                <span class="st-conn-title" id="stIspName">Detectando provedor...</span>
+                <span class="st-conn-sub" id="stIspIp">177.131.104.98</span>
+              </div>
+            </div>
+
+            <!-- SERVIDOR DE TESTE & BOTÃO MUDAR DE SERVIDOR -->
+            <div class="st-conn-box st-conn-server">
+              <div class="st-conn-icon-circle">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
                   <rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect>
                   <line x1="6" y1="6" x2="6.01" y2="6"></line>
                   <line x1="6" y1="18" x2="6.01" y2="18"></line>
                 </svg>
               </div>
-              <div class="st-footer-info">
-                <span class="st-info-label">SEU PROVEDOR & IP</span>
-                <span class="st-info-val" id="stClientProvider">TemNet Fibra • <span id="stClientIp">Identificando rede...</span></span>
+              <div class="st-conn-details">
+                <span class="st-conn-title" id="stSelectedServerName">Digital Telecom</span>
+                <span class="st-conn-sub" id="stSelectedServerCity">Catu</span>
+                <button type="button" class="st-btn-change-server" id="stBtnChangeServer" title="Escolha um servidor diferente">
+                  Mudar de Servidor
+                </button>
               </div>
             </div>
 
-            <div class="st-footer-item">
-              <div class="st-footer-icon">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z"></path>
-                  <path d="M12 6v6l4 2"></path>
-                </svg>
-              </div>
-              <div class="st-footer-info">
-                <span class="st-info-label">SERVIDOR DE TESTE</span>
-                <span class="st-info-val" id="stServerInfo">TemNet Ultra Edge • Servidor Local Bahia</span>
+          </div>
+
+          <!-- CONTROLE DE CONEXÕES (MÚLTIPLO / ÚNICO) E BOTÃO REINICIAR -->
+          <div class="st-connections-bar">
+            
+            <div class="st-conn-mode-wrap">
+              <span class="st-conn-mode-label">Conexões</span>
+              <div class="st-conn-mode-pills" role="radiogroup" aria-label="Modo de Conexão">
+                <button type="button" class="st-pill-btn active" id="stModeMulti" data-mode="multi" title="Conexões paralelas (saturação máxima)">
+                  Múltiplo
+                </button>
+                <button type="button" class="st-pill-btn" id="stModeSingle" data-mode="single" title="Conexão única (throughput de fluxo único)">
+                  Único
+                </button>
               </div>
             </div>
 
@@ -1519,6 +1541,46 @@
               <span>Testar Novamente</span>
             </button>
 
+          </div>
+
+          <!-- MODAL INTERATIVO DE ESCOLHA DE SERVIDOR REAL (ESTILO SPEEDTEST.NET) -->
+          <div class="st-modal-overlay" id="stServerModal" style="display: none;" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="stModalTitle">
+            <div class="st-modal-dialog">
+              
+              <!-- TOPO DO MODAL -->
+              <div class="st-modal-header">
+                <button type="button" class="st-modal-auto-btn" id="stSelectAutoBtn">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="3 11 22 2 13 21 11 13 3 11"></polygon>
+                  </svg>
+                  <span>Selecionar Automaticamente</span>
+                </button>
+                <button type="button" class="st-modal-close-btn" id="stCloseModalBtn" aria-label="Fechar janela">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                  </svg>
+                </button>
+              </div>
+
+              <!-- CAMPO DE BUSCA -->
+              <div class="st-modal-search-box">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+                <input type="text" id="stServerSearchInput" placeholder="Buscar por cidade ou provedor..." autocomplete="off">
+              </div>
+
+              <!-- TÍTULO DA LISTA -->
+              <div class="st-modal-list-title" id="stModalTitle">Servidores perto de você:</div>
+
+              <!-- LISTA DE SERVIDORES REGIONAIS REAIS -->
+              <div class="st-servers-list" id="stServersListContainer">
+                <!-- Populado dinamicamente via script com servidores de Bahia e Brasil -->
+              </div>
+
+            </div>
           </div>
 
           <!-- CARD DE DIAGNÓSTICO / RESULTADO FINAL -->

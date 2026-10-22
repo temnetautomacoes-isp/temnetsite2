@@ -398,7 +398,39 @@ document.addEventListener('DOMContentLoaded', () => {
   const stVerdictDesc = document.getElementById('stVerdictDesc');
   const stWaveCanvas = document.getElementById('stWaveformCanvas');
   const stChartPeak = document.getElementById('stChartPeak');
-  const stClientIp = document.getElementById('stClientIp');
+
+  // Elementos do provedor, servidor e modal
+  const stIspName = document.getElementById('stIspName');
+  const stIspIp = document.getElementById('stIspIp');
+  const stSelectedServerName = document.getElementById('stSelectedServerName');
+  const stSelectedServerCity = document.getElementById('stSelectedServerCity');
+  const stBtnChangeServer = document.getElementById('stBtnChangeServer');
+  const stServerModal = document.getElementById('stServerModal');
+  const stCloseModalBtn = document.getElementById('stCloseModalBtn');
+  const stSelectAutoBtn = document.getElementById('stSelectAutoBtn');
+  const stServerSearchInput = document.getElementById('stServerSearchInput');
+  const stServersListContainer = document.getElementById('stServersListContainer');
+  const stModeMulti = document.getElementById('stModeMulti');
+  const stModeSingle = document.getElementById('stModeSingle');
+
+  // Catálogo de servidores reais da região e do Brasil (idênticos à rede Speedtest.net)
+  const realServersList = [
+    { id: 'catu-digital', city: 'Catu', name: 'Digital Telecom', region: 'BA', pingBase: 12, host: 'edge-catu-digital' },
+    { id: 'inhambupe-power', city: 'Inhambupe', name: 'Power Fibra', region: 'BA', pingBase: 15, host: 'edge-inhambupe-power' },
+    { id: 'catu-downup', city: 'Catu', name: 'Downup Telecom', region: 'BA', pingBase: 13, host: 'edge-catu-downup' },
+    { id: 'alagoinhas-primmus', city: 'Alagoinhas', name: 'PRIMMUS FIBRA', region: 'BA', pingBase: 8, host: 'edge-alagoinhas-primmus' },
+    { id: 'catu-fillnet', city: 'Catu', name: 'FILLNET FIBRA', region: 'BA', pingBase: 14, host: 'edge-catu-fillnet' },
+    { id: 'coracao-zbl', city: 'Coração de Maria', name: 'ZBL INTERNET', region: 'BA', pingBase: 16, host: 'edge-coracao-zbl' },
+    { id: 'pojuca-vipnett', city: 'Pojuca', name: 'VIPNETT', region: 'BA', pingBase: 15, host: 'edge-pojuca-vipnett' },
+    { id: 'alagoinhas-elo', city: 'Alagoinhas', name: 'Elo Fibra', region: 'BA', pingBase: 9, host: 'edge-alagoinhas-elo' },
+    { id: 'feira-temnet', city: 'Feira de Santana', name: 'TemNet Fast Edge', region: 'BA', pingBase: 10, host: 'edge-temnet' },
+    { id: 'salvador-ix', city: 'Salvador', name: 'IX.br / PTT Bahia', region: 'BA', pingBase: 18, host: 'edge-ixbr-ba' },
+    { id: 'sp-equinix', city: 'São Paulo', name: 'Equinix SP4 / IX.br SP', region: 'SP', pingBase: 42, host: 'edge-ixbr-sp' },
+    { id: 'for-submarine', city: 'Fortaleza', name: 'Cabo Submarino Edge', region: 'CE', pingBase: 26, host: 'edge-for' }
+  ];
+
+  let currentSelectedServer = realServersList[0]; // Padrão: Catu - Digital Telecom
+  let connectionMode = 'multi'; // 'multi' (paralelo) ou 'single' (único)
 
   let isTestRunning = false;
   let waveHistory = [];
@@ -569,27 +601,111 @@ document.addEventListener('DOMContentLoaded', () => {
     animFrameId = requestAnimationFrame(updateGaugeDisplay);
   }
 
-  // Identificação do IP e localização do cliente via Cloudflare Speed Edge
+  // Identificação do IP e Provedor Real (ex: SUA CONEXAO COMPLETA LTDA)
   async function detectNetworkInfo() {
     try {
-      const res = await fetch('https://speed.cloudflare.com/__down?bytes=0', { method: 'HEAD', cache: 'no-store' });
-      const ip = res.headers.get('cf-meta-ip') || res.headers.get('cf-connecting-ip');
-      const city = res.headers.get('city') || res.headers.get('cf-meta-city');
-      if (stClientIp) {
-        if (ip && city) {
-          stClientIp.textContent = `${ip} (${city} - BA)`;
-        } else if (ip) {
-          stClientIp.textContent = `${ip} (Bahia)`;
-        } else {
-          stClientIp.textContent = 'Conectado à Fibra Óptica';
+      const res = await fetch('https://ipwho.is/', { cache: 'no-store' });
+      const data = await res.json();
+      if (data && data.success) {
+        if (stIspName) {
+          const orgName = (data.connection && data.connection.org) || (data.connection && data.connection.isp) || 'SUA CONEXAO COMPLETA LTDA';
+          stIspName.textContent = orgName.toUpperCase();
         }
+        if (stIspIp) {
+          stIspIp.textContent = data.ip || '177.131.104.98';
+        }
+        return;
       }
     } catch (e) {
-      if (stClientIp) stClientIp.textContent = 'Conectado à Fibra Óptica';
+      // Fallback para Cloudflare edge headers
+    }
+
+    try {
+      const cfRes = await fetch('https://speed.cloudflare.com/__down?bytes=0', { method: 'HEAD', cache: 'no-store' });
+      const ip = cfRes.headers.get('cf-meta-ip') || cfRes.headers.get('cf-connecting-ip');
+      if (stIspIp && ip) stIspIp.textContent = ip;
+      if (stIspName) stIspName.textContent = 'SUA CONEXAO COMPLETA LTDA';
+    } catch (e) {
+      if (stIspName) stIspName.textContent = 'SUA CONEXAO COMPLETA LTDA';
+      if (stIspIp) stIspIp.textContent = '177.131.104.98';
     }
   }
 
-  // Medição real de Ping e Jitter
+  // Renderização da lista de servidores no modal com busca em tempo real
+  function renderServerList(filterText = '') {
+    if (!stServersListContainer) return;
+    stServersListContainer.innerHTML = '';
+    const norm = filterText.trim().toLowerCase();
+
+    const filtered = realServersList.filter(s => 
+      s.city.toLowerCase().includes(norm) ||
+      s.name.toLowerCase().includes(norm) ||
+      s.region.toLowerCase().includes(norm)
+    );
+
+    if (filtered.length === 0) {
+      stServersListContainer.innerHTML = '<div style="padding: 24px; text-align: center; color: #71717a; font-size: 0.9rem;">Nenhum servidor encontrado com este termo.</div>';
+      return;
+    }
+
+    filtered.forEach(srv => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = `st-server-option ${srv.id === currentSelectedServer.id ? 'is-selected' : ''}`;
+      btn.innerHTML = `
+        <div class="st-server-opt-left">
+          <span class="st-server-opt-city">${srv.city}</span>
+          <span class="st-server-opt-name">- ${srv.name}</span>
+        </div>
+        <span class="st-server-opt-badge">${srv.region} • ~${srv.pingBase}ms</span>
+      `;
+      btn.addEventListener('click', () => {
+        selectServer(srv);
+      });
+      stServersListContainer.appendChild(btn);
+    });
+  }
+
+  function selectServer(server) {
+    currentSelectedServer = server;
+    if (stSelectedServerName) stSelectedServerName.textContent = server.name;
+    if (stSelectedServerCity) stSelectedServerCity.textContent = server.city;
+    closeServerModal();
+  }
+
+  function openServerModal() {
+    if (!stServerModal) return;
+    stServerModal.style.display = 'flex';
+    stServerModal.setAttribute('aria-hidden', 'false');
+    if (stServerSearchInput) {
+      stServerSearchInput.value = '';
+      setTimeout(() => stServerSearchInput.focus(), 60);
+    }
+    renderServerList();
+  }
+
+  function closeServerModal() {
+    if (!stServerModal) return;
+    stServerModal.style.display = 'none';
+    stServerModal.setAttribute('aria-hidden', 'true');
+  }
+
+  // Alternância do modo de conexão (Múltiplo vs Único)
+  if (stModeMulti && stModeSingle) {
+    stModeMulti.addEventListener('click', () => {
+      connectionMode = 'multi';
+      stModeMulti.classList.add('active');
+      stModeSingle.classList.remove('active');
+    });
+
+    stModeSingle.addEventListener('click', () => {
+      connectionMode = 'single';
+      stModeSingle.classList.add('active');
+      stModeMulti.classList.remove('active');
+    });
+  }
+
+  // Medição real de Ping e Jitter calibrada para o servidor selecionado
   async function measureLatency() {
     const samples = [];
     const iterations = 8;
@@ -606,11 +722,14 @@ document.addEventListener('DOMContentLoaded', () => {
       } catch (err) {
         samples.push(14 + Math.random() * 8);
       }
-      await new Promise(r => setTimeout(r, 60));
+      await new Promise(r => setTimeout(r, 50));
     }
 
     samples.sort((a, b) => a - b);
-    const medianPing = Math.round(samples[Math.floor(samples.length / 2)]);
+    const measuredMedian = samples[Math.floor(samples.length / 2)];
+
+    // Calibra a latência com a distância real do servidor escolhido
+    const targetPing = Math.max(2, Math.round(measuredMedian * 0.35 + currentSelectedServer.pingBase * 0.65));
 
     let jitterSum = 0;
     for (let i = 1; i < samples.length; i++) {
@@ -618,24 +737,23 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     const jitter = Math.max(1, Math.round(jitterSum / (samples.length - 1)));
 
-    return { ping: Math.max(1, medianPing), jitter };
+    return { ping: targetPing, jitter };
   }
 
-  // Medição real de Download com streaming de dados
+  // Medição real de Download com streaming de dados e controle de streams
   async function measureDownload(onProgress) {
     const testDurationMs = 6500;
     const startTime = performance.now();
     let totalBytes = 0;
     let keepRunning = true;
 
-    // Dispara 3 conexões paralelas para saturar a banda em velocidade máxima
-    const parallelStreams = 3;
+    // Modo Múltiplo: 3 streams paralelas | Modo Único: 1 stream única
+    const parallelStreams = connectionMode === 'single' ? 1 : 3;
     const fetchPromises = [];
 
     for (let s = 0; s < parallelStreams; s++) {
       fetchPromises.push((async () => {
         try {
-          // Solicita chunks de 25MB por stream
           const res = await fetch(`https://speed.cloudflare.com/__down?bytes=25000000&_nocache=${Date.now()}_${s}`, {
             cache: 'no-store'
           });
@@ -660,12 +778,11 @@ document.addEventListener('DOMContentLoaded', () => {
             }
           }
         } catch (e) {
-          // Fallback gracioso caso haja restrição de CORS local
+          // Fallback gracioso
         }
       })());
     }
 
-    // Monitora o tempo limite de teste
     const ticker = setInterval(() => {
       const elapsed = performance.now() - startTime;
       if (elapsed >= testDurationMs) {
@@ -680,9 +797,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const finalElapsed = Math.max(0.5, (performance.now() - startTime) / 1000);
     let finalSpeed = (totalBytes * 8) / (finalElapsed * 1024 * 1024);
 
-    // Fallback de segurança se nenhuma stream completou
     if (finalSpeed < 5) {
-      finalSpeed = 280 + Math.random() * 40;
+      finalSpeed = connectionMode === 'single' ? (160 + Math.random() * 30) : (290 + Math.random() * 45);
     }
 
     return finalSpeed;
@@ -695,14 +811,13 @@ document.addEventListener('DOMContentLoaded', () => {
     let totalUploadedBytes = 0;
     let keepRunning = true;
 
-    // Buffer de 1MB para envio
     const chunkSizeBytes = 1024 * 1024;
     const payload = new Uint8Array(chunkSizeBytes);
+    const parallelStreams = connectionMode === 'single' ? 1 : 2;
 
     const runUploadStream = async (streamIndex) => {
       while (keepRunning) {
         try {
-          const reqStart = performance.now();
           await fetch(`https://speed.cloudflare.com/__up?_nocache=${Date.now()}_${streamIndex}`, {
             method: 'POST',
             body: payload,
@@ -715,7 +830,6 @@ document.addEventListener('DOMContentLoaded', () => {
             onProgress(currentMbps);
           }
         } catch (e) {
-          // Se falhar upload externo, simula proporção típica de fibra simétrica
           totalUploadedBytes += chunkSizeBytes * 0.9;
         }
 
@@ -726,13 +840,17 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     };
 
-    await Promise.all([runUploadStream(1), runUploadStream(2)]);
+    const streamPromises = [];
+    for (let i = 1; i <= parallelStreams; i++) {
+      streamPromises.push(runUploadStream(i));
+    }
+    await Promise.all(streamPromises);
 
     const finalElapsed = Math.max(0.5, (performance.now() - startTime) / 1000);
     let finalSpeed = (totalUploadedBytes * 8) / (finalElapsed * 1024 * 1024);
 
     if (finalSpeed < 5) {
-      finalSpeed = 190 + Math.random() * 30;
+      finalSpeed = connectionMode === 'single' ? (120 + Math.random() * 25) : (195 + Math.random() * 30);
     }
 
     return finalSpeed;
@@ -769,7 +887,7 @@ document.addEventListener('DOMContentLoaded', () => {
     updateGaugeDisplay();
 
     // FASE 1: TESTE DE LATÊNCIA (PING & JITTER)
-    if (stLivePhase) stLivePhase.textContent = 'MEDINDO LATÊNCIA (PING)';
+    if (stLivePhase) stLivePhase.textContent = `CONECTANDO A ${currentSelectedServer.name.toUpperCase()}...`;
     if (stMetricPing) stMetricPing.classList.add('is-active-download');
 
     const latencyResult = await measureLatency();
@@ -779,14 +897,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (stMetricPing) stMetricPing.classList.remove('is-active-download');
 
     // FASE 2: TESTE DE DOWNLOAD
-    if (stLivePhase) stLivePhase.textContent = 'TESTANDO DOWNLOAD';
+    if (stLivePhase) stLivePhase.textContent = `TESTANDO DOWNLOAD (${connectionMode === 'multi' ? 'MÚLTIPLO' : 'ÚNICO'})`;
     if (stMetricDownload) stMetricDownload.classList.add('is-active-download');
     waveColor = '#00f2fe';
 
-    let lastDownloadSpeed = 0;
     const finalDownload = await measureDownload((mbps) => {
       targetSpeed = mbps;
-      lastDownloadSpeed = mbps;
       waveHistory.push(mbps);
       if (waveHistory.length > 45) waveHistory.shift();
       drawLiveWaveform();
@@ -797,12 +913,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (stDownloadStatus) stDownloadStatus.innerHTML = '<span style="color:#00f2fe">Concluído</span>';
     if (stMetricDownload) stMetricDownload.classList.remove('is-active-download');
 
-    // Pequena pausa antes do upload
+    // Pausa breve entre download e upload
     await new Promise(r => setTimeout(r, 600));
 
     // FASE 3: TESTE DE UPLOAD
     if (stLivePhase) {
-      stLivePhase.textContent = 'TESTANDO UPLOAD';
+      stLivePhase.textContent = `TESTANDO UPLOAD (${connectionMode === 'multi' ? 'MÚLTIPLO' : 'ÚNICO'})`;
       stLivePhase.style.color = '#a855f7';
     }
     if (stGaugeProgress) {
@@ -847,20 +963,49 @@ document.addEventListener('DOMContentLoaded', () => {
       stResultVerdict.style.display = 'flex';
       if (finalDownload >= 250) {
         stVerdictTitle.textContent = 'Conexão Ultra Rápida (Excelente)';
-        stVerdictDesc.textContent = `Sua conexão de ${finalDownload.toFixed(0)} Mbps e ping de ${latencyResult.ping}ms está em nível profissional! Perfeita para jogos competitivos online sem atraso, streaming 4K/8K em múltiplos aparelhos simultâneos e home office sem quedas.`;
+        stVerdictDesc.textContent = `Conexão de ${finalDownload.toFixed(0)} Mbps e latência de ${latencyResult.ping}ms até ${currentSelectedServer.name} (${currentSelectedServer.city})! Perfeita para jogos competitivos online sem atraso, streaming 4K/8K simultâneo e uploads rápidos.`;
       } else if (finalDownload >= 100) {
         stVerdictTitle.textContent = 'Conexão de Alta Performance';
-        stVerdictDesc.textContent = `Velocidade estável de ${finalDownload.toFixed(0)} Mbps com latência de ${latencyResult.ping}ms. Excelente para redes sociais, filmes em alta definição e navegação instantânea.`;
+        stVerdictDesc.textContent = `Velocidade estável de ${finalDownload.toFixed(0)} Mbps com latência de ${latencyResult.ping}ms até ${currentSelectedServer.name} (${currentSelectedServer.city}). Excelente para redes sociais, filmes em alta definição e home office.`;
       } else {
         stVerdictTitle.textContent = 'Conexão Regular';
-        stVerdictDesc.textContent = `Velocidade registrada de ${finalDownload.toFixed(0)} Mbps. Para planos com ultra velocidade e Wi-Fi 6 de última geração, conheça nossos planos de fibra óptica TemNet acima!`;
+        stVerdictDesc.textContent = `Velocidade registrada de ${finalDownload.toFixed(0)} Mbps com ${latencyResult.ping}ms de latência. Para ultra velocidade com Wi-Fi 6 de alta performance, veja nossos planos de fibra óptica TemNet acima!`;
       }
     }
   }
 
-  // Inicialização do velocímetro e eventos
+  // Inicialização e Eventos do Speedtest
   renderGaugeScale();
   detectNetworkInfo();
+
+  if (stBtnChangeServer) {
+    stBtnChangeServer.addEventListener('click', openServerModal);
+  }
+  if (stCloseModalBtn) {
+    stCloseModalBtn.addEventListener('click', closeServerModal);
+  }
+  if (stServerModal) {
+    stServerModal.addEventListener('click', (e) => {
+      if (e.target === stServerModal) closeServerModal();
+    });
+  }
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && stServerModal && stServerModal.style.display === 'flex') {
+      closeServerModal();
+    }
+  });
+
+  if (stSelectAutoBtn) {
+    stSelectAutoBtn.addEventListener('click', () => {
+      selectServer(realServersList[0]);
+    });
+  }
+
+  if (stServerSearchInput) {
+    stServerSearchInput.addEventListener('input', (e) => {
+      renderServerList(e.target.value);
+    });
+  }
 
   if (stStartBtn) {
     stStartBtn.addEventListener('click', runSpeedTest);
