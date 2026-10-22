@@ -1688,7 +1688,7 @@ body {
   transform: rotate(150deg);
   transform-origin: 170px 170px;
   filter: url(#stGlow);
-  transition: stroke-dashoffset 0.08s ease;
+  transition: none;
 }
 
 .st-gauge-scale text {
@@ -1704,7 +1704,7 @@ body {
 .st-gauge-needle-group {
   transform-origin: 170px 170px;
   transform: rotate(-120deg);
-  transition: transform 0.08s ease;
+  transition: none;
   will-change: transform;
 }
 

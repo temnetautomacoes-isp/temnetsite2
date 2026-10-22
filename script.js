@@ -511,7 +511,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Desenho do gráfico de ondas em tempo real
+  // Desenho do gráfico de ondas em tempo real com curvas suaves Bézier
   function drawLiveWaveform() {
     if (!stWaveCanvas) return;
     const ctx = stWaveCanvas.getContext('2d');
@@ -533,7 +533,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (waveHistory.length < 2) return;
 
-    const step = w / (Math.max(waveHistory.length - 1, 1));
+    const step = w / Math.max(waveHistory.length - 1, 1);
     const currentPeak = Math.max(...waveHistory, 50);
     waveMax = Math.max(waveMax, currentPeak);
 
@@ -544,33 +544,42 @@ document.addEventListener('DOMContentLoaded', () => {
     // Preenchimento gradiente suave sob a curva
     const grad = ctx.createLinearGradient(0, 0, 0, h);
     if (waveColor === '#00f2fe') {
-      grad.addColorStop(0, 'rgba(0, 242, 254, 0.38)');
+      grad.addColorStop(0, 'rgba(0, 242, 254, 0.32)');
       grad.addColorStop(1, 'rgba(0, 242, 254, 0)');
     } else {
-      grad.addColorStop(0, 'rgba(168, 85, 247, 0.38)');
+      grad.addColorStop(0, 'rgba(168, 85, 247, 0.32)');
       grad.addColorStop(1, 'rgba(168, 85, 247, 0)');
     }
 
+    const points = waveHistory.map((val, idx) => ({
+      x: idx * step,
+      y: h - (val / waveMax) * (h - 14) - 4
+    }));
+
+    // Preenchimento com curva suave Bézier contínua
     ctx.beginPath();
     ctx.moveTo(0, h);
-    waveHistory.forEach((val, idx) => {
-      const x = idx * step;
-      const y = h - (val / waveMax) * (h - 14) - 4;
-      ctx.lineTo(x, y);
-    });
-    ctx.lineTo((waveHistory.length - 1) * step, h);
+    ctx.lineTo(points[0].x, points[0].y);
+    for (let i = 0; i < points.length - 1; i++) {
+      const xc = (points[i].x + points[i + 1].x) / 2;
+      const yc = (points[i].y + points[i + 1].y) / 2;
+      ctx.quadraticCurveTo(points[i].x, points[i].y, xc, yc);
+    }
+    ctx.lineTo(points[points.length - 1].x, points[points.length - 1].y);
+    ctx.lineTo(w, h);
     ctx.closePath();
     ctx.fillStyle = grad;
     ctx.fill();
 
-    // Linha do traçado iluminado com glow
+    // Traçado neon fluido sobre os pontos
     ctx.beginPath();
-    waveHistory.forEach((val, idx) => {
-      const x = idx * step;
-      const y = h - (val / waveMax) * (h - 14) - 4;
-      if (idx === 0) ctx.moveTo(x, y);
-      else ctx.lineTo(x, y);
-    });
+    ctx.moveTo(points[0].x, points[0].y);
+    for (let i = 0; i < points.length - 1; i++) {
+      const xc = (points[i].x + points[i + 1].x) / 2;
+      const yc = (points[i].y + points[i + 1].y) / 2;
+      ctx.quadraticCurveTo(points[i].x, points[i].y, xc, yc);
+    }
+    ctx.lineTo(points[points.length - 1].x, points[points.length - 1].y);
     ctx.strokeStyle = waveColor;
     ctx.lineWidth = 2.5;
     ctx.lineCap = 'round';
@@ -581,15 +590,23 @@ document.addEventListener('DOMContentLoaded', () => {
     ctx.shadowBlur = 0;
   }
 
-  // Loop de interpolação suave do ponteiro e números a 60fps
+  // Loop de interpolação suave do ponteiro e números a 60fps com inércia física
   function updateGaugeDisplay() {
     if (!isTestRunning && displayedSpeed <= 0.05) {
       if (stNeedleGroup) stNeedleGroup.style.transform = `rotate(${speedToAngle(0)}deg)`;
       if (stGaugeProgress) stGaugeProgress.style.strokeDashoffset = `${speedToDashOffset(0)}`;
+      if (stLiveSpeed) stLiveSpeed.textContent = '0.0';
       return;
     }
 
-    displayedSpeed += (targetSpeed - displayedSpeed) * 0.18;
+    // Inércia elegante: avança suavemente sem solavancos ou picos erráticos
+    const lerpFactor = isTestRunning ? 0.085 : 0.12;
+    displayedSpeed += (targetSpeed - displayedSpeed) * lerpFactor;
+
+    if (!isTestRunning && displayedSpeed < 0.08) {
+      displayedSpeed = 0;
+    }
+
     if (stLiveSpeed) stLiveSpeed.textContent = displayedSpeed.toFixed(1);
 
     const angle = speedToAngle(displayedSpeed);
@@ -715,8 +732,8 @@ document.addEventListener('DOMContentLoaded', () => {
       await fetch(warmupUrl, { method: 'HEAD', cache: 'no-store' });
     } catch (e) {}
 
-    // 2. Amostras reais de ping sobre conexão já aquecida
-    for (let i = 0; i < 6; i++) {
+    // 2. Amostras reais de ping sobre conexão já aquecida com feedback em tempo real
+    for (let i = 0; i < 8; i++) {
       const tStart = performance.now();
       try {
         await fetch(`https://speed.cloudflare.com/__down?bytes=0&_p=${Date.now()}_${i}`, {
@@ -726,9 +743,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const duration = performance.now() - tStart;
         if (duration > 0 && duration < 350) {
           samples.push(duration);
+          if (stLivePingVal) {
+            const currentAvg = Math.round(samples.reduce((a, b) => a + b, 0) / samples.length);
+            stLivePingVal.textContent = `${currentAvg} ms`;
+          }
         }
       } catch (err) {}
-      await new Promise(r => setTimeout(r, 40));
+      await new Promise(r => setTimeout(r, 60));
     }
 
     if (samples.length === 0) samples.push(18);
@@ -753,10 +774,10 @@ document.addEventListener('DOMContentLoaded', () => {
     return { ping: finalPing, jitter: Math.min(realJitter, 12) };
   }
 
-  // Medição real de Download usando XMLHttpRequest com onprogress nativo
+  // Medição real de Download com janela deslizante e animação uniforme (sem picos ou sobe-e-desce)
   function measureDownload(onProgress) {
     return new Promise((resolve) => {
-      const testDurationMs = 6000;
+      const testDurationMs = 9000; // 9 segundos: tempo ideal para estabilização uniforme e profissional
       const startTime = performance.now();
       const streamsCount = connectionMode === 'single' ? 1 : 3;
       let isFinished = false;
@@ -764,7 +785,7 @@ document.addEventListener('DOMContentLoaded', () => {
       let totalBytesLoaded = 0;
       let speedSamples = [];
 
-      // Chunks dinâmicos de 6MB (suficiente para alta velocidade sem travar conexões modestas)
+      // Chunks dinâmicos de 6MB (suficiente para alta velocidade sem travar conexões)
       const chunkSize = 6000000;
 
       function startStream(streamIdx) {
@@ -808,25 +829,54 @@ document.addEventListener('DOMContentLoaded', () => {
         startStream(i);
       }
 
-      let lastSampleTime = performance.now();
-      let lastSampleBytes = 0;
+      // Janela deslizante de 650ms: elimina ruído micro-fragmentado de pacotes TCP
+      const windowMs = 650;
+      const progressHistory = [{ time: startTime, bytes: 0 }];
+      let smoothedMbps = 0;
+      let lastWavePushTime = startTime;
 
       const intervalId = setInterval(() => {
         const now = performance.now();
-        const deltaSec = (now - lastSampleTime) / 1000;
         const elapsedSec = (now - startTime) / 1000;
 
-        if (deltaSec >= 0.08) {
-          const deltaBytes = totalBytesLoaded - lastSampleBytes;
-          lastSampleBytes = totalBytesLoaded;
-          lastSampleTime = now;
+        progressHistory.push({ time: now, bytes: totalBytesLoaded });
 
-          if (elapsedSec > 0.3) {
-            const instantMbps = (deltaBytes * 8) / (deltaSec * 1024 * 1024);
-            if (instantMbps > 0) {
-              speedSamples.push(instantMbps);
-              onProgress(instantMbps);
+        while (progressHistory.length > 2 && progressHistory[0].time < now - windowMs) {
+          progressHistory.shift();
+        }
+
+        const windowDurationSec = (now - progressHistory[0].time) / 1000;
+        const windowBytes = totalBytesLoaded - progressHistory[0].bytes;
+
+        if (windowDurationSec >= 0.25 && elapsedSec >= 0.3) {
+          const rawWindowMbps = (windowBytes * 8) / (windowDurationSec * 1024 * 1024);
+
+          // Rampa suave nos primeiros 1.5s (smoothstep para ganho de velocidade contínuo e elegante)
+          let currentTargetMbps = rawWindowMbps;
+          if (elapsedSec < 1.5) {
+            const rampProgress = elapsedSec / 1.5;
+            const easeFactor = rampProgress * rampProgress * (3 - 2 * rampProgress);
+            currentTargetMbps = rawWindowMbps * (0.35 + 0.65 * easeFactor);
+          }
+
+          // Filtro passa-baixas assimétrico: aceleração uniforme e inércia contra quedas momentâneas
+          if (smoothedMbps === 0) {
+            smoothedMbps = currentTargetMbps;
+          } else if (currentTargetMbps >= smoothedMbps) {
+            smoothedMbps = smoothedMbps * 0.82 + currentTargetMbps * 0.18;
+          } else {
+            smoothedMbps = smoothedMbps * 0.94 + currentTargetMbps * 0.06;
+          }
+
+          if (smoothedMbps > 0) {
+            speedSamples.push(smoothedMbps);
+
+            const shouldPushWave = (now - lastWavePushTime >= 120);
+            if (shouldPushWave) {
+              lastWavePushTime = now;
             }
+
+            onProgress(smoothedMbps, shouldPushWave);
           }
         }
 
@@ -837,13 +887,13 @@ document.addEventListener('DOMContentLoaded', () => {
             try { x.abort(); } catch (e) {}
           });
 
-          // Velocidade sustentada real (80º percentil das amostras para eliminar ruído inicial)
+          // Velocidade sustentada real: 80º percentil da fase de cruzeiro (descarta início da rampa)
           let finalMbps = 0;
-          if (speedSamples.length > 5) {
-            const sustained = speedSamples.slice(Math.floor(speedSamples.length * 0.25));
-            sustained.sort((a, b) => a - b);
-            const p80 = Math.floor(sustained.length * 0.80);
-            finalMbps = sustained[Math.min(p80, sustained.length - 1)];
+          if (speedSamples.length > 10) {
+            const cruisingSamples = speedSamples.slice(Math.floor(speedSamples.length * 0.25));
+            cruisingSamples.sort((a, b) => a - b);
+            const p80 = Math.floor(cruisingSamples.length * 0.80);
+            finalMbps = cruisingSamples[Math.min(p80, cruisingSamples.length - 1)];
           } else {
             const totalSec = Math.max(0.5, (performance.now() - startTime) / 1000);
             finalMbps = (totalBytesLoaded * 8) / (totalSec * 1024 * 1024);
@@ -855,10 +905,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Medição real de Upload usando XMLHttpRequest.upload.onprogress (bytes reais trafegados)
+  // Medição real de Upload usando XMLHttpRequest.upload.onprogress com janela deslizante
   function measureUpload(onProgress) {
     return new Promise((resolve) => {
-      const testDurationMs = 5000;
+      const testDurationMs = 8000; // 8 segundos: ritmo perfeito de teste de upload
       const startTime = performance.now();
       const streamsCount = connectionMode === 'single' ? 1 : 2;
       let isFinished = false;
@@ -897,7 +947,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         xhr.onerror = () => {
           if (!isFinished) {
-            setTimeout(() => startUploadStream(streamIdx), 150);
+            setTimeout(() => startUploadStream(streamIdx), 120);
           }
         };
 
@@ -910,25 +960,53 @@ document.addEventListener('DOMContentLoaded', () => {
         startUploadStream(i);
       }
 
-      let lastSampleTime = performance.now();
-      let lastSampleBytes = 0;
+      const windowMs = 650;
+      const progressHistory = [{ time: startTime, bytes: 0 }];
+      let smoothedMbps = 0;
+      let lastWavePushTime = startTime;
 
       const intervalId = setInterval(() => {
         const now = performance.now();
-        const deltaSec = (now - lastSampleTime) / 1000;
         const elapsedSec = (now - startTime) / 1000;
 
-        if (deltaSec >= 0.08) {
-          const deltaBytes = totalBytesUploaded - lastSampleBytes;
-          lastSampleBytes = totalBytesUploaded;
-          lastSampleTime = now;
+        progressHistory.push({ time: now, bytes: totalBytesUploaded });
 
-          if (elapsedSec > 0.25) {
-            const instantMbps = (deltaBytes * 8) / (deltaSec * 1024 * 1024);
-            if (instantMbps > 0) {
-              speedSamples.push(instantMbps);
-              onProgress(instantMbps);
+        while (progressHistory.length > 2 && progressHistory[0].time < now - windowMs) {
+          progressHistory.shift();
+        }
+
+        const windowDurationSec = (now - progressHistory[0].time) / 1000;
+        const windowBytes = totalBytesUploaded - progressHistory[0].bytes;
+
+        if (windowDurationSec >= 0.25 && elapsedSec >= 0.3) {
+          const rawWindowMbps = (windowBytes * 8) / (windowDurationSec * 1024 * 1024);
+
+          // Rampa suave de aceleração nos primeiros 1.5s
+          let currentTargetMbps = rawWindowMbps;
+          if (elapsedSec < 1.5) {
+            const rampProgress = elapsedSec / 1.5;
+            const easeFactor = rampProgress * rampProgress * (3 - 2 * rampProgress);
+            currentTargetMbps = rawWindowMbps * (0.35 + 0.65 * easeFactor);
+          }
+
+          // Filtro de amortecimento estável
+          if (smoothedMbps === 0) {
+            smoothedMbps = currentTargetMbps;
+          } else if (currentTargetMbps >= smoothedMbps) {
+            smoothedMbps = smoothedMbps * 0.82 + currentTargetMbps * 0.18;
+          } else {
+            smoothedMbps = smoothedMbps * 0.94 + currentTargetMbps * 0.06;
+          }
+
+          if (smoothedMbps > 0) {
+            speedSamples.push(smoothedMbps);
+
+            const shouldPushWave = (now - lastWavePushTime >= 120);
+            if (shouldPushWave) {
+              lastWavePushTime = now;
             }
+
+            onProgress(smoothedMbps, shouldPushWave);
           }
         }
 
@@ -939,13 +1017,13 @@ document.addEventListener('DOMContentLoaded', () => {
             try { x.abort(); } catch (e) {}
           });
 
-          // Velocidade real sustentada de upload
+          // Velocidade real sustentada de upload (80º percentil da fase de cruzeiro)
           let finalMbps = 0;
-          if (speedSamples.length > 4) {
-            const sustained = speedSamples.slice(Math.floor(speedSamples.length * 0.25));
-            sustained.sort((a, b) => a - b);
-            const p80 = Math.floor(sustained.length * 0.80);
-            finalMbps = sustained[Math.min(p80, sustained.length - 1)];
+          if (speedSamples.length > 8) {
+            const cruisingSamples = speedSamples.slice(Math.floor(speedSamples.length * 0.25));
+            cruisingSamples.sort((a, b) => a - b);
+            const p80 = Math.floor(cruisingSamples.length * 0.80);
+            finalMbps = cruisingSamples[Math.min(p80, cruisingSamples.length - 1)];
           } else {
             const totalSec = Math.max(0.5, (performance.now() - startTime) / 1000);
             finalMbps = (totalBytesUploaded * 8) / (totalSec * 1024 * 1024);
@@ -957,7 +1035,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Inicialização e execução completa do teste
+  // Inicialização e execução completa do teste com transições uniformes
   async function runSpeedTest() {
     if (isTestRunning) return;
     isTestRunning = true;
@@ -1001,12 +1079,18 @@ document.addEventListener('DOMContentLoaded', () => {
     if (stLivePhase) stLivePhase.textContent = `TESTANDO DOWNLOAD (${connectionMode === 'multi' ? 'MÚLTIPLO' : 'ÚNICO'})`;
     if (stMetricDownload) stMetricDownload.classList.add('is-active-download');
     waveColor = '#00f2fe';
+    waveHistory = [0];
+    waveMax = 50;
+    targetSpeed = 0;
+    drawLiveWaveform();
 
-    const finalDownload = await measureDownload((mbps) => {
+    const finalDownload = await measureDownload((mbps, pushWave) => {
       targetSpeed = mbps;
-      waveHistory.push(mbps);
-      if (waveHistory.length > 45) waveHistory.shift();
-      drawLiveWaveform();
+      if (pushWave) {
+        waveHistory.push(mbps);
+        if (waveHistory.length > 55) waveHistory.shift();
+        drawLiveWaveform();
+      }
     });
 
     targetSpeed = finalDownload;
@@ -1014,8 +1098,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (stDownloadStatus) stDownloadStatus.innerHTML = '<span style="color:#00f2fe">Concluído</span>';
     if (stMetricDownload) stMetricDownload.classList.remove('is-active-download');
 
-    // Pausa breve entre download e upload
-    await new Promise(r => setTimeout(r, 600));
+    // Pausa confortável entre download e upload: permite contemplação do resultado
+    await new Promise(r => setTimeout(r, 700));
+    targetSpeed = 0; // Ponteiro desce com suavidade
+    await new Promise(r => setTimeout(r, 450));
 
     // FASE 3: TESTE DE UPLOAD
     if (stLivePhase) {
@@ -1029,14 +1115,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     waveColor = '#a855f7';
     waveHistory = [0];
+    waveMax = 50;
     targetSpeed = 0;
     drawLiveWaveform();
 
-    const finalUpload = await measureUpload((mbps) => {
+    const finalUpload = await measureUpload((mbps, pushWave) => {
       targetSpeed = mbps;
-      waveHistory.push(mbps);
-      if (waveHistory.length > 45) waveHistory.shift();
-      drawLiveWaveform();
+      if (pushWave) {
+        waveHistory.push(mbps);
+        if (waveHistory.length > 55) waveHistory.shift();
+        drawLiveWaveform();
+      }
     });
 
     targetSpeed = finalUpload;
@@ -1045,10 +1134,11 @@ document.addEventListener('DOMContentLoaded', () => {
     if (stMetricUpload) stMetricUpload.classList.remove('is-active-upload');
 
     // FASE 4: FINALIZAÇÃO E DIAGNÓSTICO
-    await new Promise(r => setTimeout(r, 700));
+    await new Promise(r => setTimeout(r, 800));
+    targetSpeed = 0; // Ponteiro repousa suavemente no zero
+    await new Promise(r => setTimeout(r, 500));
 
     isTestRunning = false;
-    targetSpeed = 0;
 
     if (stLiveWrap) stLiveWrap.style.display = 'none';
     if (stGoWrap) stGoWrap.style.display = 'flex';
