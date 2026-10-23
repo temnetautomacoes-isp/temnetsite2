@@ -1228,5 +1228,37 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
+
+  // ==========================================================================
+  // ABAS INTERATIVAS: DIAGNÓSTICO & AUTOATENDIMENTO (SUPORTE)
+  // ==========================================================================
+  const diagTabs = document.querySelectorAll('.diag-tab-btn');
+  const diagPanels = document.querySelectorAll('.diag-tab-panel');
+
+  if (diagTabs.length > 0 && diagPanels.length > 0) {
+    diagTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        const targetId = tab.getAttribute('data-target');
+        if (!targetId) return;
+
+        diagTabs.forEach(t => {
+          t.classList.remove('is-active');
+          t.setAttribute('aria-selected', 'false');
+        });
+
+        diagPanels.forEach(p => {
+          p.classList.remove('is-active');
+        });
+
+        tab.classList.add('is-active');
+        tab.setAttribute('aria-selected', 'true');
+
+        const activePanel = document.getElementById(targetId);
+        if (activePanel) {
+          activePanel.classList.add('is-active');
+        }
+      });
+    });
+  }
 });
 

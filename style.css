@@ -2430,7 +2430,918 @@ body {
 }
 
 /* ==========================================================================
-   SEÇÃO 5: CENTRAL DE ATENDIMENTO & FAQ
+   SEÇÃO 5: CENTRAL DE AUTOATENDIMENTO & DIAGNÓSTICO
+   ========================================================================== */
+.support-diagnostic-hub {
+  width: 100%;
+  margin-bottom: 56px;
+  background: rgba(14, 18, 26, 0.85);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 24px;
+  padding: clamp(20px, 3.5vw, 36px);
+  box-shadow: 0 24px 50px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+/* NAVEGAÇÃO POR ABAS */
+.diag-tabs-nav {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 28px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.diag-tab-btn {
+  background: rgba(22, 27, 38, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 16px 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  outline: none;
+  font-family: inherit;
+}
+
+.diag-tab-btn:hover {
+  background: rgba(30, 37, 52, 0.85);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.diag-tab-btn.is-active {
+  background: rgba(253, 94, 2, 0.12);
+  border-color: #fd5e02;
+  box-shadow: 0 8px 24px rgba(253, 94, 2, 0.18), inset 0 0 0 1px rgba(253, 94, 2, 0.4);
+}
+
+.diag-tab-btn[data-target="diag-luz-vermelha"].is-active {
+  background: rgba(239, 68, 68, 0.12);
+  border-color: #ef4444;
+  box-shadow: 0 8px 24px rgba(239, 68, 68, 0.2), inset 0 0 0 1px rgba(239, 68, 68, 0.4);
+}
+
+.diag-tab-title {
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.diag-tab-badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #a1a1aa;
+}
+
+.diag-tab-badge.badge-danger {
+  background: rgba(239, 68, 68, 0.18);
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.35);
+}
+
+.diag-tab-icon {
+  display: flex;
+  align-items: center;
+  color: #00e5ff;
+}
+
+.diag-tab-btn.is-active .diag-tab-icon {
+  color: #fd5e02;
+}
+
+/* CONTEÚDO DAS ABAS */
+.diag-tab-panel {
+  display: none;
+}
+
+.diag-tab-panel.is-active {
+  display: block;
+  animation: fadeInDiag 0.35s ease;
+}
+
+@keyframes fadeInDiag {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.diag-panel-layout {
+  display: grid;
+  grid-template-columns: 1.18fr 0.82fr;
+  gap: clamp(24px, 3.5vw, 44px);
+  align-items: start;
+}
+
+.diag-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.diag-status-badge.badge-danger {
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  color: #f87171;
+}
+
+.diag-status-badge.badge-warning {
+  background: rgba(245, 158, 11, 0.15);
+  border: 1px solid rgba(245, 158, 11, 0.4);
+  color: #fbbf24;
+}
+
+.diag-panel-title {
+  font-size: clamp(1.25rem, 2.5vw, 1.65rem);
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1.28;
+  margin-bottom: 12px;
+}
+
+.diag-panel-desc {
+  font-size: 0.95rem;
+  color: #d1d5db;
+  line-height: 1.6;
+  margin-bottom: 22px;
+}
+
+.text-danger {
+  color: #f87171 !important;
+}
+
+/* LISTA DE PASSOS DE DIAGNÓSTICO */
+.diag-steps-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 26px;
+}
+
+.diag-step-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  background: rgba(20, 24, 34, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  padding: 14px 18px;
+  transition: all 0.25s ease;
+}
+
+.diag-step-item:hover {
+  background: rgba(25, 30, 44, 0.8);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.diag-step-item.highlight-step {
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.35);
+  box-shadow: 0 4px 16px rgba(239, 68, 68, 0.1);
+}
+
+.diag-step-number {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(253, 94, 2, 0.2);
+  border: 1px solid #fd5e02;
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.highlight-step .diag-step-number {
+  background: rgba(239, 68, 68, 0.25);
+  border-color: #ef4444;
+  color: #ffffff;
+}
+
+.diag-step-content h4 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 4px;
+}
+
+.diag-step-content p {
+  font-size: 0.86rem;
+  color: #a1a1aa;
+  line-height: 1.45;
+  margin: 0;
+}
+
+/* BOTÕES DE AÇÃO WHATSAPP */
+.diag-cta-box {
+  margin-bottom: 18px;
+}
+
+.btn-diag-whatsapp {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  text-decoration: none;
+  border-radius: 16px;
+  padding: 16px 20px;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+}
+
+.btn-diag-danger {
+  background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.btn-diag-danger:hover {
+  background: linear-gradient(135deg, #f87171 0%, #dc2626 100%);
+  transform: translateY(-3px);
+  box-shadow: 0 14px 30px rgba(239, 68, 68, 0.4);
+}
+
+.btn-diag-primary {
+  background: linear-gradient(135deg, #fd5e02 0%, #d84b00 100%);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.btn-diag-primary:hover {
+  background: linear-gradient(135deg, #ff7315 0%, #fd5e02 100%);
+  transform: translateY(-3px);
+  box-shadow: 0 14px 30px rgba(253, 94, 2, 0.4);
+}
+
+.diag-btn-icon-wrap {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.diag-btn-text {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.diag-btn-text strong {
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+.diag-btn-text span {
+  font-size: 0.8rem;
+  opacity: 0.9;
+  font-weight: 500;
+}
+
+.diag-arrow-icon {
+  flex-shrink: 0;
+  transition: transform 0.25s ease;
+}
+
+.btn-diag-whatsapp:hover .diag-arrow-icon {
+  transform: translateX(4px);
+}
+
+.diag-tip-box {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: rgba(0, 229, 255, 0.08);
+  border: 1px solid rgba(0, 229, 255, 0.25);
+  border-radius: 12px;
+  padding: 12px 16px;
+  color: #cbd5e1;
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.diag-tip-box svg {
+  flex-shrink: 0;
+  color: #00e5ff;
+  margin-top: 2px;
+}
+
+/* BANNER DE ALERTA DO RESET */
+.diag-reset-warning-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  background: rgba(245, 158, 11, 0.12);
+  border: 1px solid rgba(245, 158, 11, 0.4);
+  border-radius: 14px;
+  padding: 14px 18px;
+  margin-bottom: 22px;
+}
+
+.reset-warning-icon {
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.reset-warning-text strong {
+  font-size: 0.95rem;
+  color: #fbbf24;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.reset-warning-text p {
+  font-size: 0.85rem;
+  color: #d1d5db;
+  line-height: 1.45;
+  margin: 0;
+}
+
+/* SIMULADOR VISUAL DO ROTEADOR / MODEM */
+.router-led-simulator {
+  background: #0d1017;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 20px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.router-sim-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: 14px;
+}
+
+.router-brand-name {
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.router-sim-pill {
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 3px 10px;
+  border-radius: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.router-sim-pill.pill-alarm {
+  background: rgba(239, 68, 68, 0.2);
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.4);
+}
+
+.router-sim-body {
+  background: #141822;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
+  padding: 20px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.router-leds-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-around;
+  gap: 8px;
+}
+
+.router-led-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+}
+
+.led-target-highlight {
+  padding: 6px 10px;
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px dashed rgba(239, 68, 68, 0.5);
+  border-radius: 12px;
+}
+
+.led-pointer-tag {
+  position: absolute;
+  top: -24px;
+  background: #ef4444;
+  color: #ffffff;
+  font-size: 0.65rem;
+  font-weight: 800;
+  padding: 2px 6px;
+  border-radius: 6px;
+  white-space: nowrap;
+  animation: bounceTag 2s infinite;
+}
+
+@keyframes bounceTag {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+.led-light {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.led-green {
+  background: #22c55e;
+  box-shadow: 0 0 10px #22c55e, 0 0 20px rgba(34, 197, 94, 0.5);
+}
+
+.led-green-pulse {
+  background: #22c55e;
+  box-shadow: 0 0 10px #22c55e;
+  animation: pulseLedGreen 1s infinite alternate;
+}
+
+@keyframes pulseLedGreen {
+  from { opacity: 0.4; }
+  to { opacity: 1; }
+}
+
+.led-off {
+  background: #374151;
+  box-shadow: none;
+}
+
+.led-blink-red {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #ef4444;
+  display: inline-block;
+  box-shadow: 0 0 8px #ef4444;
+  animation: pulseLedRed 1.2s infinite;
+}
+
+.led-blink-red-lg {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #ef4444;
+  display: inline-block;
+  box-shadow: 0 0 14px #ef4444, 0 0 28px rgba(239, 68, 68, 0.6);
+  animation: pulseLedRed 1.2s infinite;
+}
+
+@keyframes pulseLedRed {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+  }
+  70% {
+    opacity: 0.6;
+    transform: scale(1.15);
+    box-shadow: 0 0 0 10px rgba(239, 68, 68, 0);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+  }
+}
+
+.led-label {
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: #9ca3af;
+  letter-spacing: 0.05em;
+}
+
+/* ENTRADA DE CABO DE FIBRA ILUSTRATIVA */
+.router-sim-cable-slot {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(10, 12, 18, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  padding: 10px 14px;
+}
+
+.fiber-optic-cord {
+  display: flex;
+  align-items: center;
+}
+
+.green-connector {
+  width: 18px;
+  height: 14px;
+  background: #16a34a;
+  border-radius: 3px 0 0 3px;
+  border: 1px solid #22c55e;
+}
+
+.yellow-cable {
+  width: 50px;
+  height: 4px;
+  background: #eab308;
+  border-radius: 0 2px 2px 0;
+  box-shadow: 0 0 6px rgba(234, 179, 8, 0.6);
+}
+
+.cable-slot-label {
+  font-size: 0.78rem;
+  color: #9ca3af;
+  font-weight: 600;
+}
+
+.router-sim-footer p {
+  font-size: 0.82rem;
+  color: #9ca3af;
+  line-height: 1.45;
+  margin: 0;
+}
+
+/* CARD DE REINICIALIZAÇÃO */
+.restart-guide-card {
+  background: #0d1017;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 20px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.restart-step-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.12);
+  padding: 6px 12px;
+  border-radius: 20px;
+  align-self: flex-start;
+}
+
+.restart-action-graphic {
+  background: #141822;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
+  padding: 24px 20px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.graphic-power-plug {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: rgba(253, 94, 2, 0.15);
+  border: 1px solid rgba(253, 94, 2, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.restart-action-graphic h4 {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin: 0;
+}
+
+.restart-action-graphic p {
+  font-size: 0.85rem;
+  color: #a1a1aa;
+  margin: 0;
+  max-width: 280px;
+}
+
+.restart-checklist {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.chk-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.85rem;
+  color: #d1d5db;
+  font-weight: 500;
+}
+
+/* GUIA DOS LEDS (GRID) */
+.diag-leds-intro, .diag-care-intro {
+  margin-bottom: 24px;
+}
+
+.leds-explanation-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.led-card {
+  background: rgba(18, 22, 32, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: all 0.25s ease;
+}
+
+.led-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(22, 28, 42, 0.85);
+}
+
+.led-card-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.led-card-header h4 {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin: 0;
+  flex-grow: 1;
+}
+
+.led-status-pill {
+  font-size: 0.7rem;
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: 6px;
+  text-transform: uppercase;
+}
+
+.pill-danger {
+  background: rgba(239, 68, 68, 0.18);
+  color: #f87171;
+}
+
+.pill-success {
+  background: rgba(34, 197, 94, 0.18);
+  color: #4ade80;
+}
+
+.pill-info {
+  background: rgba(56, 189, 248, 0.18);
+  color: #38bdf8;
+}
+
+.pill-warning {
+  background: rgba(245, 158, 11, 0.18);
+  color: #fbbf24;
+}
+
+.led-indicator-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.dot-solid-green {
+  background: #22c55e;
+  box-shadow: 0 0 8px #22c55e;
+}
+
+.dot-blink-red {
+  background: #ef4444;
+  box-shadow: 0 0 8px #ef4444;
+  animation: pulseLedRed 1.2s infinite;
+}
+
+.dot-pulse-cyan {
+  background: #00e5ff;
+  box-shadow: 0 0 8px #00e5ff;
+}
+
+.dot-off {
+  background: #4b5563;
+}
+
+.led-card-desc {
+  font-size: 0.86rem;
+  color: #a1a1aa;
+  line-height: 1.45;
+  margin: 0;
+}
+
+.led-card-action {
+  margin-top: auto;
+  padding-top: 8px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #fd5e02;
+}
+
+/* CUIDADOS COM A FIBRA */
+.fiber-care-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.fiber-care-card {
+  background: rgba(18, 22, 32, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 20px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: all 0.25s ease;
+}
+
+.fiber-care-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+.care-card-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-warn {
+  background: rgba(245, 158, 11, 0.15);
+  color: #fbbf24;
+}
+
+.icon-ok {
+  background: rgba(34, 197, 94, 0.15);
+  color: #4ade80;
+}
+
+.fiber-care-card h4 {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin: 0;
+}
+
+.fiber-care-card p {
+  font-size: 0.85rem;
+  color: #a1a1aa;
+  line-height: 1.45;
+  margin: 0;
+}
+
+.fiber-care-cta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  background: rgba(253, 94, 2, 0.08);
+  border: 1px solid rgba(253, 94, 2, 0.3);
+  border-radius: 16px;
+  padding: 18px 24px;
+}
+
+.fiber-care-cta p {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+}
+
+.fiber-care-cta a {
+  background: rgba(253, 94, 2, 0.2);
+  border: 1px solid #fd5e02;
+  color: #ffffff;
+  padding: 10px 18px;
+  border-radius: 12px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.9rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.25s ease;
+  white-space: nowrap;
+}
+
+.fiber-care-cta a:hover {
+  background: #fd5e02;
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(253, 94, 2, 0.4);
+}
+
+.support-channels-header {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.support-channels-title {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+/* RESPONSIVIDADE DO DIAGNÓSTICO */
+@media (max-width: 1024px) {
+  .diag-tabs-nav {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .diag-panel-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .leds-explanation-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .fiber-care-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .diag-tabs-nav {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .leds-explanation-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .fiber-care-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .fiber-care-cta {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .router-leds-row {
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+}
+
+/* ==========================================================================
+   CARDS DE ATENDIMENTO & FAQ EXISTENTES
    ========================================================================== */
 .support-cards-grid {
   display: grid;

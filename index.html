@@ -1604,16 +1604,427 @@
       </div>
     </section>
 
-    <!-- SEÇÃO 5: CENTRAL DE ATENDIMENTO & SUPORTE -->
+    <!-- SEÇÃO 5: CENTRAL DE AUTOATENDIMENTO & SUPORTE TÉCNICO -->
     <section id="suporte" class="support-section content-section">
       <div class="section-container">
         
         <div class="section-header">
-          <span class="section-tag">ATENDIMENTO RÁPIDO</span>
-          <h2 class="section-title">Central de Autoatendimento e Suporte</h2>
+          <span class="section-tag">AUTOATENDIMENTO & DIAGNÓSTICO</span>
+          <h2 class="section-title">Está sem internet? Diagnostique e Resolva Rápido</h2>
           <p class="section-copy">
-            Precisa de suporte, 2ª via de fatura ou quer testar a velocidade da sua conexão? Escolha um canal abaixo:
+            Aprenda a identificar o status da sua conexão em poucos segundos, resolver travamentos comuns ou acionar nosso suporte técnico enviando um vídeo no WhatsApp.
           </p>
+        </div>
+
+        <!-- PAINEL DE DIAGNÓSTICO RÁPIDO INTERATIVO -->
+        <div class="support-diagnostic-hub">
+          
+          <!-- SELETOR DE ABAS / CENÁRIOS -->
+          <div class="diag-tabs-nav" role="tablist" aria-label="Cenários de Suporte e Diagnóstico">
+            <button type="button" class="diag-tab-btn is-active" data-target="diag-luz-vermelha" role="tab" aria-selected="true" aria-controls="diag-luz-vermelha">
+              <span class="diag-tab-indicator led-blink-red"></span>
+              <span class="diag-tab-title">Luz Vermelha Piscando</span>
+              <span class="diag-tab-badge badge-danger">Rompimento de Fibra</span>
+            </button>
+
+            <button type="button" class="diag-tab-btn" data-target="diag-reiniciar" role="tab" aria-selected="false" aria-controls="diag-reiniciar">
+              <span class="diag-tab-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+              </span>
+              <span class="diag-tab-title">Roteador Travado ou Lento</span>
+              <span class="diag-tab-badge">Como Reiniciar</span>
+            </button>
+
+            <button type="button" class="diag-tab-btn" data-target="diag-luzes" role="tab" aria-selected="false" aria-controls="diag-luzes">
+              <span class="diag-tab-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+              </span>
+              <span class="diag-tab-title">Guia dos LEDs</span>
+              <span class="diag-tab-badge">Significado das Luzes</span>
+            </button>
+
+            <button type="button" class="diag-tab-btn" data-target="diag-cuidados" role="tab" aria-selected="false" aria-controls="diag-cuidados">
+              <span class="diag-tab-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              </span>
+              <span class="diag-tab-title">Cuidados com a Fibra</span>
+              <span class="diag-tab-badge">Evite Rompimentos</span>
+            </button>
+          </div>
+
+          <!-- CONTEÚDO DAS ABAS -->
+          <div class="diag-tabs-content">
+
+            <!-- ABA 1: LUZ VERMELHA PISCANDO (LOS / PON) -->
+            <div id="diag-luz-vermelha" class="diag-tab-panel is-active" role="tabpanel">
+              <div class="diag-panel-layout">
+                <div class="diag-panel-info">
+                  <div class="diag-status-badge badge-danger">
+                    <span class="led-blink-red"></span>
+                    <span>ALERTA CRÍTICO: Perda de Sinal Óptico</span>
+                  </div>
+                  <h3 class="diag-panel-title">A luz vermelha (LOS ou PON) está piscando no aparelho?</h3>
+                  <p class="diag-panel-desc">
+                    Quando a luz marcada como <strong>LOS</strong> ou <strong>PON</strong> pisca em <strong class="text-danger">vermelho</strong>, significa que o sinal do laser óptico parou de chegar até sua residência. Na maioria das vezes, isso ocorre por <strong>rompimento de cabo na rua</strong> (galhos de árvore, pipa, caminhões altos) ou <strong>dobra acidental na fibra interna</strong>.
+                  </p>
+
+                  <div class="diag-steps-list">
+                    <div class="diag-step-item">
+                      <div class="diag-step-number">1</div>
+                      <div class="diag-step-content">
+                        <h4>Não puxe nem tente empurrar o cabo amarelo/preto</h4>
+                        <p>A fibra óptica possui um núcleo de vidro ultrafino. Mexer com força no conector verde/azul pode quebrar a ponta e danificar a entrada do aparelho.</p>
+                      </div>
+                    </div>
+
+                    <div class="diag-step-item highlight-step">
+                      <div class="diag-step-number">2</div>
+                      <div class="diag-step-content">
+                        <h4>Grave um vídeo curto de 5 a 10 segundos no WhatsApp</h4>
+                        <p>Mostre no vídeo as <strong>luzes do aparelho piscando em vermelho</strong> e, se possível, a etiqueta na parte traseira/inferior do roteador com o nome ou código.</p>
+                      </div>
+                    </div>
+
+                    <div class="diag-step-item">
+                      <div class="diag-step-number">3</div>
+                      <div class="diag-step-content">
+                        <h4>Envie agora para nosso atendimento técnico</h4>
+                        <p>Ao receber o vídeo, nossa central técnica valida a falha óptica instantaneamente e abre o chamado prioritário para despachar os técnicos de rua.</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- BOTÃO DE AÇÃO WHATSAPP VÍDEO -->
+                  <div class="diag-cta-box">
+                    <a href="https://wa.me/557531980000?text=Ol%C3%A1%2C%20estou%20sem%20internet%20e%20a%20luz%20vermelha%20(LOS%2FPON)%20do%20meu%20roteador%2Fmodem%20est%C3%A1%20piscando%2C%20apontando%20rompimento%20de%20fibra.%20Estou%20enviando%20o%20v%C3%ADdeo%20do%20aparelho%20para%20abertura%20do%20chamado%20t%C3%A9cnico." target="_blank" rel="noopener noreferrer" class="btn-diag-whatsapp btn-diag-danger">
+                      <div class="diag-btn-icon-wrap">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 8-6 4 6 4V8Z"/><rect width="14" height="12" x="2" y="6" rx="2" ry="2"/></svg>
+                      </div>
+                      <div class="diag-btn-text">
+                        <strong>Enviar Vídeo da Luz Vermelha no WhatsApp</strong>
+                        <span>Atendimento com abertura prioritária de reparo de fibra</span>
+                      </div>
+                      <svg class="diag-arrow-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                    </a>
+                  </div>
+
+                  <div class="diag-tip-box">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                    <span><strong>Por que o vídeo é tão importante?</strong> Ele evita que você perca tempo com procedimentos de reiniciar ou testes que não resolvem problemas físicos de cabo rompido na rua.</span>
+                  </div>
+                </div>
+
+                <!-- CARD ILUSTRATIVO DO ROTEADOR COM LED VERMELHO -->
+                <div class="diag-panel-visual">
+                  <div class="router-led-simulator router-state-alarm">
+                    <div class="router-sim-topbar">
+                      <span class="router-brand-name">TemNet ONU / ONT Óptico</span>
+                      <span class="router-sim-pill pill-alarm">Sinal Óptico Ausente</span>
+                    </div>
+
+                    <div class="router-sim-body">
+                      <div class="router-leds-row">
+                        <div class="router-led-col">
+                          <span class="led-light led-green"></span>
+                          <span class="led-label">PWR</span>
+                        </div>
+                        <div class="router-led-col led-target-highlight">
+                          <span class="led-light led-blink-red-lg"></span>
+                          <span class="led-label text-danger">LOS</span>
+                          <span class="led-pointer-tag">Piscando Vermelho</span>
+                        </div>
+                        <div class="router-led-col">
+                          <span class="led-light led-off"></span>
+                          <span class="led-label">PON</span>
+                        </div>
+                        <div class="router-led-col">
+                          <span class="led-light led-off"></span>
+                          <span class="led-label">INTERNET</span>
+                        </div>
+                        <div class="router-led-col">
+                          <span class="led-light led-green-pulse"></span>
+                          <span class="led-label">WI-FI</span>
+                        </div>
+                        <div class="router-led-col">
+                          <span class="led-light led-green"></span>
+                          <span class="led-label">LAN</span>
+                        </div>
+                      </div>
+
+                      <div class="router-sim-cable-slot">
+                        <div class="fiber-optic-cord">
+                          <span class="fiber-connector green-connector"></span>
+                          <span class="fiber-cable yellow-cable"></span>
+                        </div>
+                        <span class="cable-slot-label">Entrada Óptica (Cabo de Fibra)</span>
+                      </div>
+                    </div>
+
+                    <div class="router-sim-footer">
+                      <p>💡 A luz <strong>LOS vermelha</strong> pisca em ritmo de alerta quando o feixe de luz foi cortado na rede externa.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ABA 2: ROTEADOR TRAVADO OU LENTO (REINICIAR) -->
+            <div id="diag-reiniciar" class="diag-tab-panel" role="tabpanel">
+              <div class="diag-panel-layout">
+                <div class="diag-panel-info">
+                  <div class="diag-status-badge badge-warning">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"/><path d="M12 17h.01"/><path d="M3.5 21h17a2 2 0 0 0 1.73-3L13.73 4a2 2 0 0 0-3.46 0L1.77 18A2 2 0 0 0 3.5 21Z"/></svg>
+                    <span>TRAVAMENTO / OSCILAÇÃO: Procedimento Seguro</span>
+                  </div>
+                  <h3 class="diag-panel-title">Como reiniciar o roteador corretamente em 3 passos</h3>
+                  <p class="diag-panel-desc">
+                    Se todas as luzes estiverem verdes ou se o Wi-Fi sumir ou ficar lento, pode ser acúmulo de cache ou travamento temporário do sistema operacional do aparelho.
+                  </p>
+
+                  <div class="diag-reset-warning-banner">
+                    <div class="reset-warning-icon">⚠️</div>
+                    <div class="reset-warning-text">
+                      <strong>ATENÇÃO MÁXIMA: NUNCA aperte o botão "RESET" com palito!</strong>
+                      <p>O botãozinho furado "RESET" apaga as credenciais de acesso e a configuração de fábrica. Se apertá-lo, o roteador ficará desconfigurado e exigirá a visita presencial de um técnico.</p>
+                    </div>
+                  </div>
+
+                  <div class="diag-steps-list">
+                    <div class="diag-step-item">
+                      <div class="diag-step-number">1</div>
+                      <div class="diag-step-content">
+                        <h4>Desconecte a fonte de energia da tomada</h4>
+                        <p>Tire o plugue preto da tomada de parede ou do filtro de linha. Todas as luzes do roteador devem apagar.</p>
+                      </div>
+                    </div>
+
+                    <div class="diag-step-item">
+                      <div class="diag-step-number">2</div>
+                      <div class="diag-step-content">
+                        <h4>Aguarde de 15 a 20 segundos</h4>
+                        <p>Esse intervalo permite que os capacitores internos descarreguem completamente e a memória de cache seja liberada.</p>
+                      </div>
+                    </div>
+
+                    <div class="diag-step-item">
+                      <div class="diag-step-number">3</div>
+                      <div class="diag-step-content">
+                        <h4>Ligue novamente e aguarde de 2 a 3 minutos</h4>
+                        <p>As luzes do aparelho começarão a piscar e sincronizar. Aguarde até que a luz <strong>PON / Internet</strong> fique estável e verde antes de tentar navegar.</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- BOTÃO DE AÇÃO CASO NÃO VOLTE -->
+                  <div class="diag-cta-box">
+                    <a href="https://wa.me/557531980000?text=Ol%C3%A1%2C%20j%C3%A1%20realizei%20o%20procedimento%20de%20reiniciar%20o%20roteador%20da%20tomada%20aguardando%20os%20minutos%20necess%C3%A1rios%2C%20mas%20continuo%20sem%20conex%C3%A3o.%20Poderiam%20verificar%20meu%20sinal%3F" target="_blank" rel="noopener noreferrer" class="btn-diag-whatsapp btn-diag-primary">
+                      <div class="diag-btn-icon-wrap">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+                      </div>
+                      <div class="diag-btn-text">
+                        <strong>Já reiniciou e continua sem internet? Chamar Suporte</strong>
+                        <span>Verificamos seu sinal e perfil de autenticação remotamente</span>
+                      </div>
+                      <svg class="diag-arrow-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                    </a>
+                  </div>
+                </div>
+
+                <!-- CARD ILUSTRATIVO DE REINICIALIZAÇÃO -->
+                <div class="diag-panel-visual">
+                  <div class="restart-guide-card">
+                    <div class="restart-step-badge">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                      <span>Tempo total: ~3 minutos</span>
+                    </div>
+
+                    <div class="restart-action-graphic">
+                      <div class="graphic-power-plug">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#fd5e02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v6"/><path d="M12 18v4"/><path d="M4.93 4.93l4.24 4.24"/><path d="M14.83 14.83l4.24 4.24"/><path d="M2 12h6"/><path d="M18 12h4"/><path d="M4.93 19.07l4.24-4.24"/><path d="M14.83 9.17l4.24-4.24"/></svg>
+                      </div>
+                      <h4>Desconectar da Tomada</h4>
+                      <p>Puxe o cabo de alimentação da tomada da parede. Nunca aperte o botão Reset!</p>
+                    </div>
+
+                    <div class="restart-checklist">
+                      <div class="chk-item chk-ok">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                        <span>Eficaz para 80% das oscilações temporárias</span>
+                      </div>
+                      <div class="chk-item chk-ok">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                        <span>Renova o IP público da sua conexão</span>
+                      </div>
+                      <div class="chk-item chk-bad">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                        <span>Não toque no conector verde de fibra</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ABA 3: GUIA DOS LEDS (LUZES) -->
+            <div id="diag-luzes" class="diag-tab-panel" role="tabpanel">
+              <div class="diag-leds-guide">
+                <div class="diag-leds-intro">
+                  <h3 class="diag-panel-title">O que cada luz (LED) do seu aparelho significa?</h3>
+                  <p class="diag-panel-desc">
+                    Identifique rapidamente a condição do seu roteador/modem óptico através das cores e estados das luzes frontais:
+                  </p>
+                </div>
+
+                <div class="leds-explanation-grid">
+                  
+                  <div class="led-card led-card-danger">
+                    <div class="led-card-header">
+                      <span class="led-indicator-dot dot-blink-red"></span>
+                      <h4>LOS / PON (Vermelha piscando)</h4>
+                      <span class="led-status-pill pill-danger">Sem Sinal Óptico</span>
+                    </div>
+                    <p class="led-card-desc">
+                      <strong>Significado:</strong> A luz vermelha piscando indica que o sinal da fibra foi interrompido (cabo partido na rua, obra ou rompimento externo).
+                    </p>
+                    <div class="led-card-action">
+                      <span>Ação: Grave um vídeo e envie ao nosso WhatsApp.</span>
+                    </div>
+                  </div>
+
+                  <div class="led-card led-card-success">
+                    <div class="led-card-header">
+                      <span class="led-indicator-dot dot-solid-green"></span>
+                      <h4>PON / Internet (Verde fixa)</h4>
+                      <span class="led-status-pill pill-success">Sinal Normal</span>
+                    </div>
+                    <p class="led-card-desc">
+                      <strong>Significado:</strong> O link óptico está perfeitamente sincronizado com a central TemNet e liberado para navegação em alta velocidade.
+                    </p>
+                    <div class="led-card-action">
+                      <span>Ação: Tudo correto! Se não navegar, reinicie os aparelhos.</span>
+                    </div>
+                  </div>
+
+                  <div class="led-card led-card-info">
+                    <div class="led-card-header">
+                      <span class="led-indicator-dot dot-pulse-cyan"></span>
+                      <h4>Wi-Fi 2.4G & 5G (Verde / Azul)</h4>
+                      <span class="led-status-pill pill-info">Rede Sem Fio Ativa</span>
+                    </div>
+                    <p class="led-card-desc">
+                      <strong>Significado:</strong> As duas frequências de Wi-Fi estão transmitindo. Piscam rapidamente à medida que dados são transferidos no ar.
+                    </p>
+                    <div class="led-card-action">
+                      <span>Ação: Se apagado, verifique o botão Wi-Fi atrás do aparelho.</span>
+                    </div>
+                  </div>
+
+                  <div class="led-card led-card-info">
+                    <div class="led-card-header">
+                      <span class="led-indicator-dot dot-solid-green"></span>
+                      <h4>LAN 1, 2, 3, 4 (Verde)</h4>
+                      <span class="led-status-pill pill-info">Cabo de Rede</span>
+                    </div>
+                    <p class="led-card-desc">
+                      <strong>Significado:</strong> Indica que há computadores, Smart TVs ou videogames conectados fisicamente através de cabo de rede Ethernet.
+                    </p>
+                    <div class="led-card-action">
+                      <span>Ação: Conexão direta por cabo oferece menor latência (ping).</span>
+                    </div>
+                  </div>
+
+                  <div class="led-card led-card-warning">
+                    <div class="led-card-header">
+                      <span class="led-indicator-dot dot-solid-green"></span>
+                      <h4>POWER (Verde fixa)</h4>
+                      <span class="led-status-pill pill-warning">Energia Elétrica</span>
+                    </div>
+                    <p class="led-card-desc">
+                      <strong>Significado:</strong> O aparelho está recebendo a voltagem adequada da tomada.
+                    </p>
+                    <div class="led-card-action">
+                      <span>Se apagada: Teste outra tomada ou verifique o filtro de linha.</span>
+                    </div>
+                  </div>
+
+                  <div class="led-card led-card-danger">
+                    <div class="led-card-header">
+                      <span class="led-indicator-dot dot-off"></span>
+                      <h4>Todas as luzes apagadas</h4>
+                      <span class="led-status-pill pill-danger">Sem Energia</span>
+                    </div>
+                    <p class="led-card-desc">
+                      <strong>Significado:</strong> Queda de energia local, fonte queimada por tempestade ou botão Liga/Desliga desligado.
+                    </p>
+                    <div class="led-card-action">
+                      <span>Ação: Verifique o interruptor de energia e a tomada.</span>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+            <!-- ABA 4: CUIDADOS COM A FIBRA ÓPTICA -->
+            <div id="diag-cuidados" class="diag-tab-panel" role="tabpanel">
+              <div class="diag-fiber-care-layout">
+                <div class="diag-care-intro">
+                  <h3 class="diag-panel-title">Cuidados essenciais com o cabo de fibra óptica</h3>
+                  <p class="diag-panel-desc">
+                    A fibra óptica transporta dados na velocidade da luz através de um núcleo de vidro com espessura similar a um fio de cabelo. Seguir estes cuidados evita rompimentos acidentais e perda de conexão:
+                  </p>
+                </div>
+
+                <div class="fiber-care-grid">
+                  <div class="fiber-care-card">
+                    <div class="care-card-icon icon-warn">
+                      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                    </div>
+                    <h4>Nunca dobre ou amasse o cabo fino</h4>
+                    <p>Curvaturas bruscas ou dobras em ângulo fechado quebram o filamento de vidro interno e cortam instantaneamente o laser de internet.</p>
+                  </div>
+
+                  <div class="fiber-care-card">
+                    <div class="care-card-icon icon-warn">
+                      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+                    </div>
+                    <h4>Cuidado ao afastar móveis</h4>
+                    <p>Ao arrastar sofás, estantes ou mesas, certifique-se de que o cabo da fibra não está prensado contra o rodapé ou pés dos móveis.</p>
+                  </div>
+
+                  <div class="fiber-care-card">
+                    <div class="care-card-icon icon-ok">
+                      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+                    </div>
+                    <h4>Posicione o roteador em local alto e ventilado</h4>
+                    <p>Mantenha os aparelhos a pelo menos 1,5m do chão, longe de micro-ondas, espelhos e paredes maciças para o Wi-Fi cobrir toda a residência.</p>
+                  </div>
+
+                  <div class="fiber-care-card">
+                    <div class="care-card-icon icon-warn">
+                      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18.36 6.64a9 9 0 1 1-12.73 0"/><line x1="12" y1="2" x2="12" y2="12"/></svg>
+                    </div>
+                    <h4>Não desconecte o plugue verde óptico</h4>
+                    <p>A ponta do conector óptico é microscópica. Qualquer grão de poeira ou toque dos dedos pode sujar o laser e gerar lentidão e perda de pacotes.</p>
+                  </div>
+                </div>
+
+                <div class="fiber-care-cta">
+                  <p>Suspeita de cabo rompido na sua casa ou na sua rua?</p>
+                  <a href="https://wa.me/557531980000?text=Ol%C3%A1%2C%20suspeito%20que%20o%20cabo%20de%20fibra%20%C3%B3ptica%20foi%20danificado%2Fprensado%20na%20minha%20resid%C3%AAncia.%20Preciso%20de%20visita%20t%C3%A9cnica." target="_blank" rel="noopener noreferrer" class="btn btn-outline">
+                    <span>Solicitar Avaliação Técnica no WhatsApp</span>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- CARDS DE CANAIS RÁPIDOS DE ATENDIMENTO -->
+        <div class="support-channels-header">
+          <h3 class="support-channels-title">Canais Rápidos de Autoatendimento</h3>
         </div>
 
         <div class="support-cards-grid">
@@ -1623,7 +2034,7 @@
               <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
             </div>
             <h3>2ª Via de Fatura</h3>
-            <p>Emita rapidamente o código Pix ou código de barras da sua mensalidade.</p>
+            <p>Emita rapidamente o código Pix ou código de barras da sua mensalidade no WhatsApp.</p>
             <span class="support-card-link">Acessar Fatura &rarr;</span>
           </a>
 
@@ -1631,16 +2042,16 @@
             <div class="support-card-icon">
               <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4"></path><path d="m4.93 4.93 2.83 2.83"></path><path d="M2 12h4"></path><path d="m4.93 19.07 2.83-2.83"></path><path d="M12 18v4"></path><path d="m19.07 19.07-2.83-2.83"></path><path d="M22 12h-4"></path><path d="m19.07 4.93-2.83 2.83"></path></svg>
             </div>
-            <h3>Teste de Velocidade</h3>
-            <p>Meça a velocidade de download, upload e ping da sua conexão em tempo real.</p>
+            <h3>Teste de Velocidade Oficial</h3>
+            <p>Meça a velocidade de download, upload e ping da sua conexão diretamente na nossa rede.</p>
             <span class="support-card-link">Testar Agora &rarr;</span>
           </a>
 
-          <a href="https://wa.me/557531980000?text=Ol%C3%A1!%20Preciso%20de%20suporte%20t%C3%A9cnico%20para%20minha%20internet%20TemNet." target="_blank" rel="noopener noreferrer" class="support-card">
+          <a href="https://wa.me/557531980000?text=Ol%C3%A1!%20Preciso%20de%20suporte%20t%C3%A9cnico%20humanizado%20para%20minha%20internet%20TemNet." target="_blank" rel="noopener noreferrer" class="support-card">
             <div class="support-card-icon">
               <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
             </div>
-            <h3>Suporte Técnico 24h</h3>
+            <h3>Suporte Técnico Humano 24h</h3>
             <p>Atendimento humanizado para tirar dúvidas e resolver questões técnicas no WhatsApp.</p>
             <span class="support-card-link">Chamar no WhatsApp &rarr;</span>
           </a>
@@ -1649,52 +2060,65 @@
 
         <!-- FAQ INTERATIVO -->
         <div class="faq-container">
-          <h3 class="faq-main-title">Perguntas Frequentes (FAQ)</h3>
+          <h3 class="faq-main-title">Perguntas Frequentes sobre Suporte e Conexão</h3>
           
           <div class="faq-accordion">
             
             <div class="faq-item">
               <button type="button" class="faq-question" aria-expanded="false">
-                <span>Como funciona a contratação e o prazo de instalação?</span>
+                <span>O que devo fazer quando a luz vermelha do roteador está piscando?</span>
                 <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
               </button>
               <div class="faq-answer">
-                <p>A contratação é 100% digital e rápida via WhatsApp. Após a confirmação cadastral, nosso time agenda a visita técnica e a instalação padrão ocorre em até 24 a 48 horas úteis.</p>
+                <p>A luz vermelha piscando (LOS ou PON) indica rompimento do cabo de fibra óptica ou perda do sinal na rede externa. Não mexa no conector verde de fibra. Grave um vídeo curto mostrando o aparelho piscando e envie diretamente para nosso WhatsApp para abrirmos um chamado emergencial de reparo de fibra.</p>
               </div>
             </div>
 
             <div class="faq-item">
               <button type="button" class="faq-question" aria-expanded="false">
-                <span>O roteador Wi-Fi já está incluso no plano?</span>
+                <span>Posso apertar o botão "Reset" no roteador quando a internet travar?</span>
                 <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
               </button>
               <div class="faq-answer">
-                <p>Sim! Todos os nossos planos incluem roteador de alta tecnologia (Dual Band / Wi-Fi 6) em regime de comodato sem custo adicional de aquisição do aparelho.</p>
+                <p><strong>NÃO! Nunca aperte o botão Reset com palito ou agulha.</strong> Esse botão apaga todas as configurações de rede cadastradas pela TemNet. A forma correta e segura de reiniciar é apenas retirar a fonte da tomada elétrica, aguardar 20 segundos e ligar novamente.</p>
               </div>
             </div>
 
             <div class="faq-item">
               <button type="button" class="faq-question" aria-expanded="false">
-                <span>A internet tem franquia ou limite de download?</span>
+                <span>Como saber se o problema é no Wi-Fi ou na internet em si?</span>
                 <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
               </button>
               <div class="faq-answer">
-                <p>Não! A conexão TemNet é 100% ilimitada. Você pode jogar, assistir filmes em 4K, fazer downloads e transmissões ao vivo o mês inteiro sem redução de velocidade.</p>
+                <p>Observe as luzes do seu roteador: se a luz PON e Internet estiverem acesas e verdes, a fibra está funcionando normalmente. Caso outros aparelhos na casa continuem navegando e apenas o seu celular não conecte, o problema pode estar no sinal Wi-Fi daquele cômodo ou na placa sem fio do dispositivo.</p>
               </div>
             </div>
 
             <div class="faq-item">
               <button type="button" class="faq-question" aria-expanded="false">
-                <span>Quais são as formas de pagamento disponíveis?</span>
+                <span>Qual o horário de atendimento do suporte técnico?</span>
                 <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
               </button>
               <div class="faq-answer">
-                <p>Você pode pagar sua mensalidade via Pix instantâneo, boleto bancário ou débito automático. A fatura digital é enviada mensalmente no seu WhatsApp e e-mail.</p>
+                <p>Nosso suporte técnico atua 24 horas por dia, 7 dias por semana, através do WhatsApp oficial. Nossas equipes de campo e manutenção de rede externa atuam todos os dias para restabelecer qualquer rompimento com a máxima urgência.</p>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button type="button" class="faq-question" aria-expanded="false">
+                <span>Quais são as formas de pagamento disponíveis para a mensalidade?</span>
+                <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </button>
+              <div class="faq-answer">
+                <p>Você pode pagar via Pix instantâneo, boleto bancário ou débito automático. A fatura digital é enviada mensalmente no seu WhatsApp e você também pode retirá-la a qualquer momento em nosso autoatendimento.</p>
               </div>
             </div>
 
           </div>
         </div>
+
+      </div>
+    </section>
 
       </div>
     </section>
