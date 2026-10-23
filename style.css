@@ -353,14 +353,13 @@ body {
 
 .hero-bottom-content {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: space-between;
-  gap: clamp(24px, 4vw, 48px);
+  gap: 32px;
 }
 
 .hero-info-group {
-  flex: 1 1 500px;
-  max-width: 600px;
+  max-width: 820px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -477,216 +476,6 @@ body {
   background: rgba(255, 255, 255, 0.2);
   border-color: rgba(255, 255, 255, 0.4);
   transform: translateY(-2px);
-}
-
-/* ==========================================================================
-   ANIMAÇÃO HERO SETUP (MONITOR, GABINETE & CANECA DE CAFÉ - ESTILO STEAM)
-   ========================================================================== */
-.hero-setup-col {
-  flex: 1 1 580px;
-  max-width: 680px;
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 12;
-}
-
-.hero-setup-stage {
-  position: relative;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: transparent;
-  border: none;
-  box-shadow: none;
-  padding: 0;
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.hero-setup-stage:hover {
-  transform: translateY(-4px) scale(1.015);
-}
-
-.hero-setup-ambient-glow {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 145%;
-  height: 145%;
-  background: radial-gradient(
-    ellipse at center,
-    #020408 0%,
-    #030712 35%,
-    #050e20 58%,
-    #081b3c 75%,
-    rgba(8, 27, 60, 0.4) 88%,
-    transparent 100%
-  );
-  filter: blur(40px);
-  pointer-events: none;
-  z-index: 1;
-}
-
-.hero-setup-media-wrapper {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 772 / 412;
-  overflow: hidden;
-  z-index: 2;
-  /* Suavização contínua das bordas da caixa cinza em degradê, dissolvendo suavemente no preto */
-  -webkit-mask-image: radial-gradient(ellipse at center, black 40%, rgba(0, 0, 0, 0.85) 65%, rgba(0, 0, 0, 0.3) 82%, transparent 94%);
-  mask-image: radial-gradient(ellipse at center, black 40%, rgba(0, 0, 0, 0.85) 65%, rgba(0, 0, 0, 0.3) 82%, transparent 94%);
-}
-
-.hero-setup-video {
-  position: absolute;
-  top: -49%;
-  left: -15%;
-  width: 115%;
-  height: auto;
-  display: block;
-  z-index: 2;
-  filter: drop-shadow(0 15px 35px rgba(0, 0, 0, 0.8));
-}
-
-/* ==========================================================================
-   DISPLAY DO MONITOR: LOGO TEMNET CENTRALIZADA COM ILUMINAÇÃO AZUL E LARANJA
-   ========================================================================== */
-.monitor-portal-screen {
-  position: absolute;
-  left: 26.35%;
-  top: 16.2%;
-  width: 65.1%;
-  height: 68.5%;
-  border-radius: 4px;
-  overflow: hidden;
-  z-index: 5;
-  background: radial-gradient(ellipse 70% 65% at 50% 50%, #0c2b54 0%, #07152b 50%, #030710 100%);
-  box-shadow: inset 0 0 25px rgba(0, 0, 0, 0.9);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  container-type: inline-size;
-  pointer-events: none;
-}
-
-.hero-setup-cup-canvas {
-  position: absolute;
-  top: -49%;
-  left: -15%;
-  width: 115%;
-  height: auto;
-  pointer-events: none;
-  z-index: 10;
-}
-
-.screen-scanlines {
-  position: absolute;
-  inset: 0;
-  background: repeating-linear-gradient(
-    0deg,
-    rgba(0, 0, 0, 0.14) 0px,
-    rgba(0, 0, 0, 0.14) 1px,
-    transparent 1px,
-    transparent 2px
-  );
-  pointer-events: none;
-  z-index: 10;
-}
-
-.portal-screen-glow {
-  position: absolute;
-  inset: 0;
-  background: 
-    radial-gradient(circle at 40% 50%, rgba(0, 229, 255, 0.42) 0%, transparent 55%),
-    radial-gradient(circle at 60% 50%, rgba(253, 94, 2, 0.38) 0%, transparent 55%);
-  pointer-events: none;
-  z-index: 2;
-  animation: portalAmbientPulse 4s ease-in-out infinite alternate;
-}
-
-@keyframes portalAmbientPulse {
-  0% {
-    opacity: 0.7;
-    transform: scale(0.96);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1.04);
-  }
-}
-
-.screen-portal-flash {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at 50% 50%, rgba(0, 229, 255, 0.7) 0%, rgba(253, 94, 2, 0.4) 45%, transparent 70%);
-  opacity: 0;
-  pointer-events: none;
-  z-index: 3;
-  animation: portalScreenFlash 5.5s ease-out infinite;
-}
-
-.portal-scene {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 4;
-  width: 100%;
-  height: 100%;
-  padding: 0;
-}
-
-.portal-brand-block {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  animation: portalBrandEnter 5.5s cubic-bezier(0.16, 1, 0.3, 1) infinite;
-}
-
-.portal-brand-logo {
-  height: clamp(56px, 35cqw, 108px);
-  width: auto;
-  max-width: clamp(160px, 72cqw, 290px);
-  object-fit: contain;
-  display: block;
-  filter: drop-shadow(0 0 18px rgba(0, 229, 255, 0.65)) drop-shadow(0 0 32px rgba(253, 94, 2, 0.55));
-}
-
-@keyframes portalScreenFlash {
-  0% { opacity: 0; }
-  4% { opacity: 0.95; }
-  14% { opacity: 0; }
-  100% { opacity: 0; }
-}
-
-@keyframes portalBrandEnter {
-  0% {
-    opacity: 0;
-    transform: scale(0.9) translateY(12px);
-    filter: blur(8px);
-  }
-  12% {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-    filter: blur(0);
-  }
-  85% {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-    filter: blur(0);
-  }
-  94% {
-    opacity: 0;
-    transform: scale(0.95) translateY(-8px);
-    filter: blur(6px);
-  }
-  100% {
-    opacity: 0;
-  }
 }
 
 /* ==========================================================================
@@ -3155,13 +2944,7 @@ body {
   .hero-bottom-content {
     flex-direction: column;
     align-items: flex-start;
-    gap: 24px;
-  }
-
-  .hero-setup-col {
-    width: 100%;
-    max-width: 440px;
-    margin: 10px auto 0 auto;
+    gap: 20px;
   }
 
   .coverage-form {

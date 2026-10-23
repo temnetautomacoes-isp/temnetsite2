@@ -1228,51 +1228,5 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
-  // ==========================================================================
-  // XÍCARA E VAPOR DE CAFÉ ANIMADOS SOBREPOSTOS À TELA DO MONITOR
-  // ==========================================================================
-  const setupVideo = document.getElementById('heroSetupVideo') || document.querySelector('.hero-setup-video');
-  const cupCanvas = document.getElementById('heroSetupCupCanvas');
-
-  if (setupVideo && cupCanvas) {
-    cupCanvas.width = 888;
-    cupCanvas.height = 794;
-    const ctx = cupCanvas.getContext('2d', { willReadFrequently: true });
-
-    const poster = new Image();
-    poster.src = 'public/steam-setup/setup_loop.png';
-
-    function renderFrame(source) {
-      // Recorta estritamente a região da caneca e do vapor animado (x: 220..390, y: 410..620)
-      ctx.clearRect(220, 410, 170, 210);
-      ctx.drawImage(source, 220, 410, 170, 210, 220, 410, 170, 210);
-
-      const imgData = ctx.getImageData(220, 410, 170, 210);
-      const d = imgData.data;
-      for (let i = 0; i < d.length; i += 4) {
-        const br = 0.299 * d[i] + 0.587 * d[i + 1] + 0.114 * d[i + 2];
-        if (br < 38) {
-          d[i + 3] = 0; // Fundo escuro do vídeo fica 100% transparente
-        } else if (br < 48) {
-          d[i + 3] = Math.round(((br - 38) / 10) * 255); // Suavização anti-aliasing nas bordas
-        }
-      }
-      ctx.putImageData(imgData, 220, 410);
-    }
-
-    poster.onload = () => {
-      if (setupVideo.paused || setupVideo.readyState < 2) {
-        renderFrame(poster);
-      }
-    };
-
-    function loop() {
-      if (!setupVideo.paused && !setupVideo.ended && setupVideo.readyState >= 2) {
-        renderFrame(setupVideo);
-      }
-      requestAnimationFrame(loop);
-    }
-    requestAnimationFrame(loop);
-  }
 });
 
